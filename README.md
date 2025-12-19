@@ -11,4 +11,4 @@ This repository contains the source code for [My Homelab](https://docs.demonwarr
 ### Social
 - Discord: https://discord.com/invite/P49AxjpHez
 
-<a href="https://www.buymeacoffee.com/demonwarriortech"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a PC part&slug=DemonWarriorTech&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+<a href="https://www.buymeacoffee.com/demonwarriortech" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
