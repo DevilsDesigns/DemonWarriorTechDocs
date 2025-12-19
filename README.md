@@ -1,41 +1,14 @@
-# Website
+# DemonWarriorTech Docs
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fdocs.demonwarriortech.com)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/DevilsDesigns/DemonWarriorTechDocs/main)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/t/DevilsDesigns/DemonWarriorTechDocs/main)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/DevilsDesigns/DemonWarriorTechDocs)
+![Discord](https://img.shields.io/discord/1027931741496811651?label=Discord)
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-### Installation
+This repository contains the source code for [My Homelab](https://docs.demonwarriortech.com) documentation. Built with [Docusaurus 3](https://docusaurus.io/), a modern static website generator.
 
-```
-$ yarn
-```
+### Social
+- Discord: https://discord.com/invite/P49AxjpHez
 
-### Local Development
-
-```
-$ yarn start
-```
-
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-### Build
-
-```
-$ yarn build
-```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+<a href="https://www.buymeacoffee.com/demonwarriortech"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a PC part&slug=DemonWarriorTech&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
