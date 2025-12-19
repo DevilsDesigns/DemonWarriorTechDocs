@@ -17,7 +17,7 @@ Example Hardware Used
 
 [FRAMEO Digital Photo Frame, 10.1 Inch WiFi](https://www.amazon.com/FRAMEO-Digital-Picture-Storage-Auto-Rotate/dp/B09QX7M71C)
 
-:::info
+:::info[Source Documentation]
 Below is install from Immichframe docs [source](https://immichframe.dev/docs/getting-started/apps#frameo). A Big thanks to all the contributers and development staff on this great addition to immich. I added the instructions below for a more seamless setup instead of flipping through tabs on your browser. 
 :::
 
@@ -71,15 +71,14 @@ ADB is often enabled on these devices by default, if it is not go to Frameo Sett
   
 ### Frameo WebView Update  
 
-:::warning
-NOTE:
+:::info[Important - Check Troubleshooting]
 **IF YOU HAVE PERMISSIONS DENIED PLEASE GO TO THE [TROUBLESHOOTING](./Frameo_Setup#frameo-troubleshooting) SECTION**
 :::
 Follow instructions below to update WebView to 106. This has been tested and working on Android 6.01 10.1" Frameo devices:  
 - Download WebView 106 to PC:
   [Lineage OS WebView 106-0-5249-126-12](https://www.apkmirror.com/apk/lineageos/android-system-webview-2/android-system-webview-2-106-0-5249-126-release/android-system-webview-106-0-5249-126-12-android-apk-download/)
 
-:::warning
+:::warning[File Rename Required]
 MAKE SURE YOU RENAME WEBVIEW-XXX-XXX.apk to webview.apk before proceeding
 :::
 
@@ -122,7 +121,7 @@ adb shell pm path com.android.webview
 ```
 ### Frameo Troubleshooting
 
-:::info
+:::info[Credits]
 A Big Thanks to user [DasOS](https://gist.github.com/dasos) for figuring this out in the post [here](https://gist.github.com/dasos/782fd3448d46c8e90894fa0a9d8896b0). Without him this would not have been possible.
 :::
 
@@ -161,8 +160,8 @@ adb shell am start -a android.intent.action.MAIN
 
    1.3. Select the discreet-launcher from the list
 
-:::warning
-NOTE: Once you reboot you may need to renable magisk and re-root the device again. To do this open the launcher with adb shell am start -a android.intent.action.MAIN and select discrete-launcher. Then swipe up and select magisk from the apps screen. Re-run the rooting processs ---> direct install and reboot and you should be able to re-edit files again.
+:::warning[Magisk Re-Root After Reboot]
+Once you reboot you may need to renable magisk and re-root the device again. To do this open the launcher with adb shell am start -a android.intent.action.MAIN and select discrete-launcher. Then swipe up and select magisk from the apps screen. Re-run the rooting processs ---> direct install and reboot and you should be able to re-edit files again.
 
 :::
 
@@ -207,7 +206,7 @@ reboot
 https://www.whatismybrowser.com/
 ```
 
-:::Warning
+:::warning[Verify WebView Version]
 **IF IT SAYS ANYTHING ELSE BESIDE WebView 106 on Andorid Marhsmellow then you may have to redo the steps above.**
 :::
 
@@ -216,8 +215,7 @@ If its wrong it will show this
 
 #### Immichframe wont load server after Webview106 is running
 
-:::Warning
-NOTE:
+:::warning[Micro SD Card Required]
 This is caused by outdated CA Certs to fix this you will need a micro sd card as writing the cert to the device wont work. There is no other option that I could figure out.
 :::
 
@@ -277,7 +275,7 @@ adb shell am start -n com.android.chrome/com.google.android.apps.chrome.Main -d 
 15. If you haven’t set up a lock screen PIN yet it will prompt you to add one.
 ![Set a PIN](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/set-a-pin.png?raw=true)
 
-:::WARNING 
+:::warning[Expected Security Warning]
 Once that is done it should have been installed. Once a custom root certificate is installed, Android will send a warning notification on each boot telling you that the network may be monitored.
 This is because a custom untrusted root certificate being installed without your knowledge could make an attacker able to perform MITM attacks on encrypted connections without causing certificate errors, as the certificate is trusted on the device. But Let’s Encrypt is a trusted certificate authority and if you downloaded the root certificate over a trusted connection you can simply ignore the notification, and swipe it away.
 :::
