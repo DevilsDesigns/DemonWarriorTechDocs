@@ -3,7 +3,7 @@ title: Jellyfin Players
 description: Comprehensive guide to Jellyfin client applications for various platforms including mobile, desktop, TV, and web players
 sidebar_position: 2
 toc_min_heading_level: 2
-toc_max_heading_level: 6
+toc_max_heading_level: 3
 tags: [jellyfin, players, clients, mobile, desktop, tv, streaming, media-player, apps]
 ---
 
@@ -11,792 +11,841 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
 
+## Platform-Specific Players
+
+Select your platform below to view available Jellyfin players and clients:
+
 <Tabs>
-  <TabItem value="PC Players" label="PC Players" default>
+  <TabItem value="PC Players" label="💻 PC Players" default>
 
-## PC
+<h3>Desktop Applications</h3>
 
-### Jellyfin Media Player (JMP)
+---
 
-Description: The official Jellyfin desktop client.
+<h4>🎬 Jellyfin Media Player (JMP)</h4>
 
-Installation
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
 
-[Windows/Linux/Mac](https://github.com/jellyfin/jellyfin-media-player/releases)
+**Description:** The official Jellyfin desktop client with full playback support and native experience.
 
-[Flathub](https://flathub.org/apps/details/com.github.iwalton3.jellyfin-media-player)
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux, macOS |
+| **Downloads** | [GitHub Releases](https://github.com/jellyfin/jellyfin-media-player/releases) • [Flathub](https://flathub.org/apps/details/com.github.iwalton3.jellyfin-media-player) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-media-player) |
+| **Type** | Official Client |
 
+---
 
-Extra Info
+---
 
-[Github](https://github.com/jellyfin/jellyfin-media-player)
+<h4>🎯 Fladder</h4>
 
-### Fladder
+**Description:** A simple Jellyfin frontend built on top of Flutter with modern features and cross-platform support.
 
-Description:  Fladder - A Simple Jellyfin frontend built on top of Flutter. 
+**Key Features:**
+- 🎥 Play media – Stream or sync content locally to your device
+- 📚 Manage your library – Refresh content and edit metadata
+- 👥 Multiple profiles – Lock profiles and connect to different servers
+- ▶️ Direct/Transcode playback with intro/credits skipping
+- 🎞️ Trickplay support (timeline scrubbing)
+- 🌓 Dark/Light mode themes
+- 📖 Simple comic book format reading support (.cbz, .cbr)
+- 💾 Sync supported on Mobile/Desktop
 
-Features: 
+| Type | Details |
+|------|---------|
+| **Platforms** | Android, Web, macOS, Windows, iOS, Linux |
+| **Downloads** | [Web App](https://donutware.github.io/Fladder/) • [GitHub Releases](https://github.com/DonutWare/Fladder/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/DonutWare/Fladder) |
+| **Type** | Third-party Client |
 
-    Play media – Stream or sync content locally to your device.
-    Manage your library – Refresh content and edit metadata.
-    Multiple profiles – Lock profiles and connect to different servers.
-    Direct/Transcode playback
-    Intro/Credits skipping
-    Trickplay support (timeline scrubbing)
-    Dark/Light mode
-    Simple comic book format reading support (.cbz, .crb)
-    Sync supported on Mobile/Desktop
-    Platforms
-        Android
-        Web
-        macOS
-        Windows
-        iOS
-        Linux
+---
 
-[Webhosted](https://donutware.github.io/Fladder/)
+---
 
-[Github Releases](https://github.com/DonutWare/Fladder/releases)
+<h4>🎉 JellyParty</h4>
 
-Extra Info
+**Description:** Synchronize video playback with friends across multiple streaming platforms including Jellyfin. Watch together in perfect sync!
 
-[Github](https://github.com/DonutWare/Fladder)
+**Key Features:**
+- 🎬 Worry-free watch parties across multiple platforms
+- 📹 Video chat with your friends while watching
+- 🔄 Always watch in sync
+- 🔓 No registration required
 
-### JellyParty
+**Supported Platforms:** Netflix, Prime Video, YouTube, Vimeo, Disney+, Jellyfin, and many more!
 
-Description: Jelly-Party synchronizes videos you play in your browser, so that you and your friends can enjoy your favorite content — together.
+| Type | Details |
+|------|---------|
+| **Platforms** | Chrome, Firefox, Edge (Browser Extensions) |
+| **Downloads** | [Chrome/Edge](https://chrome.google.com/webstore/detail/jelly-party/aiecbkandfgpphpdilbaaagnampmdgpd) • [Firefox](https://addons.mozilla.org/en-US/firefox/addon/jelly-party/) |
+| **Website** | [JellyParty.com](https://www.jelly-party.com/) |
+| **Source Code** | [GitHub Repository](https://github.com/Jelly-Party/jelly-party-extension) |
+| **Type** | Browser Extension |
 
-Supports: 
-  Chrome
-  Firefox
-  Edge
+---
 
-Features:
-Worry-free watch parties
-    Netflix
-    Prime Videos
-    Youtube
-    Vimeo
-    Disney+
-    Jellyfin
-    and many more!
-  Video- Chat with your friends
-  Always watch in syn NO REGISTRATION required
+---
 
-[Chrome/Edge Web Extensions](https://chrome.google.com/webstore/detail/jelly-party/aiecbkandfgpphpdilbaaagnampmdgpd)
+<h4>⚡ Blink</h4>
 
-[Firefox](https://addons.mozilla.org/en-US/firefox/addon/jelly-party/)
+**Description:** Modern desktop Jellyfin client built with Tauri and React, offering native performance and clean UI.
 
-[Jellyparty Website](https://www.jelly-party.com/)
+**Key Features:**
+- ▶️ Play any media supported by the system (DirectPlay on Windows, macOS, and Linux)
+- ✨ Clean and minimal UI design
+- 🖥️ Multi Jellyfin server support
+- 🌐 Cross-platform compatibility
+- 📊 Mediainfo recognition (Dolby Vision, Dolby Atmos, DTS, HDR10+, and more)
+- 🔍 Sort/Filter library items
+- 📝 Queue playback support
+- ⏭️ Intro skip button (using jumoog/Intro-Skipper plugin)
 
+| Type | Details |
+|------|---------|
+| **Platforms** | Linux, macOS, Windows |
+| **Downloads** | [GitHub Releases](https://github.com/prayag17/Blink/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/prayag17/Blink) |
+| **Type** | Third-party Client |
 
-Extra Info
+---
 
-[Github](https://github.com/Jelly-Party/jelly-party-extension)
+<h3>Music-Focused Clients</h3>
 
-### Blink
+---
 
-Description: Modern Desktop Jellyfin Client made with Tauri and React ⚛️ 
+<h4>🎵 Jellyfin Music Client</h4>
 
-Supports:
-  Linux
-  MacOS
-  Windows
-
-Features: 
-
-    Play any media supported by the system (DirectPlay most files on windows, mac and linux)
-    Clean and minimal UI.
-    Multi Jellyfin server support
-    Cross Platform
-    Mediainfo recognition (DolbyVision, DolbyAtoms, Dts, Hdr10+, and more...)
-    Sort/Filter library items
-    Queue playback support
-    Intro Skip button using jumoog/Intro-Skipper plugin
-
-[Github Releases](https://github.com/prayag17/Blink/releases)
-
-Extra Info
-
-[Github](https://github.com/prayag17/Blink)
-
-### Jellyfin Music Client
-
-Description: This is an unofficial music client for Jellyfin
+**Description:** Unofficial music client for Jellyfin optimized for music playback and management.
 
 :::caution
-
-It is not intended as a replacement for the Jellyfin Web Client.
-Advanced features like editing track metadata and managing libraries are not in this client.
-
+This is not intended as a replacement for the Jellyfin Web Client. Advanced features like editing track metadata and managing libraries are not included.
 :::
 
-No need to host your own instance of the music client - just log on to your server using the demo instance. Your Jellyfin server must be at least version 10.7.0
-
-Installation
-
-[Website for Use](https://jellyfin-music-client.vercel.app/)
-
-Extra Info
-
-[Github](https://github.com/MarkSFrancis/jellyfin-music-client)
-
-### Sonixd
-
-Description: Sonixd is a cross-platform desktop client built for Subsonic-API (and Jellyfin in 0.8.0+) compatible music servers. This project was inspired by the many existing clients, but aimed to address a few key issues including scalability, library management, and user experience.
-
-Installation
-
-[Sonixd Download](https://github.com/jeffvli/sonixd/releases)
-
-Extra Info
-
-[Sonixd Github](https://github.com/jeffvli/sonixd)
-
-### Feishin
-
-Description:  A modern self-hosted music player. 
-
-Installation
-
-[Feishin Download](https://github.com/jeffvli/feishin/releases)
-
-Extra Info
-
-[Demo](https://feishin.vercel.app/)
-
-[Feishin Github](https://github.com/jeffvli/feishin)
-
-### TauonMusicBox
-
-Description:  A music player for the desktop. Designed to be powerful and streamlined, putting the user in control of their music collection.
-
-Installation
-
-[TauonMusicBox Installation](https://github.com/Taiko2k/TauonMusicBox#download-and-install-dizzy)
-
-Extra Info
-
-[TauonMusicBox Website](https://tauonmusicbox.rocks/)
-
-[TauonMusicBox Gihtub](https://github.com/Taiko2k/TauonMusicBox)
-
-### Supersonic
-
-Description:  A lightweight and full-featured desktop music player for self-hosted servers.
-
-Installation
-
-[Windows/Linux/Mac](https://github.com/dweymouth/supersonic/releases)
-
-Extra Info
-
-[Installation Guide](https://github.com/dweymouth/supersonic#installation)
-
-[Github](https://github.com/dweymouth/supersonic)
-
-### Jellyamp
-
-Description: Desktop client for listening to music from a Jellyfin server 
-
-Installation
-
-[Windows/Linux/Mac](https://github.com/m0ngr31/jellyamp/releases)
-
-Extra Info
-
-[Github](https://github.com/m0ngr31/jellyamp)
-
-### Jellyflut
-
-Description: A jellyfin client made in Flutter
-
-Installation
-
-[Windows](https://github.com/Thomas-Sohier/jellyflut/releases)
-
-Extra info
-
-[Github](https://github.com/Thomas-Sohier/jellyflut)
-
-### Kodi & Addons
-
-#### JellyCon
-
-Description: JellyCon is a lightweight Kodi add-on that lets you browse and play media files directly from your Jellyfin server within the Kodi interface. It can be thought of as a thin frontend for a Jellyfin server.
-
-Installation
-
-[Jellycon Installation](https://github.com/jellyfin/jellycon#installation)
-
-Extra Info
-
-[Jellycon Github](https://github.com/jellyfin/jellycon)
-
-  </TabItem>
-
-  <TabItem value="iOS/iPadOS/tvOS Players" label="iOS/iPadOS/tvOS Players">
-
-## iOS/iPadOS/tvOS
-
-### Streamyfin
-
-Description: Welcome to Streamyfin, a simple and user-friendly Jellyfin client built with Expo. If you're looking for an alternative to other Jellyfin clients, we hope you'll find Streamyfin to be a useful addition to your media streaming toolbox.
-
-Features: 
-
-    🚀 Skip Intro / Credits Support
-    🖼️ Trickplay images: The new golden standard for chapter previews when seeking.
-    🔊 Background audio: Stream music in the background, even when locking the phone.
-    📥 Download media (Experimental): Save your media locally and watch it offline.
-    📡 Chromecast (Experimental): Cast your media to any Chromecast-enabled device.
-    📡 Settings management (Experimental): Manage app settings for all your users with a JF plugin.
-    🤖 Jellyseerr integration: Request media directly in the app.
-
-
-[AppStore](https://apps.apple.com/app/streamyfin/id6593660679?l=en-GB)
-
-Extra Info
-
-[Github](https://github.com/streamyfin/streamyfin)
-
-### Fintunes
-
-Description: A streaming audio player for Jellyfin, with support for search and downloads.
-
-Installation
-
-[Appstore](https://apps.apple.com/us/app/fintunes/id1527732194)
-
-Extra info
-
-[Website](https://fintunes.app/)
-
-[Github](https://github.com/leinelissen/jellyfin-audio-player)
-
-### Jellybook
-
-Description: This is an app that's meant to allow you to read ebooks, comics, and listen to audiobooks from your Jellyfin server.
-
-Installation
-
-[Appstore](https://testflight.apple.com/join/lEXKY4Dl)
-
-Extra Info
-
-[Github](https://github.com/Kara-Zor-El/JellyBook/)
-
-### Infuse
-
-Description: Ignite your video content with Infuse – the beautiful way to watch almost any video format on your iPhone, iPad, Apple TV, and Mac. No need to convert files! Infuse is optimized for macOS 14, with powerful streaming options, Trakt sync, and unmatched AirPlay & subtitle support. Gorgeous interface. Precise controls. And silky-smooth playback.
-
-Installation
-
-[Appstore](https://apps.apple.com/app/id1136220934?mt=8)
-
-Extra Info
-
-### Finamp
-
-Description: Finamp is a Jellyfin music player for mobile. Its main feature is the ability to download songs for offline listening.
-
-Installation
-
-[Appstore](https://apps.apple.com/app/id1136220934?mt=8)
-
-Extra Info
-
-[Github](https://github.com/UnicornsOnLSD/finamp)
-
-### Swiftfin
-
-Description: Swiftfin is a modern video client for Jellyfin. Redesigned in Swift to maximize direct play with the power of VLC and look native on all classes of Apple devices.
-
-Installation
-
-[Appstore](https://apps.apple.com/ca/app/swiftfin/id1604098728)
-
-Extra Info
-
-[Github](https://github.com/jellyfin/swiftfin)
-
-### Jellyfin Mobile for iOS
-
-Description: The official Jellyfin app for iOS and iPadOS devices.
-
-Installation
-
-[Appstore](https://apps.apple.com/us/app/jellyfin-mobile/id1480192618?mt=8)
-
-Extra Info
-
-[Github](https://github.com/jellyfin/jellyfin-expo)
-
-  </TabItem>
-
-  <TabItem value="Android Players" label="Android Players">
-
-## Android
-
-### Jellyfin for Android
-
-Description: The official Jellyfin app for Android devices.
-
-[Playstore](https://play.google.com/store/apps/details?id=org.jellyfin.mobile)
-
-[Amazon App Store](https://www.amazon.com/gp/aw/d/B081RFTTQ9)
-
-[F-Droid](https://f-droid.org/en/packages/org.jellyfin.mobile/)
-
-Extra info
-
-[Github](https://github.com/jellyfin/jellyfin-android)
-
-### Streamyfin
-
-Description: Welcome to Streamyfin, a simple and user-friendly Jellyfin client built with Expo. If you're looking for an alternative to other Jellyfin clients, we hope you'll find Streamyfin to be a useful addition to your media streaming toolbox.
-
-Features: 
-
-    🚀 Skip Intro / Credits Support
-    🖼️ Trickplay images: The new golden standard for chapter previews when seeking.
-    🔊 Background audio: Stream music in the background, even when locking the phone.
-    📥 Download media (Experimental): Save your media locally and watch it offline.
-    📡 Chromecast (Experimental): Cast your media to any Chromecast-enabled device.
-    📡 Settings management (Experimental): Manage app settings for all your users with a JF plugin.
-    🤖 Jellyseerr integration: Request media directly in the app.
-
-
-[Playstore](https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin)
-
-[APK](https://github.com/streamyfin/streamyfin/releases)
-
-Extra Info
-
-[Github](https://github.com/streamyfin/streamyfin)
-
-### Fladder
-
-Description:  Fladder - A Simple Jellyfin frontend built on top of Flutter. 
-
-Features: 
-
-    Play media – Stream or sync content locally to your device.
-    Manage your library – Refresh content and edit metadata.
-    Multiple profiles – Lock profiles and connect to different servers.
-    Direct/Transcode playback
-    Intro/Credits skipping
-    Trickplay support (timeline scrubbing)
-    Dark/Light mode
-    Simple comic book format reading support (.cbz, .crb)
-    Sync supported on Mobile/Desktop
-    Platforms
-        Android
-        Web
-        macOS
-        Windows
-        iOS
-        Linux
-
-[Playstore](https://play.google.com/store/apps/details?id=nl.jknaapen.fladder&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
-
-[Webhosted](https://donutware.github.io/Fladder/)
-
-[Github Releases](https://github.com/DonutWare/Fladder/releases)
-
-Extra Info
-
-[Github](https://github.com/DonutWare/Fladder)
-
-### Fintunes
-
-Description: A streaming audio player for Jellyfin, with support for search and downloads.
-
-Installation
-
-[Playstore](https://play.google.com/store/apps/details?id=nl.moeilijkedingen.jellyfinaudioplayer)
-
-[F-Droid](https://f-droid.org/en/packages/nl.moeilijkedingen.jellyfinaudioplayer/)
-
-Extra info
-
-[Website](https://fintunes.app/)
-
-[Github](https://github.com/leinelissen/jellyfin-audio-player)
-
-### Jellybook
-
-Description: This is an app that's meant to allow you to read ebooks, comics, and listen to audiobooks from your Jellyfin server.
-
-Installation
-
-[Jellybook Download](https://github.com/Kara-Zor-El/JellyBook/releases)
-
-Extra Info
-
-[Github](https://github.com/Kara-Zor-El/JellyBook/)
-
-### llamafin 
-
-Description: llamafin is the answer to the question "What would happen if you missed Plexamp but didn't want to go back?" Now with Android Auto Support!
-
-Installation
-
-[Playstore](https://play.google.com/store/apps/details?id=com.llamafin.app&hl=en_US&gl=US)
-
-### Finamp
-
-Description: Finamp is a Jellyfin music player for mobile. Its main feature is the ability to download songs for offline listening.
-
-Installation
-
-[F-Droid](https://f-droid.org/packages/com.unicornsonlsd.finamp/)
-
-[Play Store](https://play.google.com/store/apps/details?id=com.unicornsonlsd.finamp)
-
-Extra Info
-
-[Github](https://github.com/UnicornsOnLSD/finamp)
-
-### Gelli
-
-Description: A native music player for Android devices with transcoding support, gapless playback, favorites, playlists, and many other features.
-
-Installation
-
-[F-Droid](https://f-droid.org/packages/com.dkanada.gramophone/)
-
-[Github Downloads](https://github.com/dkanada/gelli/releases)
-
-Extra Info
-
-[Github](https://github.com/dkanada/gelli)
-
-### Findroid
-
-Description: A third-party Android application for Jellyfin that provides a native user interface to browse and play movies and series.
-
-Installation
-
-[IzzyonDroid](https://apt.izzysoft.de/fdroid/index/apk/dev.jdtech.jellyfin)
-
-[Playstore](https://github.com/jarnedemeulemeester/findroid)
-
-Extra Info
-
-[Github](https://github.com/dkanada/gelli)
-
-### Jellyflut
-
-Description: A jellyfin client made in Flutter
-
-Installation
-
-[Android](https://github.com/Thomas-Sohier/jellyflut/releases)
-
-Extra info
-
-[Github](https://github.com/Thomas-Sohier/jellyflut)
-
-  </TabItem>
-
-<TabItem value="TV Players" label="TV Players" default>
-
-## TVs
-
-### Jellyfin Android Tv
-
-Description: The official Jellyfin app for Android TV and Fire TV devices.
-
-Installation
-
-[Amazon Appstore](https://www.amazon.com/gp/aw/d/B07TX7Z725)
-
-[Play Store](https://play.google.com/store/apps/details?id=org.jellyfin.androidtv)
-
-[F-Droid](https://f-droid.org/en/packages/org.jellyfin.androidtv/)
-
-Extra Info
-
-[Github](https://github.com/jellyfin/jellyfin-androidtv)
-
-### Jellyfin Roku
-
-Description: Due to a technical limitation of the Roku store, the Jellyfin app for Roku may state that a cable or satellite subscription is required. However, no subscription of any form is required to use the Jellyfin server or any official client.
-
-Installation
-
-[Channel Store](https://channelstore.roku.com/details/592369/jellyfin)
-
-Extra Info
-
-[Github](https://github.com/jellyfin/jellyfin-roku)
-
-### Jellyfin WebOS
-
-Description: The official Jellyfin app for WebOS devices.
-
-Installation
-
-[Content Store](https://us.lgappstv.com/main/tvapp/detail?appId=1030579)
-
-Extra Info
-
-[Github](https://github.com/jellyfin/jellyfin-webos)
-
-### Jellyfin Samsung Tizen
-
-Description: Made this single container to build and deploy jellyfin to Samsung TVs.
-
-Installation
-
-[Instructions to Install](https://github.com/babagreensheep/jellyfin-tizen-docker#how-to-use)
-
-Extra Info
-
-
-[Github](https://github.com/babagreensheep/jellyfin-tizen-docker)
-
-
-### DUNE - Jellyfin Android TV Client
-
-Description: DUNE is a modified version of the official Jellyfin Android TV client with enhanced UI/UX and additional customization options.
-
-Installation
-
-[Instructions to Install](https://github.com/Sam42a/DUNE/releases)
-
-![image](https://i.imgur.com/s9oSDNa.png)
-
-Extra Info
-Features
-
-```
-🎨 Visual & Interface
-
-    Modernized UI Framework
-        🏠 Redesigned homescreen with improved content hierarchy
-        🔑 Enhanced login experience with visual feedback
-        🔑 Default avatars for users without profile images
-        🔍 Intuitive search interface with voice input
-        🎭 Multiple theme options including OLED-optimized dark mode, based on Jellyfin Android TV OLED
-
-🛠️ Customization
-
-    Library Presentation
-        📚 Toggle between classic and modern layouts
-        🖼️ Dynamic backdrops from media artwork
-        🎬 Customizable homescreen rows (genres, favorites, collections)
-
-🎥 Media Experience
-
-    Enhanced Playback
-        🎬 Advanced subtitle controls
-        🎨 Customizable background effects
-        ⚡ Optimized performance
-
-⚙️ Technical Improvements
-
-    🚀 Reduced memory usage
-    ⚡ Faster app startup
-    📦 Side-by-side installation with official client
-
-```
-
-[Github](https://github.com/Sam42a/DUNE)
-
-### Moonfin Android TV
-
-Description: Enhanced Jellyfin client for Android TV, Nvidia Shield, and Amazon Fire TV devices.
-
-### 🎬 Jellyseerr Integration (Beta)
-**The first and only Jellyfin client with native Jellyseerr support!**
-- Browse trending, popular, and recommended movies/TV shows from TMDB
-- Request content in HD or 4K with a single button press
-- Smart season selection for TV shows where you pick exactly which seasons you want
-- Track all your requests (pending, approved, available) in one place
-- Seamless authentication using your Jellyfin credentials
-- Global search integration with Jellyseerr results appearing automatically alongside your Jellyfin media
-- Beautiful backdrop images for the Jellyseer discovery experience
-
-### 🛠️ Customizable Toolbar
-- **Toggle buttons** - Show/hide Shuffle, Genres, and Favorites buttons
-- **Shuffle filter** - Choose Movies only, TV Shows only, or Both
-- **Pill-shaped design** - Subtle rounded background with better contrast
-- Dynamic library buttons that scroll horizontally for 5+ libraries
-
-### 🎬 Featured Media Bar
-- Rotating showcase of 15 random movies and TV shows right on your home screen
-- See ratings, genres, runtime, and a quick overview without extra clicks
-- Smooth crossfade transitions as items change, with matching backdrop images
-- Height and positioning tuned for viewing from the couch
-
-### 🧭 Enhanced Navigation
-- Quick access home button (house icon) and search (magnifying glass)
-- Shuffle button for instant random movie/TV show discovery
-- Genres menu to browse all media by genre in one place
-- Dynamic library buttons automatically populate based on your Jellyfin libraries
-- One-click navigation to any library or collection directly from the toolbar
-- Cleaner icon-based design for frequently used actions
-
-### 📊 Improved Details Screen
-- Metadata organized into clear sections: genres, directors, writers, studios, and runtime
-- Taglines displayed above the description where available
-- Cast photos appear as circles for a cleaner look
-- Fits more useful information on screen without feeling cramped
-
-### 🎨 UI Polish
-- Item details show up right in the row, no need to open every title to see what it is
-- Buttons look better when not focused (transparent instead of distracting)
-- Better contrast makes text easier to read
-- Transitions and animations feel responsive
-- Consistent icons and visual elements throughout
-
-## Screenshots
-<img width="1920" height="1080" alt="Screenshot_20251121_212941" src="https://github.com/user-attachments/assets/9984c400-950e-4954-b32b-bbea59fa7bf6" />
-<img width="1920" height="1080" alt="Screenshot_20251121_212910" src="https://github.com/user-attachments/assets/3bd52558-6bc9-41ca-a091-3bc22b87544d" />
-<img width="1920" height="1080" alt="Screenshot_20251121_212922" src="https://github.com/user-attachments/assets/9cb2fd75-c336-4721-9842-d614d106b38a" />
-<img width="1920" height="1080" alt="Screenshot_20251121_212955" src="https://github.com/user-attachments/assets/d7c7d13f-501c-4ca1-9441-8e9294124302" />
-
-## Videos
-https://github.com/user-attachments/assets/5d89961b-8067-4af4-9757-b4de51474fcf
-
-https://github.com/user-attachments/assets/0414ffca-60f4-470a-94b9-6b3405b3570c
-
-Installation
-
-[Instructions to Install](https://github.com/Moonfin-Client/AndroidTV-FireTV/releases)
-
-Extra Info
-
-[Github](https://github.com/Moonfin-Client/AndroidTV-FireTV)
-
-### Wholphin Android TV
-
-Description: Wholphin - an OSS Android TV client for Jellyfin
-Wholphin is an open-source Android TV client for Jellyfin. It aims to provide a different app UI that's inspired by Plex for users interested in migrating to Jellyfin.
-
-Installation
-
-[Instructions to Install](https://github.com/damontecres/Wholphin/releases)
-
-<img width="1280" height="771" alt="0 3 0_home" src="https://github.com/user-attachments/assets/23be4786-a4c3-45e5-a710-8d1ade2be2a3" />
-
-Extra Info
-
-[Github](https://github.com/damontecres/Wholphin)
-
-### Void Android TV
-<div align="center">
-
-<img src="https://github.com/hritwikjohri/Void-for-jellyfin/blob/main/alpha-v-0.2.1/Fugaz%20One_void.png" alt="Void Logo" width="160" height="160"/>
-
-</div>
-
-Description: **A modern, powerful, feature-rich client for Jellyfin** Built entirely with **Kotlin** and **Jetpack Compose**
-✨ Features
-
- Core Functionality
-- **Better playback support** - With the help of MPV and Media3, Void can play almost anything.
-- **Detailed media views** - See the version, HDR type (Dolby Vision/HDR10/HDR10+), and audio and subtitle codecs and languages on screen before starting playback.
-- **Theme song support** - Immersive experience with the theme song playing in the background.
-- **HDR fallback** - Option to turn off Dolby Vision if it is not supported by the device.
-- **ASS subtitles support** - Thanks to MPV.
-- **Hi10P hardware decoding support** - On Fire 4K and Max devices.
-- **Skip intro support** - Using the media segment API.
-- **Audio passthrough support** - Via Media3.
-- **Quick login** - Faster login using a QR code.
-- **Special features support** - Support for special features such as behind-the-scenes content, deleted scenes, etc.
-- **Better multi-version support** - Prefers the current media folder for the next item, so it does not fall back to the default stream each episode (e.g. if you play episode 1 from folder B, the next episode will also play from folder B instead of A).
-- **Remember audio and subtitles** - Remembers your audio and subtitle choices (e.g. if you use English subtitles with Japanese audio for episode 1, the next episode will also use English subtitles with Japanese audio instead of the default).
-- **Collection support**
-
- Media Playback
-- **MPV player** - High-quality video playback with extended format support, with the option to edit the MPV config to your preference.
-- **ExoPlayer support** - Media3 with FFmpeg audio support.
-
-
- Modern UI/UX
-- **Material 3 Design** - Beautiful, adaptive UI following Google's design principles
-- **Dynamic Themes** - Colours that adapt to your content
-- **Ambient Backgrounds** - Stunning visual effects that enhance your viewing experience
-- **Responsive Layout** - Optimized for phones, tablets, and various screen sizes
-
- Advanced Features
-- **Transcoding support** - Choose from Auto, 1080p, 720p.
-- **Subtitle support** - Full subtitle support including ASS, with offset and size adjustment.
----
-
- Screenshots
-
-<div align="center">
-
-| Home | Library | Library (Grid) | Movie |
-|------|---------|----------------|-------|
-| <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_Home.png" alt="Home" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_Library.png" alt="Library" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_library%20(2).png" alt="Library Grid" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_Movie.png" alt="Movie" width="1280" height="720"/> |
-
-| Search | Profile | Season | Movie Navigation |
-|--------|---------|--------|------------------|
-| <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_Search.png" alt="Search" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_Profile.png" alt="Profile" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/VoidTV_season.png" alt="Season" width="1280" height="720"/> | <img src="https://github.com/hritwikjohri/VoidTV-for-jellyfin/blob/main/VoidTV-screenshots/movie_nav.png" alt="Movie Navigation" width="1280" height="720"/> |
-</div>
-
-
-🛠️ Tech Stack & Architecture
-
-Platform & Framework
-- **Target SDK**: 35 (Android 14)
-- **Minimum SDK**: 26 (Android 8.0)
-- **Language**: Kotlin
-- **UI Framework**: Jetpack Compose
-
-Core Libraries
-- **Architecture**: Clean Architecture (Data/Domain/Presentation layers)
-- **Dependency Injection**: Hilt
-- **Async Programming**: Kotlin Coroutines + Flow
-- **Navigation**: Navigation Compose
-- **State Management**: ViewModel + StateFlow
-
-Media & Networking
-- **Media Player**: MPV-Android + ExoPlayer (Media3) with Jellyfin FFmpeg audio
-- **Image Loading**: Coil (with GIF/SVG support)
-- **Networking**: Retrofit + OkHttp
-- **Serialization**: Kotlinx Serialization
-- **Jellyfin SDK**: Jellyfin Core
-
-Storage & Persistence
-- **Database**: Room
-- **Preferences**: DataStore
-
-UI Components
-- **Design System**: Material 3
-- **Icons**: Material Icons Extended + Some MIT licence icons
-- **Responsive Design**: SDP/SSP Compose
-- **Color Extraction**: Palette API
-- **Permissions**: Accompanist Permissions
+| Type | Details |
+|------|---------|
+| **Platforms** | Web Browser |
+| **Access** | [Web Application](https://jellyfin-music-client.vercel.app/) |
+| **Requirements** | Jellyfin server version 10.7.0 or higher |
+| **Source Code** | [GitHub Repository](https://github.com/MarkSFrancis/jellyfin-music-client) |
+| **Type** | Third-party Web Client |
 
 ---
 
-🔧 Configuration
+---
 
-Player Settings
-- **Primary Player**: MPV (recommended for best performance)
-- **Fallback Player**: ExoPlayer (better compatibility & HDR support)
-- **Display Mode**: Fit Screen, Fill Screen, Original Size
-- **Hardware Acceleration**: Enabled by default and automatically falls back to transcoding if it is not supported by the hardware.
+<h4>🎼 Sonixd</h4>
 
+**Description:** Cross-platform desktop client built for Subsonic-API compatible music servers, with Jellyfin support added in version 0.8.0+.
 
-Streaming Settings
-- **Direct Play**: When supported by the server and device.
-- **Direct Play off**: Prefer hardware decoding; if not supported, fall back to transcoding.
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux, macOS |
+| **Downloads** | [GitHub Releases](https://github.com/jeffvli/sonixd/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/jeffvli/sonixd) |
+| **Type** | Third-party Music Client |
 
+---
 
-Installation
+<h4>🎶 Feishin</h4>
 
-[Instructions to Install](https://github.com/hritwikjohri/VoidTV-for-jellyfin/releases)
+**Description:** A modern self-hosted music player with sleek interface and powerful features.
 
-Extra Info
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux, macOS |
+| **Downloads** | [GitHub Releases](https://github.com/jeffvli/feishin/releases) |
+| **Demo** | [Try Online](https://feishin.vercel.app/) |
+| **Source Code** | [GitHub Repository](https://github.com/jeffvli/feishin) |
+| **Type** | Third-party Music Client |
 
-[Github](https://github.com/hritwikjohri/VoidTV-for-jellyfin)
+---
+
+<h4>🎧 Tauon Music Box</h4>
+
+**Description:** A music player for the desktop designed to be powerful and streamlined, putting you in control of your music collection.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux |
+| **Downloads** | [Installation Guide](https://github.com/Taiko2k/TauonMusicBox#download-and-install-dizzy) |
+| **Website** | [TauonMusicBox.rocks](https://tauonmusicbox.rocks/) |
+| **Source Code** | [GitHub Repository](https://github.com/Taiko2k/TauonMusicBox) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🚀 Supersonic</h4>
+
+**Description:** A lightweight and full-featured desktop music player for self-hosted servers.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux, macOS |
+| **Downloads** | [GitHub Releases](https://github.com/dweymouth/supersonic/releases) |
+| **Installation** | [Setup Guide](https://github.com/dweymouth/supersonic#installation) |
+| **Source Code** | [GitHub Repository](https://github.com/dweymouth/supersonic) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🎸 Jellyamp</h4>
+
+**Description:** Desktop client specifically designed for listening to music from a Jellyfin server.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows, Linux, macOS |
+| **Downloads** | [GitHub Releases](https://github.com/m0ngr31/jellyamp/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/m0ngr31/jellyamp) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🦋 Jellyflut</h4>
+
+**Description:** A Jellyfin client built with Flutter for modern cross-platform support.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Windows |
+| **Downloads** | [GitHub Releases](https://github.com/Thomas-Sohier/jellyflut/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/Thomas-Sohier/jellyflut) |
+| **Type** | Third-party Client |
+
+---
+
+<h3>Kodi Integration</h3>
+
+---
+
+<h4>📺 JellyCon</h4>
+
+**Description:** Lightweight Kodi add-on that lets you browse and play media files directly from your Jellyfin server within the Kodi interface. Acts as a thin frontend for Jellyfin.
+
+| Type | Details |
+|------|---------|
+| **Platform** | Kodi Add-on |
+| **Installation** | [Setup Guide](https://github.com/jellyfin/jellycon#installation) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellycon) |
+| **Type** | Official Kodi Add-on |
+
+---
+
+  </TabItem>
+
+  <TabItem value="iOS/iPadOS/tvOS Players" label="🍎 iOS/iPadOS/tvOS Players">
+
+<h3>Apple Device Players</h3>
+
+---
+
+<h4>📱 Streamyfin</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/streamyfin-logo.svg" alt="Streamyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Simple and user-friendly Jellyfin client built with Expo, offering modern features and excellent performance.
+
+**Key Features:**
+- 🚀 Skip Intro/Credits support
+- 🖼️ Trickplay images for chapter previews when seeking
+- 🔊 Background audio for music streaming
+- 📥 Download media for offline viewing (Experimental)
+- 📡 Chromecast support (Experimental)
+- ⚙️ Settings management via JF plugin (Experimental)
+- 🤖 Jellyseerr integration for media requests
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad, Apple TV |
+| **Downloads** | [App Store](https://apps.apple.com/app/streamyfin/id6593660679?l=en-GB) |
+| **Source Code** | [GitHub Repository](https://github.com/streamyfin/streamyfin) |
+| **Type** | Third-party Client |
+
+---
+
+<h4>🎵 Fintunes</h4>
+
+**Description:** Streaming audio player for Jellyfin with comprehensive search and download capabilities.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad |
+| **Downloads** | [App Store](https://apps.apple.com/us/app/fintunes/id1527732194) |
+| **Website** | [Fintunes.app](https://fintunes.app/) |
+| **Source Code** | [GitHub Repository](https://github.com/leinelissen/jellyfin-audio-player) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>📚 Jellybook</h4>
+
+**Description:** Read ebooks, comics, and listen to audiobooks from your Jellyfin server.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad |
+| **Downloads** | [TestFlight Beta](https://testflight.apple.com/join/lEXKY4Dl) |
+| **Source Code** | [GitHub Repository](https://github.com/Kara-Zor-El/JellyBook/) |
+| **Type** | Third-party eBook/Audiobook Client |
+
+---
+
+<h4>🔥 Infuse</h4>
+
+**Description:** Beautiful video player that handles almost any video format. Optimized for macOS 14 with powerful streaming, Trakt sync, and excellent subtitle support.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad, Apple TV, Mac |
+| **Downloads** | [App Store](https://apps.apple.com/app/id1136220934?mt=8) |
+| **Type** | Third-party Premium Client |
+
+---
+
+<h4>🎼 Finamp</h4>
+
+**Description:** Jellyfin music player with offline listening capability through song downloads.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad |
+| **Downloads** | [App Store](https://apps.apple.com/app/id1136220934?mt=8) |
+| **Source Code** | [GitHub Repository](https://github.com/UnicornsOnLSD/finamp) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🦅 Swiftfin</h4>
+
+**Description:** Modern video client redesigned in Swift to maximize direct play with VLC power and native Apple device aesthetics.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad, Apple TV |
+| **Downloads** | [App Store](https://apps.apple.com/ca/app/swiftfin/id1604098728) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/swiftfin) |
+| **Type** | Official Community Client |
+
+---
+
+<h4>📲 Jellyfin Mobile for iOS</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** The official Jellyfin app for iOS and iPadOS devices.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | iPhone, iPad |
+| **Downloads** | [App Store](https://apps.apple.com/us/app/jellyfin-mobile/id1480192618?mt=8) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-expo) |
+| **Type** | Official Client |
+
+---
+
+  </TabItem>
+
+  <TabItem value="Android Players" label="🤖 Android Players">
+
+<h3>Android Device Players</h3>
+
+---
+
+<h4>📱 Jellyfin for Android</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** The official Jellyfin app for Android devices with comprehensive features and regular updates.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=org.jellyfin.mobile) • [Amazon App Store](https://www.amazon.com/gp/aw/d/B081RFTTQ9) • [F-Droid](https://f-droid.org/en/packages/org.jellyfin.mobile/) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-android) |
+| **Type** | Official Client |
+
+---
+
+<h4>📺 Streamyfin</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/streamyfin-logo.svg" alt="Streamyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Simple and user-friendly Jellyfin client built with Expo for excellent mobile experience.
+
+**Key Features:**
+- 🚀 Skip Intro/Credits support
+- 🖼️ Trickplay images for chapter previews
+- 🔊 Background audio streaming
+- 📥 Download media for offline viewing (Experimental)
+- 📡 Chromecast support (Experimental)
+- ⚙️ Settings management via plugin (Experimental)
+- 🤖 Jellyseerr integration
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=com.fredrikburmester.streamyfin) • [APK Download](https://github.com/streamyfin/streamyfin/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/streamyfin/streamyfin) |
+| **Type** | Third-party Client |
+
+---
+
+<h4>🎯 Fladder</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/fladder-logo.svg" alt="Fladder Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Simple Jellyfin frontend built on Flutter with modern features and sync capabilities.
+
+**Key Features:**
+- 🎥 Stream or sync content locally
+- 📚 Library management with metadata editing
+- 👥 Multiple profile support with locks
+- ▶️ Direct/Transcode playback with intro/credits skipping
+- 🎞️ Trickplay support
+- 🌓 Dark/Light mode themes
+- 📖 Comic book format support (.cbz, .cbr)
+- 💾 Offline sync support
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=nl.jknaapen.fladder) • [Web App](https://donutware.github.io/Fladder/) • [GitHub Releases](https://github.com/DonutWare/Fladder/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/DonutWare/Fladder) |
+| **Type** | Third-party Client |
+
+---
+
+<h4>🎵 Fintunes</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/fintunes-logo.png" alt="Fintunes Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Streaming audio player with search and download support for your Jellyfin music library.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=nl.moeilijkedingen.jellyfinaudioplayer) • [F-Droid](https://f-droid.org/en/packages/nl.moeilijkedingen.jellyfinaudioplayer/) |
+| **Website** | [Fintunes.app](https://fintunes.app/) |
+| **Source Code** | [GitHub Repository](https://github.com/leinelissen/jellyfin-audio-player) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>📚 Jellybook</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/jellybook-logo.svg" alt="Jellybook Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Read ebooks, comics, and listen to audiobooks from your Jellyfin server.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [GitHub Releases](https://github.com/Kara-Zor-El/JellyBook/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/Kara-Zor-El/JellyBook/) |
+| **Type** | Third-party eBook/Audiobook Client |
+
+---
+
+<h4>🦙 llamafin</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/llamafin-logo.png" alt="Llamafin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** The answer to "What if you missed Plexamp but didn't want to go back?" Now with Android Auto support!
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=com.llamafin.app&hl=en_US&gl=US) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🎼 Finamp</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/finamp-logo.svg" alt="Finamp Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Jellyfin music player with offline listening through downloadable songs.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=com.unicornsonlsd.finamp) • [F-Droid](https://f-droid.org/packages/com.unicornsonlsd.finamp/) |
+| **Source Code** | [GitHub Repository](https://github.com/UnicornsOnLSD/finamp) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🎧 Gelli</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/gelli-logo.svg" alt="Gelli Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Native music player with transcoding support, gapless playback, favorites, and playlists.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [F-Droid](https://f-droid.org/packages/com.dkanada.gramophone/) • [GitHub Releases](https://github.com/dkanada/gelli/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/dkanada/gelli) |
+| **Type** | Third-party Music Client |
+
+---
+
+<h4>🔍 Findroid</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/findroid-logo.png" alt="Findroid Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Third-party Android app with native UI for browsing and playing movies and series.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [Google Play](https://github.com/jarnedemeulemeester/findroid) • [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/dev.jdtech.jellyfin) |
+| **Source Code** | [GitHub Repository](https://github.com/jarnedemeulemeester/findroid) |
+| **Type** | Third-party Client |
+
+---
+
+<h4>🦋 Jellyflut</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/Android_Players/jellyflut-logo.png" alt="Jellyflut Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Jellyfin client built with Flutter for modern cross-platform experience.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android (Phone & Tablet) |
+| **Downloads** | [GitHub Releases](https://github.com/Thomas-Sohier/jellyflut/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/Thomas-Sohier/jellyflut) |
+| **Type** | Third-party Client |
+
+---
+
+  </TabItem>
+
+  <TabItem value="TV Players" label="📺 TV Players">
+
+<h3>Smart TV & Streaming Device Players</h3>
+
+---
+
+<h4>📺 Jellyfin Android TV</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** The official Jellyfin app for Android TV and Fire TV devices with optimized 10-foot UI.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android TV, Fire TV |
+| **Downloads** | [Google Play](https://play.google.com/store/apps/details?id=org.jellyfin.androidtv) • [Amazon App Store](https://www.amazon.com/gp/aw/d/B07TX7Z725) • [F-Droid](https://f-droid.org/en/packages/org.jellyfin.androidtv/) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-androidtv) |
+| **Type** | Official Client |
+
+---
+
+<h4>📡 Jellyfin Roku</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Official Jellyfin app for Roku devices.
+
+:::info
+Due to a technical limitation of the Roku store, the app may state that a cable or satellite subscription is required. However, **no subscription of any form is required** to use Jellyfin.
+:::
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Roku Devices |
+| **Downloads** | [Roku Channel Store](https://channelstore.roku.com/details/592369/jellyfin) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-roku) |
+| **Type** | Official Client |
+
+---
+
+<h4>🌐 Jellyfin WebOS</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** The official Jellyfin app for LG WebOS smart TVs.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | LG WebOS TVs |
+| **Downloads** | [LG Content Store](https://us.lgappstv.com/main/tvapp/detail?appId=1030579) |
+| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-webos) |
+| **Type** | Official Client |
+
+---
+
+<h4>📱 Jellyfin Samsung Tizen</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/jellyfin-logo.webp" alt="Jellyfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Single container solution to build and deploy Jellyfin to Samsung Tizen TVs.
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Samsung Tizen TVs |
+| **Installation** | [Setup Instructions](https://github.com/babagreensheep/jellyfin-tizen-docker#how-to-use) |
+| **Source Code** | [GitHub Repository](https://github.com/babagreensheep/jellyfin-tizen-docker) |
+| **Type** | Community Build Tool |
+
+---
+
+<h3>Enhanced Android TV Clients</h3>
+
+---
+
+<h4>🏜️ DUNE - Enhanced Android TV Client</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/TV_Players/dune-logo-round.webp" alt="Dune Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Modified version of the official Jellyfin Android TV client with enhanced UI/UX and additional customization options.
+
+**Key Features:**
+
+🎨 **Visual & Interface**
+- 🏠 Redesigned homescreen with improved content hierarchy
+- 🔑 Enhanced login with visual feedback & default avatars
+- 🔍 Intuitive search with voice input
+- 🎭 Multiple themes including OLED-optimized dark mode
+
+🛠️ **Customization**
+- 📚 Toggle between classic and modern layouts
+- 🖼️ Dynamic backdrops from media artwork
+- 🎬 Customizable homescreen rows (genres, favorites, collections)
+
+🎥 **Media Experience**
+- 🎬 Advanced subtitle controls
+- 🎨 Customizable background effects
+- ⚡ Optimized performance
+
+⚙️ **Technical Improvements**
+- 🚀 Reduced memory usage
+- ⚡ Faster app startup
+- 📦 Side-by-side installation with official client
+
+<details>
+<summary>📸 View Screenshot</summary>
+
+![DUNE Screenshot](/img/jellyfin/Players/TV_Players/dune-screenshot.png)
+
+</details>
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android TV, Fire TV, Nvidia Shield |
+| **Downloads** | [GitHub Releases](https://github.com/Sam42a/DUNE/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/Sam42a/DUNE) |
+| **Type** | Modified Android TV Client |
+
+---
+
+---
+
+<h4>🌙 Moonfin Android TV</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/TV_Players/moonfin-logo-round.webp" alt="Moonfin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Enhanced Jellyfin client for Android TV with native Jellyseerr integration - the first and only Jellyfin client with this feature!
+
+**Key Features:**
+
+🎬 **Jellyseerr Integration (Beta)** - First Jellyfin client with native support!
+- Browse trending, popular, and recommended content from TMDB
+- Request content in HD or 4K with one button press
+- Smart season selection for TV shows
+- Track all requests (pending, approved, available)
+- Seamless authentication using Jellyfin credentials
+- Global search integration with Jellyseerr results
+- Beautiful backdrop images for discovery
+
+🛠️ **Customizable Toolbar**
+- Toggle Shuffle, Genres, and Favorites buttons
+- Filter shuffle by Movies only, TV Shows only, or Both
+- Pill-shaped design with better contrast
+- Dynamic library buttons with horizontal scrolling
+
+🎬 **Featured Media Bar**
+- Rotating showcase of 15 random movies/TV shows on home screen
+- Display ratings, genres, runtime, and overviews
+- Smooth crossfade transitions with matching backdrops
+- Optimized viewing from couch distance
+
+🧭 **Enhanced Navigation**
+- Quick access home and search buttons
+- Shuffle button for instant random discovery
+- Genres menu to browse all media by genre
+- Dynamic library buttons auto-populate from server
+- One-click navigation to any library or collection
+- Cleaner icon-based design
+
+📊 **Improved Details Screen**
+- Clear metadata sections: genres, directors, writers, studios, runtime
+- Taglines displayed above descriptions
+- Circle cast photos for cleaner look
+- More useful information without clutter
+
+🎨 **UI Polish**
+- Item details visible in-row without opening titles
+- Better button appearance when unfocused
+- Improved contrast for text readability
+- Responsive transitions and animations
+- Consistent icons throughout
+
+<details>
+<summary>📸 View Screenshots (4 images)</summary>
+
+<img alt="Moonfin Home" src="/img/jellyfin/Players/TV_Players/moonfin-home.png" style={{maxWidth: '100%', height: 'auto'}} />
+<img alt="Moonfin Library" src="/img/jellyfin/Players/TV_Players/moonfin-library.png" style={{maxWidth: '100%', height: 'auto'}} />
+<img alt="Moonfin Toolbar" src="/img/jellyfin/Players/TV_Players/moonfin-toolbar.png" style={{maxWidth: '100%', height: 'auto'}} />
+<img alt="Moonfin Details" src="/img/jellyfin/Players/TV_Players/moonfin-details.png" style={{maxWidth: '100%', height: 'auto'}} />
+
+</details>
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android TV, Fire TV, Nvidia Shield |
+| **Downloads** | [GitHub Releases](https://github.com/Moonfin-Client/AndroidTV-FireTV/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/Moonfin-Client/AndroidTV-FireTV) |
+| **Type** | Enhanced Android TV Client |
+
+---
+
+---
+
+<h4>🐋 Wholphin Android TV</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/TV_Players/wholphin-logo-round.webp" alt="Wholphin Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** Open-source Android TV client for Jellyfin with Plex-inspired UI, ideal for users migrating from Plex.
+
+<details>
+<summary>📸 View Screenshot</summary>
+
+<img alt="Wholphin Home" src="/img/jellyfin/Players/TV_Players/wholphin-home.png" style={{maxWidth: '100%', height: 'auto'}} />
+
+</details>
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android TV, Fire TV |
+| **Downloads** | [GitHub Releases](https://github.com/damontecres/Wholphin/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/damontecres/Wholphin) |
+| **Type** | Third-party Android TV Client |
+
+---
+
+---
+
+<h4>⚫ Void Android TV</h4>
+
+<div align="center">
+<img src="/img/jellyfin/Players/TV_Players/void-logo.png" alt="Void Logo" style={{width: '80px', height: '80px', objectFit: 'contain'}}/>
+</div>
+
+**Description:** A modern, powerful, feature-rich client for Jellyfin built entirely with Kotlin and Jetpack Compose.
+
+**Core Functionality:**
+- 🎥 **Better playback support** - MPV and Media3 can play almost anything
+- 📊 **Detailed media views** - See version, HDR type (Dolby Vision/HDR10/HDR10+), audio/subtitle codecs before playback
+- 🎵 **Theme song support** - Immersive background music experience
+- 🌈 **HDR fallback** - Option to disable Dolby Vision if unsupported
+- 📝 **ASS subtitles** - Full support thanks to MPV
+- 📺 **Hi10P hardware decoding** - On Fire 4K and Max devices
+- ⏭️ **Skip intro** - Using media segment API
+- 🔊 **Audio passthrough** - Via Media3
+- 🔐 **Quick login** - Faster login using QR code
+- 🎬 **Special features** - Behind-the-scenes, deleted scenes, etc.
+- 📂 **Better multi-version** - Prefers current media folder for consistency
+- 💾 **Remember preferences** - Audio and subtitle choices persist across episodes
+- 🗂️ **Collection support** - Full collection browsing
+
+**Media Playback:**
+- **MPV player** - High-quality playback with extended formats and editable config
+- **ExoPlayer support** - Media3 with FFmpeg audio support
+
+**Modern UI/UX:**
+- 🎨 **Material 3 Design** - Beautiful, adaptive UI
+- 🌈 **Dynamic Themes** - Colors that adapt to content
+- 🖼️ **Ambient Backgrounds** - Stunning visual effects
+- 📱 **Responsive Layout** - Optimized for all screen sizes
+
+**Advanced Features:**
+- 🔄 **Transcoding support** - Auto, 1080p, 720p options
+- 📝 **Subtitle customization** - Full support with offset and size adjustment
+
+**Tech Stack:**
+- Target SDK 35 (Android 14), Minimum SDK 26 (Android 8.0)
+- Kotlin with Jetpack Compose
+- Clean Architecture with Hilt DI
+- Coroutines + Flow for async operations
+- Room database with DataStore preferences
+
+<details>
+<summary>📸 View Screenshots (8 images)</summary>
+
+<img src="/img/jellyfin/Players/TV_Players/voidtv-home.png" alt="Home" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-library.png" alt="Library" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-library-grid.png" alt="Library Grid" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-movie.png" alt="Movie" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-search.png" alt="Search" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-profile.png" alt="Profile" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-season.png" alt="Season" style={{maxWidth: '100%', height: 'auto'}}/>
+<img src="/img/jellyfin/Players/TV_Players/voidtv-movie-nav.png" alt="Movie Navigation" style={{maxWidth: '100%', height: 'auto'}}/>
+
+</details>
+
+| Type | Details |
+|------|---------|
+| **Platforms** | Android TV, Fire TV |
+| **Downloads** | [GitHub Releases](https://github.com/hritwikjohri/VoidTV-for-jellyfin/releases) |
+| **Source Code** | [GitHub Repository](https://github.com/hritwikjohri/VoidTV-for-jellyfin) |
+| **Type** | Modern Android TV Client |
+
+---
 
 
   </TabItem>
