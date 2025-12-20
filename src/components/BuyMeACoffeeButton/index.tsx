@@ -30,7 +30,13 @@ const BuyMeACoffeeButton: React.FC<BuyMeACoffeeButtonProps> = ({
       onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
       onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
     >
-      <span style={{ marginRight: '8px' }}>💻️</span>
+      <span
+        style={{ marginRight: '8px' }}
+        role="img"
+        aria-label="Computer"
+      >
+        💻️
+      </span>
       <span>Buy me a pc part</span>
     </a>
   );
