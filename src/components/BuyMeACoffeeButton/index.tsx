@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './styles.module.css';
 
 interface BuyMeACoffeeButtonProps {
   className?: string;
@@ -12,26 +13,10 @@ const BuyMeACoffeeButton: React.FC<BuyMeACoffeeButtonProps> = ({
       href="https://www.buymeacoffee.com/demonwarriortech"
       target="_blank"
       rel="noopener noreferrer"
-      className={className}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        padding: '7px 15px',
-        backgroundColor: '#9a0e0e',
-        color: '#ffffff',
-        textDecoration: 'none',
-        borderRadius: '8px',
-        border: '2px solid #000000',
-        fontFamily: 'Cookie, cursive',
-        fontSize: '28px',
-        fontWeight: 'normal',
-        transition: 'transform 0.2s ease',
-      }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+      className={className ? `${styles.buyMeACoffeeButton} ${className}` : styles.buyMeACoffeeButton}
     >
       <span
-        style={{ marginRight: '8px' }}
+        className={styles.icon}
         role="img"
         aria-label="Computer"
       >

@@ -1,0 +1,24 @@
+.buyMeACoffeeButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  background-color: #9a0e0e;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid #000000;
+  font-family: Cookie, cursive;
+  font-size: 28px;
+  font-weight: normal;
+  transition: transform 0.2s ease;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.buyMeACoffeeButton:hover {
+  transform: scale(1.05);
+}
+
+.icon {
+  margin-right: 8px;
+}
