@@ -1,0 +1,24 @@
+.buyMeACoffeeButton {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--bmc-button-padding-vertical) var(--bmc-button-padding-horizontal);
+  background-color: var(--bmc-button-bg);
+  color: var(--bmc-button-text);
+  text-decoration: none;
+  border-radius: var(--bmc-button-border-radius);
+  border: var(--bmc-button-border-width) solid var(--bmc-button-border);
+  font-family: Poppins;
+  font-size: var(--bmc-button-font-size);
+  font-weight: normal;
+  transition: transform var(--bmc-button-transition-duration) ease;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.buyMeACoffeeButton:hover {
+  transform: scale(var(--bmc-button-hover-scale));
+}
+
+.icon {
+  margin-right: var(--bmc-button-icon-spacing);
+}
