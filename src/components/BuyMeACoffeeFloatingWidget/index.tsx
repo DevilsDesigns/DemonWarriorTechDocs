@@ -11,7 +11,7 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
       style={{
         position: 'fixed',
         bottom: '15px',
-        right: '85px',
+        right: '60px',
         zIndex: 9999,
         cursor: 'pointer',
         backgroundColor: '#9a0e0e',
@@ -40,7 +40,7 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
       title="Support me - Buy me a PC part!"
     >
       <span style={{ fontSize: '16px' }}>💻️</span>
-      Buy Me a PC Part
+      Buy me a PC Part
     </div>
   );
 };
