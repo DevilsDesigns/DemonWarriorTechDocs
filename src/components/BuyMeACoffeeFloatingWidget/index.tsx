@@ -37,7 +37,7 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
         e.currentTarget.style.transform = 'scale(1)';
         e.currentTarget.style.backgroundColor = '#9a0e0e';
       }}
-      title="Support me on Buy me a coffee!"
+      title="Support me - Buy me a PC part!"
     >
       <span style={{ fontSize: '16px' }}>💻️</span>
       Buy Me a PC Part
