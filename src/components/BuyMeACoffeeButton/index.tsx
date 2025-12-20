@@ -13,7 +13,7 @@ const BuyMeACoffeeButton: React.FC<BuyMeACoffeeButtonProps> = ({
       href="https://www.buymeacoffee.com/demonwarriortech"
       target="_blank"
       rel="noopener noreferrer"
-      className={`${styles.buyMeACoffeeButton} ${className || ''}`}
+      className={className ? `${styles.buyMeACoffeeButton} ${className}` : styles.buyMeACoffeeButton}
     >
       <span
         className={styles.icon}
