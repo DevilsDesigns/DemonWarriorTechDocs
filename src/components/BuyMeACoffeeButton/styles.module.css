@@ -7,7 +7,7 @@
   text-decoration: none;
   border-radius: var(--bmc-button-border-radius);
   border: var(--bmc-button-border-width) solid var(--bmc-button-border);
-  font-family: Cookie, cursive;
+  font-family: Poppins;
   font-size: var(--bmc-button-font-size);
   font-weight: normal;
   transition: transform var(--bmc-button-transition-duration) ease;
