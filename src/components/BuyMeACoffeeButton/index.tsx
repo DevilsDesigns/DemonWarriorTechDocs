@@ -22,7 +22,7 @@ const BuyMeACoffeeButton: React.FC<BuyMeACoffeeButtonProps> = ({
       >
         💻️
       </span>
-      <span>Buy me a pc part</span>
+      <span>Buy Me a PC Part</span>
     </a>
   );
 };
