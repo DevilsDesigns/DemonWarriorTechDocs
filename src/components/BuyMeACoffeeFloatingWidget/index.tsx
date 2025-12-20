@@ -31,11 +31,11 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'scale(1.05)';
-        e.currentTarget.style.backgroundColor = '#4F6FEF';
+        e.currentTarget.style.backgroundColor = '#9a0e0e';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'scale(1)';
-        e.currentTarget.style.backgroundColor = '#5F7FFF';
+        e.currentTarget.style.backgroundColor = '#9a0e0e';
       }}
       title="Support me on Buy me a coffee!"
     >
