@@ -14,7 +14,7 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
         right: '75px',
         zIndex: 9999,
         cursor: 'pointer',
-        backgroundColor: '#5F7FFF',
+        backgroundColor: '#9a0e0e',
         color: 'white',
         padding: '12px 16px',
         borderRadius: '50px',
@@ -31,16 +31,16 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'scale(1.05)';
-        e.currentTarget.style.backgroundColor = '#4F6FEF';
+        e.currentTarget.style.backgroundColor = '#9a0e0e';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.transform = 'scale(1)';
-        e.currentTarget.style.backgroundColor = '#5F7FFF';
+        e.currentTarget.style.backgroundColor = '#9a0e0e';
       }}
-      title="Support me on Buy me a coffee!"
+      title="Support me - Buy me a PC part!"
     >
-      <span style={{ fontSize: '16px' }}>☕</span>
-      Buy me a coffee
+      <span style={{ fontSize: '16px' }}>💻️</span>
+      Buy me a PC Part
     </div>
   );
 };
