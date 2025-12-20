@@ -9,7 +9,7 @@ const BuyMeACoffeeButton: React.FC<BuyMeACoffeeButtonProps> = ({
 }) => {
   return (
     <a href="https://buymeacoffee.com/demonwarriortech" className={className}>
-      <img src="/img/buymeacoffee-button.svg" alt="Buy me pc parts" />
+      <img src="/img/buymeacoffee-button.png" alt="Buy me pc parts" />
     </a>
   );
 };
