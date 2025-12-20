@@ -11,7 +11,7 @@ const BuyMeACoffeeFloatingWidget: React.FC = () => {
       style={{
         position: 'fixed',
         bottom: '15px',
-        right: '75px',
+        right: '85px',
         zIndex: 9999,
         cursor: 'pointer',
         backgroundColor: '#9a0e0e',
