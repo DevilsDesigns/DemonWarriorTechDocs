@@ -10,71 +10,78 @@ tags: [frameo, immich, immichframe, tutorial, web-server, digital picture frame]
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
 
 ## Overview
+
 Frameo digital photo frames are WiFi-connected devices designed for displaying photos and videos. They allow users to share images directly from their smartphones using the Frameo mobile app, making it easy to keep loved ones updated with new memories.
 
 ### Frameo Hardware
+
 Example Hardware Used
 
 [FRAMEO Digital Photo Frame, 10.1 Inch WiFi](https://www.amazon.com/FRAMEO-Digital-Picture-Storage-Auto-Rotate/dp/B09QX7M71C)
 
 :::info[Source Documentation]
-Below is install from Immichframe docs [source](https://immichframe.dev/docs/getting-started/apps#frameo). A Big thanks to all the contributers and development staff on this great addition to immich. I added the instructions below for a more seamless setup instead of flipping through tabs on your browser. 
+Below is install from Immichframe docs [source](https://immichframe.dev/docs/getting-started/apps#frameo). A Big thanks to all the contributers and development staff on this great addition to immich. I added the instructions below for a more seamless setup instead of flipping through tabs on your browser.
 :::
 
 ### Frameo Install
+
 ImmichFrame can be run on inexpensive Frameo digital photo frames with some additional effort. You can typically find these for ~$40 USD. These devices are low powered and run a very old Android version, so they cannot run the full WebView version of the app (however most of the main features are still supported except SplitView). We have found a method to update the WebView, but it is not without risks, see Frameo Webview Update below.  
  If you have not already, you will need to install ADB on your PC ([ADB instructions][ADB-link]).
 ADB is often enabled on these devices by default, if it is not go to Frameo Settings-About-Enable Beta Program. Toggle ADB Access On-Off-On. Use the ADB commands below to sideload ImmichFrame APK, configure it to your liking, then disable the Frameo app to to set ImmichFrame as default Home app:
-  - Sideload ImmichFrame:
+
+- Sideload ImmichFrame:
+  ```bash
+  adb install /path/to/ImmichFrame_vXX.apk
+  ```
+- Update existing ImmichFrame:
+  ```bash
+  adb install -r /path/to/ImmichFrame_vXX.apk
+  ```
+- Start ImmichFrame:
+  ```bash
+  adb shell am start com.immichframe.immichframe/.MainActivity
+  ```
+
+  - Swipe down to enter ImmichFrame Settings
+  - Configure URL and Authorization Secret (optional)
+  - Disable WebView
+- Set as default HOME app
+  - On first reboot after install you will be asked to select default Launcher, select ImmichFrame
+  - Alternatively you can disable Frameo
     ```bash
-    adb install /path/to/ImmichFrame_vXX.apk
+    adb shell su
+    pm disable net.frameo.frame
+    exit
     ```
-  - Update existing ImmichFrame:
+    If this doesn't stick on reboot, repeat the commands but power cycle after exit command
+- Some other useful ADB commands:
+  - Reboot:
     ```bash
-    adb install -r /path/to/ImmichFrame_vXX.apk
+    adb reboot
     ```
-  - Start ImmichFrame:
+
+    - You can also reboot or shutdown by holding down power button
+  - Access Android Settings:
     ```bash
-    adb shell am start com.immichframe.immichframe/.MainActivity
+    adb shell am start -a android.settings.SETTINGS
     ```
-    - Swipe down to enter ImmichFrame Settings
-    - Configure URL and Authorization Secret (optional)
-    - Disable WebView
-  - Set as default HOME app
-    - On first reboot after install you will be asked to select default Launcher, select ImmichFrame
-    - Alternatively you can disable Frameo
-      ```bash
-      adb shell su
-      pm disable net.frameo.frame
-      exit
-      ```
-      If this doesn't stick on reboot, repeat the commands but power cycle after exit command
-  - Some other useful ADB commands:
-    - Reboot:
-      ```bash
-      adb reboot
-      ``` 
-        - You can also reboot or shutdown by holding down power button
-    - Access Android Settings:
-      ```bash 
-      adb shell am start -a android.settings.SETTINGS
-      ```
-    - Re-enable Frameo: repeat disable commands above but replace "disable" with "enable"
-    - Start Frameo app:
-      ```bash 
-      adb shell am start net.frameo.frame
-      ```
-    - Uninstall ImmichFrame:
-      ```
-      adb uninstall com.immichframe.immichframe
-      ```
-  
-### Frameo WebView Update  
+  - Re-enable Frameo: repeat disable commands above but replace "disable" with "enable"
+  - Start Frameo app:
+    ```bash
+    adb shell am start net.frameo.frame
+    ```
+  - Uninstall ImmichFrame:
+    ```
+    adb uninstall com.immichframe.immichframe
+    ```
+
+### Frameo WebView Update
 
 :::info[Important - Check Troubleshooting]
 **IF YOU HAVE PERMISSIONS DENIED PLEASE GO TO THE [TROUBLESHOOTING](./Frameo_Setup#frameo-troubleshooting) SECTION**
 :::
-Follow instructions below to update WebView to 106. This has been tested and working on Android 6.01 10.1" Frameo devices:  
+Follow instructions below to update WebView to 106. This has been tested and working on Android 6.01 10.1" Frameo devices:
+
 - Download WebView 106 to PC:
   [Lineage OS WebView 106-0-5249-126-12](https://www.apkmirror.com/apk/lineageos/android-system-webview-2/android-system-webview-2-106-0-5249-126-release/android-system-webview-106-0-5249-126-12-android-apk-download/)
 
@@ -102,7 +109,7 @@ MAKE SURE YOU RENAME WEBVIEW-XXX-XXX.apk to webview.apk before proceeding
   ```shell
   mount -o rw,remount /system && rm -rf /system/app/webview/oat
   ```
-- Copy new WebView to system    
+- Copy new WebView to system
   ```shell
   mount -o rw,remount /system && cp /sdcard/webview.apk /system/app/webview/webview.apk
   ```
@@ -116,16 +123,18 @@ MAKE SURE YOU RENAME WEBVIEW-XXX-XXX.apk to webview.apk before proceeding
   ```
 
 Depending on the device or Android version, the location to the webview apk may be different for you. You can locate it with
+
 ```shell
 adb shell pm path com.android.webview
 ```
+
 ### Frameo Troubleshooting
 
 :::info[Credits]
 A Big Thanks to user [DasOS](https://gist.github.com/dasos) for figuring this out in the post [here](https://gist.github.com/dasos/782fd3448d46c8e90894fa0a9d8896b0). Without him this would not have been possible.
 :::
 
-If you have ```mount: Operation not permitted``` OR ```CANNOT EDIT FILE READ ONLY ERROR```
+If you have `mount: Operation not permitted` OR `CANNOT EDIT FILE READ ONLY ERROR`
 Like below
 
 ![frameo-error-1-read-only](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/immichframe-error-1.png?raw=true)
@@ -142,7 +151,7 @@ You will need some extra steps that involve rooting it because your system comes
 
 After some investigation, this suggested that the device is using verified boot (dm-verity), which stopped attempts to overwrite the apk.
 
-The way that I solved this was through a Magisk overlay. 
+The way that I solved this was through a Magisk overlay.
 
 1. Install [Discreet Launcher](https://github.com/falzonv/discreet-launcher/releases). This is a very small, simple launcher which works for Android 6. You need a launcher to be able to access Magisk. When installed, you'll see a prompt to use it after reboot. Swipe up from the bottom to see all apps
 
@@ -150,15 +159,15 @@ The way that I solved this was through a Magisk overlay.
 adb install discreet-launcher.apk
 ```
 
-   1.1 If it didnt install or open automatically then you need to run an adb command
+1.1 If it didnt install or open automatically then you need to run an adb command
 
-   1.2 Open the launcher manager. This will allow us to run an app directly using this any app on this system
+1.2 Open the launcher manager. This will allow us to run an app directly using this any app on this system
 
 ```
 adb shell am start -a android.intent.action.MAIN
 ```
 
-   1.3. Select the discreet-launcher from the list
+1.3. Select the discreet-launcher from the list
 
 :::warning[Magisk Re-Root After Reboot]
 Once you reboot you may need to renable magisk and re-root the device again. To do this open the launcher with adb shell am start -a android.intent.action.MAIN and select discrete-launcher. Then swipe up and select magisk from the apps screen. Re-run the rooting processs ---> direct install and reboot and you should be able to re-edit files again.
@@ -167,12 +176,11 @@ Once you reboot you may need to renable magisk and re-root the device again. To 
 
 3. Install [Magisk](https://github.com/topjohnwu/Magisk/releases/). Once installed, run the app, then choose Install, Direct Install. After you reboot, it should report it is installed in the app, along with some complaints that it needs "additional setup". Don't worry about those.
 
-
 ```
 adb install -r Magisk.apk
 ```
 
-4. Then create a Magisk overlay to copy the updated webview APK to the right place.  Run these commands after running `adb shell`
+4. Then create a Magisk overlay to copy the updated webview APK to the right place. Run these commands after running `adb shell`
 
 ```
 su
@@ -220,16 +228,16 @@ This is caused by outdated CA Certs to fix this you will need a micro sd card as
 :::
 
 1. We need to check that we do indeed have this error by installing chrome first.
-Downlaod Chrome on the PC
+   Downlaod Chrome on the PC
 
 [Chrome for Android 6.0.1](https://www.apkmirror.com/apk/google-inc/chrome/chrome-106-0-5249-126-release/google-chrome-fast-secure-106-0-5249-126-5-android-apk-download/)
 
 2. Now install chrome on frameo device
- 
+
    2.1 Rename the download the chrome.apk
- 
-   2.2 now find the directory for the chrome.apk and replace ```J:\Downloads\Frameo\chrome.apk``` with your location of where you downloaded chrome.apk too.
- 
+
+   2.2 now find the directory for the chrome.apk and replace `J:\Downloads\Frameo\chrome.apk` with your location of where you downloaded chrome.apk too.
+
    2.3 now install it by running
 
 ```
@@ -252,17 +260,17 @@ adb shell am start -n com.android.chrome/com.google.android.apps.chrome.Main -d 
 8. Copy and paste the file to the micro sd card thats in your computer
 9. Insert the SD card into the frameo device
 10. Open the tablet settings by running this command in adb
-
     - Access Android Settings:
-      ```bash 
+      ```bash
       adb shell am start -a android.settings.SETTINGS
       ```
+
 11. Go to the Settings app and go into the Security page.
 
 ![Android 6.0.1 Securities](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/ca-security-setting.png?raw=true)
 
 12. Scroll down to the “Credential Storage” section and select the “Install from SD card” option. It works even if you don’t have an SD card, as all Android versions past a certain point emulate an external storage.
-![Selecting SD-Card](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/ca-install-sd-card.png?raw=true)
+    ![Selecting SD-Card](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/ca-install-sd-card.png?raw=true)
 
 13. Select the isrgrootx1.pem file in the file picker that shows up.
 
@@ -273,7 +281,7 @@ adb shell am start -n com.android.chrome/com.google.android.apps.chrome.Main -d 
 ![Settings for CA Cert](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/naming-ca-install.png?raw=true)
 
 15. If you haven’t set up a lock screen PIN yet it will prompt you to add one.
-![Set a PIN](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/set-a-pin.png?raw=true)
+    ![Set a PIN](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/set-a-pin.png?raw=true)
 
 :::warning[Expected Security Warning]
 Once that is done it should have been installed. Once a custom root certificate is installed, Android will send a warning notification on each boot telling you that the network may be monitored.

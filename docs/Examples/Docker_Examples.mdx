@@ -4,7 +4,19 @@ description: Comprehensive collection of Docker Compose examples for self-hostin
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [docker, docker-compose, self-hosting, nextcloud, jellyfin, immich, photoprism, containers, examples, configuration]
+tags:
+  [
+    docker,
+    docker-compose,
+    self-hosting,
+    nextcloud,
+    jellyfin,
+    immich,
+    photoprism,
+    containers,
+    examples,
+    configuration,
+  ]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -52,7 +64,7 @@ services:
     container_name: cron
     restart: always
     volumes:
-      -  J:/Nextcloud:/var/www/html:z
+      - J:/Nextcloud:/var/www/html:z
     depends_on:
       - db
       - redis
@@ -71,8 +83,8 @@ services:
     restart: always
     depends_on:
       - app
-#    devices:
-#      - /dev/dri:/dev/dri # VA-API (omit for NVENC)
+    #    devices:
+    #      - /dev/dri:/dev/dri # VA-API (omit for NVENC)
     environment:
       - NEXTCLOUD_HOST=https://NEXTCLOUD.DOMAIN.COM
       - NEXTCLOUD_ALLOW_INSECURE=1 # (self-signed certs or no HTTPS)
@@ -80,15 +92,15 @@ services:
       #this is where you want your files stored on nextcloud
       - J:/Nextcloud:/data
       #this is where your configs and all nextcloud system files are stored
-      - J:/Nextcloud:/var/www/html      
+      - J:/Nextcloud:/var/www/html
       #only enable if you have a nvidia 1xxx or later and want to use it to transcode
     deploy:
       resources:
         reservations:
           devices:
-          - driver: nvidia
-            count: 1
-            capabilities: [gpu]
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
   collabora:
     container_name: collabora
     hostname: collabora
@@ -260,7 +272,7 @@ post_max_size = 10G
 max_execution_time = 3600
 max_input_time = 3600
 ```
-  
+
 #### .collabora.env
 
 ```editorconfig
@@ -301,40 +313,40 @@ command=/cron.sh
 
 #### docker-compose.yml
 
-  ```yaml
+```yaml
 services:
-  jellyfin:
-    image: jellyfin/jellyfin:latest
-    container_name: jellyfin
-    ports:
-      - "8096:8096"
-      - "8920:8920"     
-    volumes:
-      - C:/Tools/Jellyfin/config:/config
-      - C:/Tools/Jellyfin/cache:/cache
-      - type: bind
-        source: J:/TV-Shows #(PUT YOUR MEDIA DIRECTORIES FOLDER PATH HERE)
-        target: /TV-Shows
-      - type: bind
-        source: J:/Movies #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
-        target: /Movies
-      - type: bind
-        source: J:/Music #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
-        target: /Music
-      - type: bind
-        source: J:/Home-Movies #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
-        target: /Home-Movies
-      - type: bind
-        source: J:/Anime #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
-        target: /Anime
-        read_only: true
-    restart: 'unless-stopped'
-    # Optional - alternative address used for autodiscovery
-    environment:
-#   (REMOVE THE # BELOW TO ENABLE QUICKSYNC)
-#  - UDOCKER_OPTS=--device /dev/dri:/dev/dri
-      - JELLYFIN_PublishedServerUrl=https://sub.domain.com #(CHANGE THIS TO YOUR DOMAIN)
-    # Optional - may be necessary for docker healthcheck to pass if running in host network mode
+jellyfin:
+  image: jellyfin/jellyfin:latest
+  container_name: jellyfin
+  ports:
+    - '8096:8096'
+    - '8920:8920'
+  volumes:
+    - C:/Tools/Jellyfin/config:/config
+    - C:/Tools/Jellyfin/cache:/cache
+    - type: bind
+      source: J:/TV-Shows #(PUT YOUR MEDIA DIRECTORIES FOLDER PATH HERE)
+      target: /TV-Shows
+    - type: bind
+      source: J:/Movies #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
+      target: /Movies
+    - type: bind
+      source: J:/Music #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
+      target: /Music
+    - type: bind
+      source: J:/Home-Movies #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
+      target: /Home-Movies
+    - type: bind
+      source: J:/Anime #(PUT YOUR MEDIAI DIRECTORIES FOLDER PATH HERE)
+      target: /Anime
+      read_only: true
+  restart: 'unless-stopped'
+  # Optional - alternative address used for autodiscovery
+  environment:
+    #   (REMOVE THE # BELOW TO ENABLE QUICKSYNC)
+    #  - UDOCKER_OPTS=--device /dev/dri:/dev/dri
+    - JELLYFIN_PublishedServerUrl=https://sub.domain.com #(CHANGE THIS TO YOUR DOMAIN)
+  # Optional - may be necessary for docker healthcheck to pass if running in host network mode
 #    extra_hosts:
 #      - 'host.docker.internal:host-gateway'
 # (REMOVE THE # FOR THE 3 LINES BELOW TO ENABLED CADDY REVERSE PROXY USING MY TUTORIAL IF YOU WANT TO LIMIT IT TO JUST INSIDE THE CADDY NETWORK)
@@ -350,25 +362,25 @@ services:
 #            - driver: nvidia
 #              count: all
 #              capabilities: [gpu]
-  ```
+```
 
 ### Jellyseerr Example
 
 ```yaml
 services:
-    jellyseerr:
-       image: fallenbagel/jellyseerr:latest
-       container_name: jellyseerr
-       environment:
-            - LOG_LEVEL=debug
-            - TZ=America/Chicago
-       ports:
-            - 5055:5055
-       volumes:
-            - /path/to/appdata/config:/app/config
-       restart: unless-stopped
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=America/Chicago
+    ports:
+      - 5055:5055
+    volumes:
+      - /path/to/appdata/config:/app/config
+    restart: unless-stopped
 ```
-  
+
 ### Jellystat Example
 
 ```yaml
@@ -379,7 +391,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: MyPassword
     volumes:
-    - C:/Tools/Jellystat/postgres-data:/var/lib/postgresql/data # Mounting the volume
+      - C:/Tools/Jellystat/postgres-data:/var/lib/postgresql/data # Mounting the volume
   jellystat:
     image: cyfershepard/jellystat:latest
     environment:
@@ -389,8 +401,8 @@ services:
       POSTGRES_PORT: 5432
       JWT_SECRET: 'MyPassword'
     ports:
-      - "3000:3000" #Server Port
-      - "3004:3004" #websocket port
+      - '3000:3000' #Server Port
+      - '3004:3004' #websocket port
     volumes:
       - C:/Tools/Jellystat/backup-data:/app/backend/backup-data # Mounting the volume
 
@@ -400,8 +412,6 @@ services:
 networks:
   default:
 ```
-  
-
 
 ### Cloudflare DDNS Example
 
@@ -418,7 +428,7 @@ services:
     # This bypasses network isolation and makes IPv6 easier (optional; see below)
     restart: always
     # Restart the updater after reboot
-    user: "1000:1000"
+    user: '1000:1000'
     # Run the updater with specific user and group IDs (in that order).
     # You can change the two numbers based on your need.
     read_only: true
@@ -443,10 +453,6 @@ services:
 # Docker's host. This section is required for the 'networks' section of each 'services'.
 ```
 
-
-
-
-
 ### Kitchen Owl
 
 ```yaml
@@ -457,7 +463,7 @@ services:
       - FRONT_URL=https://yoururl.com
       # - BACK_URL=back:5000 # Optional should not be changed unless you know what youre doing
     ports:
-      - "9090:80"
+      - '9090:80'
     depends_on:
       - back
     networks:
@@ -466,27 +472,26 @@ services:
     image: tombursch/kitchenowl:latest
     restart: unless-stopped
     ports: # Optional and only needed when only hosting the http backend
-      - "9191:80"
+      - '9191:80'
     networks:
       - default
     environment:
       - JWT_SECRET_KEY=MYSECRETKEY?
       - FRONT_URL=http://localhost:9090
     volumes:
-    - kitchenowl_data:/data
+      - kitchenowl_data:/data
 
 volumes:
   kitchenowl_data:
 
 networks:
   default:
-```    
+```
 
 #### docker-Compose.yml
 
 ```yaml
 services:
-
   caddy:
     build:
       context: .
@@ -494,9 +499,9 @@ services:
     restart: unless-stopped
     container_name: caddy
     ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
     volumes:
       - C:/Tools/Caddy/Caddyfile:/etc/caddy/Caddyfile
       - C:/Tools/Caddy/configs/caddy/site:/srv
@@ -612,7 +617,6 @@ services:
 
 volumes:
   model-cache:
-
 ```
 
 #### .env
@@ -648,12 +652,12 @@ REDIS_HOSTNAME=immich_redis
 #### hwaccel.ml.yml
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 # Configurations for hardware-accelerated machine learning
 
 # If using Unraid or another platform that doesn't allow multiple Compose files,
-# you can inline the config for a backend by copying its contents 
+# you can inline the config for a backend by copying its contents
 # into the immich-machine-learning service in the docker-compose.yml file.
 
 # See https://immich.app/docs/features/ml-hardware-acceleration for info on usage.
@@ -680,7 +684,7 @@ services:
 
   openvino:
     device_cgroup_rules:
-      - "c 189:* rmw"
+      - 'c 189:* rmw'
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -694,10 +698,11 @@ services:
       - /dev/bus/usb:/dev/bus/usb
       - /usr/lib/wsl:/usr/lib/wsl
 ```
+
 #### hwaccel.transcoding.yml
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 # Configurations for hardware-accelerated transcoding
 
@@ -754,11 +759,7 @@ services:
     environment:
       - LD_LIBRARY_PATH=/usr/lib/wsl/lib
       - LIBVA_DRIVER_NAME=d3d12
-
 ```
-
-      
-      
 
 ### Immich Example (Alternative Configuration)
 
@@ -792,6 +793,7 @@ DB_DATA_LOCATION=./postgres
 REDIS_HOSTNAME=immich_redis
 
 ```
+
 #### docker-compose.yml
 
 ```yaml
@@ -857,18 +859,17 @@ services:
 
 volumes:
   model-cache:
-
 ```
 
 #### hwaccel.yml
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 # Configurations for hardware-accelerated machine learning
 
 # If using Unraid or another platform that doesn't allow multiple Compose files,
-# you can inline the config for a backend by copying its contents 
+# you can inline the config for a backend by copying its contents
 # into the immich-machine-learning service in the docker-compose.yml file.
 
 # See https://immich.app/docs/features/ml-hardware-acceleration for info on usage.
@@ -895,7 +896,7 @@ services:
 
   openvino:
     device_cgroup_rules:
-      - "c 189:* rmw"
+      - 'c 189:* rmw'
     devices:
       - /dev/dri:/dev/dri
     volumes:
@@ -908,13 +909,12 @@ services:
     volumes:
       - /dev/bus/usb:/dev/bus/usb
       - /usr/lib/wsl:/usr/lib/wsl
-
 ```
 
 #### hwaccel.transcoding.yml
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 # Configurations for hardware-accelerated transcoding
 
@@ -971,9 +971,8 @@ services:
     environment:
       - LD_LIBRARY_PATH=/usr/lib/wsl/lib
       - LIBVA_DRIVER_NAME=d3d12
+```
 
-```  
-    
 ### PhotoPrism Examples for Locally Hosting with software hwa
 
 ```yaml
@@ -994,60 +993,60 @@ services:
     ## Server port mapping in the format "Host:Container". To use a different port, change the host port on
     ## the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
     ports:
-      - "2333:2342"
+      - '2333:2342'
     ## Before you start the service, please check the following config options (and change them as needed):
     ## https://docs.photoprism.app/getting-started/config-options/
     environment:
-      PHOTOPRISM_ADMIN_USER: "YOUR-ADMIN-USER"                 # admin login username
-      PHOTOPRISM_ADMIN_PASSWORD: "YOUR-ADMIN-USER-PASSWORD"          # initial admin password (8-72 characters)
-      PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: "http://localhost:2333/"  # server URL in the format "http(s)://domain.name(:port)/(path)"
-      PHOTOPRISM_DISABLE_TLS: "false"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
-      PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
-      PHOTOPRISM_ORIGINALS_LIMIT: 10240               # file size limit for originals in MB (increase for high-res video)
-      PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
-      PHOTOPRISM_DEBUG: "false"                      # run in debug mode, shows additional log messages
-      PHOTOPRISM_READONLY: "false"                   # do not modify originals folder; disables import, upload, and delete
-      PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
-      PHOTOPRISM_DISABLE_CHOWN: "false"              # disables updating storage permissions via chmod and chown on startup
-      PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
-      PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
-      PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # disables all features depending on TensorFlow
-      PHOTOPRISM_DISABLE_FACES: "false"              # disables face detection and recognition (requires TensorFlow)
-      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # disables image classification (requires TensorFlow)
-      PHOTOPRISM_DISABLE_VECTORS: "false"            # disables vector graphics support
-      PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW images
-      PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW images (reduces performance)
-      PHOTOPRISM_SIDECAR_YAML: "true"                # creates YAML sidecar files to back up picture metadata
-      PHOTOPRISM_BACKUP_ALBUMS: "true"               # creates YAML files to back up album metadata
-      PHOTOPRISM_BACKUP_DATABASE: "true"             # creates regular backups based on the configured schedule
-      PHOTOPRISM_BACKUP_SCHEDULE: "daily"            # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
-      PHOTOPRISM_INDEX_SCHEDULE: ""                  # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
-      PHOTOPRISM_AUTO_INDEX: 300                     # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_AUTO_IMPORT: -1                     # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
-      PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
-      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
-      PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB database server hostname (:port is optional)
-      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB database schema name
-      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB database user password
-      PHOTOPRISM_SITE_CAPTION: "Our Family Memories All in One Place!"
-      PHOTOPRISM_SITE_DESCRIPTION: "All Our Precious Memories Can be Viewed Here"                # meta site description
-      PHOTOPRISM_SITE_AUTHOR: "DemonWarriorTech Photos"                     # meta site author
+      PHOTOPRISM_ADMIN_USER: 'YOUR-ADMIN-USER' # admin login username
+      PHOTOPRISM_ADMIN_PASSWORD: 'YOUR-ADMIN-USER-PASSWORD' # initial admin password (8-72 characters)
+      PHOTOPRISM_AUTH_MODE: 'password' # authentication mode (public, password)
+      PHOTOPRISM_SITE_URL: 'http://localhost:2333/' # server URL in the format "http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_DISABLE_TLS: 'false' # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
+      PHOTOPRISM_DEFAULT_TLS: 'true' # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
+      PHOTOPRISM_ORIGINALS_LIMIT: 10240 # file size limit for originals in MB (increase for high-res video)
+      PHOTOPRISM_HTTP_COMPRESSION: 'gzip' # improves transfer speed and bandwidth utilization (none or gzip)
+      PHOTOPRISM_DEBUG: 'false' # run in debug mode, shows additional log messages
+      PHOTOPRISM_READONLY: 'false' # do not modify originals folder; disables import, upload, and delete
+      PHOTOPRISM_EXPERIMENTAL: 'false' # enables experimental features
+      PHOTOPRISM_DISABLE_CHOWN: 'false' # disables updating storage permissions via chmod and chown on startup
+      PHOTOPRISM_DISABLE_WEBDAV: 'false' # disables built-in WebDAV server
+      PHOTOPRISM_DISABLE_SETTINGS: 'false' # disables settings UI and API
+      PHOTOPRISM_DISABLE_TENSORFLOW: 'false' # disables all features depending on TensorFlow
+      PHOTOPRISM_DISABLE_FACES: 'false' # disables face detection and recognition (requires TensorFlow)
+      PHOTOPRISM_DISABLE_CLASSIFICATION: 'false' # disables image classification (requires TensorFlow)
+      PHOTOPRISM_DISABLE_VECTORS: 'false' # disables vector graphics support
+      PHOTOPRISM_DISABLE_RAW: 'false' # disables indexing and conversion of RAW images
+      PHOTOPRISM_RAW_PRESETS: 'false' # enables applying user presets when converting RAW images (reduces performance)
+      PHOTOPRISM_SIDECAR_YAML: 'true' # creates YAML sidecar files to back up picture metadata
+      PHOTOPRISM_BACKUP_ALBUMS: 'true' # creates YAML files to back up album metadata
+      PHOTOPRISM_BACKUP_DATABASE: 'true' # creates regular backups based on the configured schedule
+      PHOTOPRISM_BACKUP_SCHEDULE: 'daily' # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
+      PHOTOPRISM_INDEX_SCHEDULE: '' # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
+      PHOTOPRISM_AUTO_INDEX: 300 # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_AUTO_IMPORT: -1 # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_DETECT_NSFW: 'false' # automatically flags photos as private that MAY be offensive (requires TensorFlow)
+      PHOTOPRISM_UPLOAD_NSFW: 'true' # allows uploads that MAY be offensive (no effect without TensorFlow)
+      PHOTOPRISM_DATABASE_DRIVER: 'mysql' # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
+      PHOTOPRISM_DATABASE_SERVER: 'mariadb:3306' # MariaDB database server hostname (:port is optional)
+      PHOTOPRISM_DATABASE_NAME: 'photoprism' # MariaDB database schema name
+      PHOTOPRISM_DATABASE_USER: 'photoprism' # MariaDB database user name
+      PHOTOPRISM_DATABASE_PASSWORD: 'insecure' # MariaDB database user password
+      PHOTOPRISM_SITE_CAPTION: 'Our Family Memories All in One Place!'
+      PHOTOPRISM_SITE_DESCRIPTION: 'All Our Precious Memories Can be Viewed Here' # meta site description
+      PHOTOPRISM_SITE_AUTHOR: 'DemonWarriorTech Photos' # meta site author
       ## Video Transcoding (https://docs.photoprism.app/getting-started/advanced/transcoding/):
-      PHOTOPRISM_FFMPEG_ENCODER: "software"        # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
-      PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
-      PHOTOPRISM_FFMPEG_BITRATE: "32"              # video bitrate limit in Mbit/s (default: 50)
-    working_dir: "/photoprism" # do not change or remove
+      PHOTOPRISM_FFMPEG_ENCODER: 'software' # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
+      PHOTOPRISM_FFMPEG_SIZE: '1920' # video size limit in pixels (720-7680) (default: 3840)
+      PHOTOPRISM_FFMPEG_BITRATE: '32' # video bitrate limit in Mbit/s (default: 50)
+    working_dir: '/photoprism' # do not change or remove
     ## Storage Folders: use "/" not "\" as separator, "~" is a shortcut for C:/user/{username}, "." for the current directory
     volumes:
       # "C:/user/username/folder:/photoprism/folder"       # example
-      - "J:/PhotoPrism/Originals:/photoprism/originals"  #CHANGE ME # original media files (photos and videos)
-      - "J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022" #CHANGE ME                
-      - "C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures" #CHANGE ME # *additional* media folders can be mounted like this
-      - "J:/Photorprism/upload:/photoprism/import" #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
-      - "J:/PhotoPrism:/photoprism/storage"        #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
+      - 'J:/PhotoPrism/Originals:/photoprism/originals' #CHANGE ME # original media files (photos and videos)
+      - 'J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022' #CHANGE ME
+      - 'C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures' #CHANGE ME # *additional* media folders can be mounted like this
+      - 'J:/Photorprism/upload:/photoprism/import' #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
+      - 'J:/PhotoPrism:/photoprism/storage' #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
 
   ## MariaDB Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -1064,14 +1063,14 @@ services:
     ## see https://mariadb.com/kb/en/server-system-variables/#lower_case_table_names
     command: --innodb-buffer-pool-size=512M --lower-case-table-names=1 --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     volumes:
-      - "database:/var/lib/mysql" # Named volume "database" is defined at the bottom (DO NOT REMOVE)
+      - 'database:/var/lib/mysql' # Named volume "database" is defined at the bottom (DO NOT REMOVE)
     environment:
-      MARIADB_AUTO_UPGRADE: "1"
-      MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: "photoprism"
-      MARIADB_USER: "photoprism"
-      MARIADB_PASSWORD: "insecure"
-      MARIADB_ROOT_PASSWORD: "insecure"
+      MARIADB_AUTO_UPGRADE: '1'
+      MARIADB_INITDB_SKIP_TZINFO: '1'
+      MARIADB_DATABASE: 'photoprism'
+      MARIADB_USER: 'photoprism'
+      MARIADB_PASSWORD: 'insecure'
+      MARIADB_ROOT_PASSWORD: 'insecure'
 
   ## Watchtower upgrades services automatically (optional)
   ## see https://docs.photoprism.app/getting-started/updates/#watchtower
@@ -1094,7 +1093,7 @@ volumes:
 #networks:
 #  caddy-network:
 #    external: true
-```   
+```
 
 ### PhotoPrism Reverse Proxy with NVIDIA HWA
 
@@ -1116,60 +1115,60 @@ services:
     ## Server port mapping in the format "Host:Container". To use a different port, change the host port on
     ## the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
     ports:
-      - "2333:2342"
+      - '2333:2342'
     ## Before you start the service, please check the following config options (and change them as needed):
     ## https://docs.photoprism.app/getting-started/config-options/
     environment:
-      PHOTOPRISM_ADMIN_USER: "YOUR-ADMIN-USER"                 # admin login username
-      PHOTOPRISM_ADMIN_PASSWORD: "YOUR-ADMIN-USER-PASSWORD"          # initial admin password (8-72 characters)
-      PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: "http://subdomain.domain.com/"  # server URL in the format "http(s)://domain.name(:port)/(path)"
-      PHOTOPRISM_DISABLE_TLS: "false"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
-      PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
-      PHOTOPRISM_ORIGINALS_LIMIT: 10240               # file size limit for originals in MB (increase for high-res video)
-      PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
-      PHOTOPRISM_DEBUG: "false"                      # run in debug mode, shows additional log messages
-      PHOTOPRISM_READONLY: "false"                   # do not modify originals folder; disables import, upload, and delete
-      PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
-      PHOTOPRISM_DISABLE_CHOWN: "false"              # disables updating storage permissions via chmod and chown on startup
-      PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
-      PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
-      PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # disables all features depending on TensorFlow
-      PHOTOPRISM_DISABLE_FACES: "false"              # disables face detection and recognition (requires TensorFlow)
-      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # disables image classification (requires TensorFlow)
-      PHOTOPRISM_DISABLE_VECTORS: "false"            # disables vector graphics support
-      PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW images
-      PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW images (reduces performance)
-      PHOTOPRISM_SIDECAR_YAML: "true"                # creates YAML sidecar files to back up picture metadata
-      PHOTOPRISM_BACKUP_ALBUMS: "true"               # creates YAML files to back up album metadata
-      PHOTOPRISM_BACKUP_DATABASE: "true"             # creates regular backups based on the configured schedule
-      PHOTOPRISM_BACKUP_SCHEDULE: "daily"            # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
-      PHOTOPRISM_INDEX_SCHEDULE: ""                  # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
-      PHOTOPRISM_AUTO_INDEX: 300                     # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_AUTO_IMPORT: -1                     # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
-      PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
-      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
-      PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB database server hostname (:port is optional)
-      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB database schema name
-      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB database user password
-      PHOTOPRISM_SITE_CAPTION: "Our Family Memories All in One Place!"
-      PHOTOPRISM_SITE_DESCRIPTION: "All Our Precious Memories Can be Viewed Here"                # meta site description
-      PHOTOPRISM_SITE_AUTHOR: "DemonWarriorTech Photos"                     # meta site author
+      PHOTOPRISM_ADMIN_USER: 'YOUR-ADMIN-USER' # admin login username
+      PHOTOPRISM_ADMIN_PASSWORD: 'YOUR-ADMIN-USER-PASSWORD' # initial admin password (8-72 characters)
+      PHOTOPRISM_AUTH_MODE: 'password' # authentication mode (public, password)
+      PHOTOPRISM_SITE_URL: 'http://subdomain.domain.com/' # server URL in the format "http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_DISABLE_TLS: 'false' # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
+      PHOTOPRISM_DEFAULT_TLS: 'true' # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
+      PHOTOPRISM_ORIGINALS_LIMIT: 10240 # file size limit for originals in MB (increase for high-res video)
+      PHOTOPRISM_HTTP_COMPRESSION: 'gzip' # improves transfer speed and bandwidth utilization (none or gzip)
+      PHOTOPRISM_DEBUG: 'false' # run in debug mode, shows additional log messages
+      PHOTOPRISM_READONLY: 'false' # do not modify originals folder; disables import, upload, and delete
+      PHOTOPRISM_EXPERIMENTAL: 'false' # enables experimental features
+      PHOTOPRISM_DISABLE_CHOWN: 'false' # disables updating storage permissions via chmod and chown on startup
+      PHOTOPRISM_DISABLE_WEBDAV: 'false' # disables built-in WebDAV server
+      PHOTOPRISM_DISABLE_SETTINGS: 'false' # disables settings UI and API
+      PHOTOPRISM_DISABLE_TENSORFLOW: 'false' # disables all features depending on TensorFlow
+      PHOTOPRISM_DISABLE_FACES: 'false' # disables face detection and recognition (requires TensorFlow)
+      PHOTOPRISM_DISABLE_CLASSIFICATION: 'false' # disables image classification (requires TensorFlow)
+      PHOTOPRISM_DISABLE_VECTORS: 'false' # disables vector graphics support
+      PHOTOPRISM_DISABLE_RAW: 'false' # disables indexing and conversion of RAW images
+      PHOTOPRISM_RAW_PRESETS: 'false' # enables applying user presets when converting RAW images (reduces performance)
+      PHOTOPRISM_SIDECAR_YAML: 'true' # creates YAML sidecar files to back up picture metadata
+      PHOTOPRISM_BACKUP_ALBUMS: 'true' # creates YAML files to back up album metadata
+      PHOTOPRISM_BACKUP_DATABASE: 'true' # creates regular backups based on the configured schedule
+      PHOTOPRISM_BACKUP_SCHEDULE: 'daily' # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
+      PHOTOPRISM_INDEX_SCHEDULE: '' # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
+      PHOTOPRISM_AUTO_INDEX: 300 # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_AUTO_IMPORT: -1 # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_DETECT_NSFW: 'false' # automatically flags photos as private that MAY be offensive (requires TensorFlow)
+      PHOTOPRISM_UPLOAD_NSFW: 'true' # allows uploads that MAY be offensive (no effect without TensorFlow)
+      PHOTOPRISM_DATABASE_DRIVER: 'mysql' # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
+      PHOTOPRISM_DATABASE_SERVER: 'mariadb:3306' # MariaDB database server hostname (:port is optional)
+      PHOTOPRISM_DATABASE_NAME: 'photoprism' # MariaDB database schema name
+      PHOTOPRISM_DATABASE_USER: 'photoprism' # MariaDB database user name
+      PHOTOPRISM_DATABASE_PASSWORD: 'insecure' # MariaDB database user password
+      PHOTOPRISM_SITE_CAPTION: 'Our Family Memories All in One Place!'
+      PHOTOPRISM_SITE_DESCRIPTION: 'All Our Precious Memories Can be Viewed Here' # meta site description
+      PHOTOPRISM_SITE_AUTHOR: 'DemonWarriorTech Photos' # meta site author
       ## Video Transcoding (https://docs.photoprism.app/getting-started/advanced/transcoding/):
-      PHOTOPRISM_FFMPEG_ENCODER: "nvidia"        # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
-      PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
-      PHOTOPRISM_FFMPEG_BITRATE: "32"              # video bitrate limit in Mbit/s (default: 50)
-    working_dir: "/photoprism" # do not change or remove
+      PHOTOPRISM_FFMPEG_ENCODER: 'nvidia' # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
+      PHOTOPRISM_FFMPEG_SIZE: '1920' # video size limit in pixels (720-7680) (default: 3840)
+      PHOTOPRISM_FFMPEG_BITRATE: '32' # video bitrate limit in Mbit/s (default: 50)
+    working_dir: '/photoprism' # do not change or remove
     ## Storage Folders: use "/" not "\" as separator, "~" is a shortcut for C:/user/{username}, "." for the current directory
     volumes:
       # "C:/user/username/folder:/photoprism/folder"       # example
-      - "J:/PhotoPrism/Originals:/photoprism/originals"  #CHANGE ME # original media files (photos and videos)
-      - "J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022" #CHANGE ME                
-      - "C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures" #CHANGE ME # *additional* media folders can be mounted like this
-      - "J:/Photorprism/upload:/photoprism/import" #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
-      - "J:/PhotoPrism:/photoprism/storage"        #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
+      - 'J:/PhotoPrism/Originals:/photoprism/originals' #CHANGE ME # original media files (photos and videos)
+      - 'J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022' #CHANGE ME
+      - 'C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures' #CHANGE ME # *additional* media folders can be mounted like this
+      - 'J:/Photorprism/upload:/photoprism/import' #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
+      - 'J:/PhotoPrism:/photoprism/storage' #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
 
   ## MariaDB Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -1186,14 +1185,14 @@ services:
     ## see https://mariadb.com/kb/en/server-system-variables/#lower_case_table_names
     command: --innodb-buffer-pool-size=512M --lower-case-table-names=1 --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     volumes:
-      - "database:/var/lib/mysql" # Named volume "database" is defined at the bottom (DO NOT REMOVE)
+      - 'database:/var/lib/mysql' # Named volume "database" is defined at the bottom (DO NOT REMOVE)
     environment:
-      MARIADB_AUTO_UPGRADE: "1"
-      MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: "photoprism"
-      MARIADB_USER: "photoprism"
-      MARIADB_PASSWORD: "insecure"
-      MARIADB_ROOT_PASSWORD: "insecure"
+      MARIADB_AUTO_UPGRADE: '1'
+      MARIADB_INITDB_SKIP_TZINFO: '1'
+      MARIADB_DATABASE: 'photoprism'
+      MARIADB_USER: 'photoprism'
+      MARIADB_PASSWORD: 'insecure'
+      MARIADB_ROOT_PASSWORD: 'insecure'
 
   ## Watchtower upgrades services automatically (optional)
   ## see https://docs.photoprism.app/getting-started/updates/#watchtower
@@ -1217,7 +1216,7 @@ volumes:
 #networks:
 #  caddy-network:
 #    external: true
-```  
+```
 
 ### PhotoPrism Reverse Proxy with INTEL HWA
 
@@ -1239,60 +1238,60 @@ services:
     ## Server port mapping in the format "Host:Container". To use a different port, change the host port on
     ## the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
     ports:
-      - "2333:2342"
+      - '2333:2342'
     ## Before you start the service, please check the following config options (and change them as needed):
     ## https://docs.photoprism.app/getting-started/config-options/
     environment:
-      PHOTOPRISM_ADMIN_USER: "YOUR-ADMIN-USER"                 # admin login username
-      PHOTOPRISM_ADMIN_PASSWORD: "YOUR-ADMIN-USER-PASSWORD"          # initial admin password (8-72 characters)
-      PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: "http://subdomain.domain.com/"  # server URL in the format "http(s)://domain.name(:port)/(path)"
-      PHOTOPRISM_DISABLE_TLS: "false"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
-      PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
-      PHOTOPRISM_ORIGINALS_LIMIT: 10240               # file size limit for originals in MB (increase for high-res video)
-      PHOTOPRISM_HTTP_COMPRESSION: "gzip"            # improves transfer speed and bandwidth utilization (none or gzip)
-      PHOTOPRISM_DEBUG: "false"                      # run in debug mode, shows additional log messages
-      PHOTOPRISM_READONLY: "false"                   # do not modify originals folder; disables import, upload, and delete
-      PHOTOPRISM_EXPERIMENTAL: "false"               # enables experimental features
-      PHOTOPRISM_DISABLE_CHOWN: "false"              # disables updating storage permissions via chmod and chown on startup
-      PHOTOPRISM_DISABLE_WEBDAV: "false"             # disables built-in WebDAV server
-      PHOTOPRISM_DISABLE_SETTINGS: "false"           # disables settings UI and API
-      PHOTOPRISM_DISABLE_TENSORFLOW: "false"         # disables all features depending on TensorFlow
-      PHOTOPRISM_DISABLE_FACES: "false"              # disables face detection and recognition (requires TensorFlow)
-      PHOTOPRISM_DISABLE_CLASSIFICATION: "false"     # disables image classification (requires TensorFlow)
-      PHOTOPRISM_DISABLE_VECTORS: "false"            # disables vector graphics support
-      PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW images
-      PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW images (reduces performance)
-      PHOTOPRISM_SIDECAR_YAML: "true"                # creates YAML sidecar files to back up picture metadata
-      PHOTOPRISM_BACKUP_ALBUMS: "true"               # creates YAML files to back up album metadata
-      PHOTOPRISM_BACKUP_DATABASE: "true"             # creates regular backups based on the configured schedule
-      PHOTOPRISM_BACKUP_SCHEDULE: "daily"            # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
-      PHOTOPRISM_INDEX_SCHEDULE: ""                  # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
-      PHOTOPRISM_AUTO_INDEX: 300                     # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_AUTO_IMPORT: -1                     # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
-      PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
-      PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
-      PHOTOPRISM_DATABASE_DRIVER: "mysql"            # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
-      PHOTOPRISM_DATABASE_SERVER: "mariadb:3306"     # MariaDB database server hostname (:port is optional)
-      PHOTOPRISM_DATABASE_NAME: "photoprism"         # MariaDB database schema name
-      PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "insecure"       # MariaDB database user password
-      PHOTOPRISM_SITE_CAPTION: "Our Family Memories All in One Place!"
-      PHOTOPRISM_SITE_DESCRIPTION: "All Our Precious Memories Can be Viewed Here"                # meta site description
-      PHOTOPRISM_SITE_AUTHOR: "DemonWarriorTech Photos"                     # meta site author
+      PHOTOPRISM_ADMIN_USER: 'YOUR-ADMIN-USER' # admin login username
+      PHOTOPRISM_ADMIN_PASSWORD: 'YOUR-ADMIN-USER-PASSWORD' # initial admin password (8-72 characters)
+      PHOTOPRISM_AUTH_MODE: 'password' # authentication mode (public, password)
+      PHOTOPRISM_SITE_URL: 'http://subdomain.domain.com/' # server URL in the format "http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_DISABLE_TLS: 'false' # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
+      PHOTOPRISM_DEFAULT_TLS: 'true' # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
+      PHOTOPRISM_ORIGINALS_LIMIT: 10240 # file size limit for originals in MB (increase for high-res video)
+      PHOTOPRISM_HTTP_COMPRESSION: 'gzip' # improves transfer speed and bandwidth utilization (none or gzip)
+      PHOTOPRISM_DEBUG: 'false' # run in debug mode, shows additional log messages
+      PHOTOPRISM_READONLY: 'false' # do not modify originals folder; disables import, upload, and delete
+      PHOTOPRISM_EXPERIMENTAL: 'false' # enables experimental features
+      PHOTOPRISM_DISABLE_CHOWN: 'false' # disables updating storage permissions via chmod and chown on startup
+      PHOTOPRISM_DISABLE_WEBDAV: 'false' # disables built-in WebDAV server
+      PHOTOPRISM_DISABLE_SETTINGS: 'false' # disables settings UI and API
+      PHOTOPRISM_DISABLE_TENSORFLOW: 'false' # disables all features depending on TensorFlow
+      PHOTOPRISM_DISABLE_FACES: 'false' # disables face detection and recognition (requires TensorFlow)
+      PHOTOPRISM_DISABLE_CLASSIFICATION: 'false' # disables image classification (requires TensorFlow)
+      PHOTOPRISM_DISABLE_VECTORS: 'false' # disables vector graphics support
+      PHOTOPRISM_DISABLE_RAW: 'false' # disables indexing and conversion of RAW images
+      PHOTOPRISM_RAW_PRESETS: 'false' # enables applying user presets when converting RAW images (reduces performance)
+      PHOTOPRISM_SIDECAR_YAML: 'true' # creates YAML sidecar files to back up picture metadata
+      PHOTOPRISM_BACKUP_ALBUMS: 'true' # creates YAML files to back up album metadata
+      PHOTOPRISM_BACKUP_DATABASE: 'true' # creates regular backups based on the configured schedule
+      PHOTOPRISM_BACKUP_SCHEDULE: 'daily' # backup SCHEDULE in cron format (e.g. "0 12 * * *" for daily at noon) or at a random time (daily, weekly)
+      PHOTOPRISM_INDEX_SCHEDULE: '' # indexing SCHEDULE in cron format (e.g. "@every 3h" for every 3 hours; "" to disable)
+      PHOTOPRISM_AUTO_INDEX: 300 # delay before automatically indexing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_AUTO_IMPORT: -1 # delay before automatically importing files in SECONDS when uploading via WebDAV (-1 to disable)
+      PHOTOPRISM_DETECT_NSFW: 'false' # automatically flags photos as private that MAY be offensive (requires TensorFlow)
+      PHOTOPRISM_UPLOAD_NSFW: 'true' # allows uploads that MAY be offensive (no effect without TensorFlow)
+      PHOTOPRISM_DATABASE_DRIVER: 'mysql' # MariaDB 10.5.12+ (MySQL successor) offers significantly better performance compared to SQLite
+      PHOTOPRISM_DATABASE_SERVER: 'mariadb:3306' # MariaDB database server hostname (:port is optional)
+      PHOTOPRISM_DATABASE_NAME: 'photoprism' # MariaDB database schema name
+      PHOTOPRISM_DATABASE_USER: 'photoprism' # MariaDB database user name
+      PHOTOPRISM_DATABASE_PASSWORD: 'insecure' # MariaDB database user password
+      PHOTOPRISM_SITE_CAPTION: 'Our Family Memories All in One Place!'
+      PHOTOPRISM_SITE_DESCRIPTION: 'All Our Precious Memories Can be Viewed Here' # meta site description
+      PHOTOPRISM_SITE_AUTHOR: 'DemonWarriorTech Photos' # meta site author
       ## Video Transcoding (https://docs.photoprism.app/getting-started/advanced/transcoding/):
-      PHOTOPRISM_FFMPEG_ENCODER: "intel"        # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
-      PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
-      PHOTOPRISM_FFMPEG_BITRATE: "32"              # video bitrate limit in Mbit/s (default: 50)
-    working_dir: "/photoprism" # do not change or remove
+      PHOTOPRISM_FFMPEG_ENCODER: 'intel' # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
+      PHOTOPRISM_FFMPEG_SIZE: '1920' # video size limit in pixels (720-7680) (default: 3840)
+      PHOTOPRISM_FFMPEG_BITRATE: '32' # video bitrate limit in Mbit/s (default: 50)
+    working_dir: '/photoprism' # do not change or remove
     ## Storage Folders: use "/" not "\" as separator, "~" is a shortcut for C:/user/{username}, "." for the current directory
     volumes:
       # "C:/user/username/folder:/photoprism/folder"       # example
-      - "J:/PhotoPrism/Originals:/photoprism/originals"  #CHANGE ME # original media files (photos and videos)
-      - "J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022" #CHANGE ME                
-      - "C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures" #CHANGE ME # *additional* media folders can be mounted like this
-      - "J:/Photorprism/upload:/photoprism/import" #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
-      - "J:/PhotoPrism:/photoprism/storage"        #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
+      - 'J:/PhotoPrism/Originals:/photoprism/originals' #CHANGE ME # original media files (photos and videos)
+      - 'J:/Google-Photos/ALBUM1:/photoprism/originals/Disney-World-2022' #CHANGE ME
+      - 'C:/Users/Administrator/Pictures/ALBUM2:/photoprism/originals/youtube-pictures' #CHANGE ME # *additional* media folders can be mounted like this
+      - 'J:/Photorprism/upload:/photoprism/import' #YOUR CACHE FOLDER (OPTIONAL) # *optional* base folder from which files can be imported to originals
+      - 'J:/PhotoPrism:/photoprism/storage' #CHANGE ME            # *writable* storage folder for cache, database, and sidecar files (never remove)
 
   ## MariaDB Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -1309,14 +1308,14 @@ services:
     ## see https://mariadb.com/kb/en/server-system-variables/#lower_case_table_names
     command: --innodb-buffer-pool-size=512M --lower-case-table-names=1 --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     volumes:
-      - "database:/var/lib/mysql" # Named volume "database" is defined at the bottom (DO NOT REMOVE)
+      - 'database:/var/lib/mysql' # Named volume "database" is defined at the bottom (DO NOT REMOVE)
     environment:
-      MARIADB_AUTO_UPGRADE: "1"
-      MARIADB_INITDB_SKIP_TZINFO: "1"
-      MARIADB_DATABASE: "photoprism"
-      MARIADB_USER: "photoprism"
-      MARIADB_PASSWORD: "insecure"
-      MARIADB_ROOT_PASSWORD: "insecure"
+      MARIADB_AUTO_UPGRADE: '1'
+      MARIADB_INITDB_SKIP_TZINFO: '1'
+      MARIADB_DATABASE: 'photoprism'
+      MARIADB_USER: 'photoprism'
+      MARIADB_PASSWORD: 'insecure'
+      MARIADB_ROOT_PASSWORD: 'insecure'
 
   ## Watchtower upgrades services automatically (optional)
   ## see https://docs.photoprism.app/getting-started/updates/#watchtower

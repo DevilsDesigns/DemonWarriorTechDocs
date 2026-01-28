@@ -4,7 +4,20 @@ description: Comprehensive professional guide to installing WordPress on Windows
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [wordpress, windows, php, mariadb, caddy, installation, tutorial, cms, web-development, production, security]
+tags:
+  [
+    wordpress,
+    windows,
+    php,
+    mariadb,
+    caddy,
+    installation,
+    tutorial,
+    cms,
+    web-development,
+    production,
+    security,
+  ]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -45,16 +58,19 @@ Before beginning the installation, ensure your system meets all requirements:
 ### System Requirements
 
 #### Minimum Requirements
+
 - **Operating System**: Windows 10 64-bit (version 1903) or Windows 11
 - **RAM**: 4GB system memory (8GB+ recommended)
 - **Storage**: 10GB available disk space (SSD recommended)
 - **Processor**: 64-bit processor (2+ cores recommended)
 
 #### CLI Download Requirements
+
 - **Windows 10 version 1803+** or **Windows 11** for built-in `curl` and `tar` commands
 - **For older Windows versions**: Use the manual download alternatives provided in each section
 
 #### Recommended Requirements
+
 - **Operating System**: Windows 11 or Windows 10 Pro (latest version)
 - **RAM**: 16GB+ system memory
 - **Storage**: SSD with 50GB+ available space
@@ -79,7 +95,16 @@ Before beginning the installation, ensure your system meets all requirements:
 
 How to Install Wordpress + Caddy Natively on Windows
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/0A03C_NlMy0?si=jCgCWR-WCJ1gE0cE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/0A03C_NlMy0?si=jCgCWR-WCJ1gE0cE"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
 
 ### Downloads
 
@@ -88,7 +113,6 @@ How to Install Wordpress + Caddy Natively on Windows
 [Wordpress](https://wordpress.org/download)
 
 [PHP 7.4](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbUlNZEU4dkE2bmVPMlN4WTFfOVJiOEFNU29DZ3xBQ3Jtc0tuMUdUQWp4SWhUNEM4VTRxblZvSEtqZDBOUGRlcnA5MXBGMXNCeldLdklYRTdRR3pzYk5KMDhFTTl6cEdiTG1jYVk4OXRvbU5JTmZaVzdva0lIVGhVX2VneHJlWGxFUEY4WHZXNUN6R3VjOElmaHlLVQ&q=https%3A%2F%2Fwindows.php.net%2Fdownloads%2Freleases%2Fphp-7.4.33-nts-Win32-vc15-x64.zip&v=0A03C_NlMy0)
-
 
 **MAKE SURE YOU DOWNLOAD THE RC (RELIABLE CHANNEL) MSI**
 **RUN THE GUI MSI Installer**
@@ -103,27 +127,28 @@ How to Install Wordpress + Caddy Natively on Windows
 
 1. Create a Directory in your C:\ for Tools IE. C:\Tools
 2. Create two subdirectories in Tools
-    2.1 NSSM
-    2.2 php 
+   2.1 NSSM
+   2.2 php
 3. Extract php-7.xx insides to another directory
-4. Extract NSSM.exe from 
+4. Extract NSSM.exe from
 
-    ```bash
-    \nssm-2.24\win64
-    ``` 
-    
-    to 
+   ```bash
+   \nssm-2.24\win64
+   ```
 
-    ```bash
-    C:\Tools\NSSM
-    ```
+   to
+
+   ```bash
+   C:\Tools\NSSM
+   ```
 
 ie. C:\Tools\php
 
 Add it to the enviroment variable paths
+
 1. Search Advanced System Settings
- 
- ![image](https://user-images.githubusercontent.com/35183970/213555428-c619d95f-58c6-4061-98a5-18b2e32bed7e.png) 
+
+![image](https://user-images.githubusercontent.com/35183970/213555428-c619d95f-58c6-4061-98a5-18b2e32bed7e.png)
 
 2. Select Enviroment Variables
 
@@ -133,12 +158,13 @@ Add it to the enviroment variable paths
 
 ![image](https://user-images.githubusercontent.com/35183970/213555654-d7bc0204-cedc-4de2-853e-7bdc3fc2b645.png)
 
-4. Add a New Path and type 
+4. Add a New Path and type
 
 ```bash
 C:\Tools\php
 ```
-5. Add another new path this time for NSSM 
+
+5. Add another new path this time for NSSM
 
 ```bash
 C:\Tools\NSSM
@@ -178,30 +204,29 @@ extension=pdo_odbc
 extension=pdo_sqlite
 ```
 
-
 **Setting up PHP-CGI:**
 
 1. Open up an Administrative Powershell.
-2. type inside that powershell 
+2. type inside that powershell
 
    ```bash
    NSSM install PHP
    ```
 
-3. Add to Path 
-   
+3. Add to Path
+
    ```bash
    C:\Tools\php\php-cgi.exe
    ```
-   
+
    - Add to Startup Dirctory
-    
+
      ```bash
      C:\Tools\php
      ```
-   
+
    - Add to Argument
-    
+
      ```bash
      -b 127.0.0.1:9000
      ```
@@ -218,19 +243,18 @@ extension=pdo_sqlite
 
 **MariaDB Setup:**
 
-
-*RUN THE GUI MSI Installer*
+_RUN THE GUI MSI Installer_
 
 1.TUTORIAL (FOLLOW STEPS 1-4)
-       
-  [MariaDB Install Guide](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbWl1SGRXNEMtTUFldVh2eGEweURDWm9MOUVNQXxBQ3Jtc0tsZk5HTFhCUm13eVF0M2p5QXlIREh5cWVFT3FHcnVTZkhDZ0ZUT01ZOWhiWWl2U1Y3bmN4bW9PdTRSSjdFSFdQNmVDdE1VWUtaamh4RE5kdTJhZHRhbnBreThjZFZVOFdKTWpPNGEwSUdma2YtZXhMTQ&q=https%3A%2F%2Fmariadb.org%2Fdownload%2F%3Ft%3Dmariadb%26p%3Dmariadb%26r%3D10.11.1%26os%3Dwindows%26cpu%3Dx86_64%26pkg%3Dmsi%26m%3Dacorn&v=0A03C_NlMy0)
+
+[MariaDB Install Guide](https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbWl1SGRXNEMtTUFldVh2eGEweURDWm9MOUVNQXxBQ3Jtc0tsZk5HTFhCUm13eVF0M2p5QXlIREh5cWVFT3FHcnVTZkhDZ0ZUT01ZOWhiWWl2U1Y3bmN4bW9PdTRSSjdFSFdQNmVDdE1VWUtaamh4RE5kdTJhZHRhbnBreThjZFZVOFdKTWpPNGEwSUdma2YtZXhMTQ&q=https%3A%2F%2Fmariadb.org%2Fdownload%2F%3Ft%3Dmariadb%26p%3Dmariadb%26r%3D10.11.1%26os%3Dwindows%26cpu%3Dx86_64%26pkg%3Dmsi%26m%3Dacorn&v=0A03C_NlMy0)
 
 2. TYPE MARIADB INSIDE YOUR SEARCH BAR
 
 ![image](https://user-images.githubusercontent.com/35183970/213558042-716e6651-39f1-4516-aead-341be0182cf9.png)
 
 3. TYPE THE PASSWORD YOU CREATED in your installation
-4.THEN Edit To Your liking
+   4.THEN Edit To Your liking
 
 ```sql
 CREATE DATABASE wordpress;
@@ -240,7 +264,7 @@ GRANT ALL ON *.* TO 'user'@'localhost';
 flush privileges;
 ```
 
-5. **If you cant remember your password for your MYSQL User* Use this command**
+5. **If you cant remember your password for your MYSQL User\* Use this command**
 
 ```sql
 DROP USER 'devilsdesigns'@'localhost';
@@ -266,7 +290,8 @@ flush privileges;
 
 **Running Caddy inside the Caddy.exe Directory**
 
-1. 
+1.
+
 ```bash
 cd C:\Caddy\Directory
 ```
@@ -274,7 +299,8 @@ cd C:\Caddy\Directory
     ie. cd C:\Tools\Caddy
 
 2. Running Caddy Manually
-3. 
+3.
+
 ```bash
 ./caddy run --config Caddy
 ```
@@ -284,6 +310,4 @@ cd C:\Caddy\Directory
   </TabItem>
 </Tabs>
 
-
 <BuyMeACoffeeButton />
-

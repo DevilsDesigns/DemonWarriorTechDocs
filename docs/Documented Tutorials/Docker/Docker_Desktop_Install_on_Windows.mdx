@@ -4,7 +4,18 @@ description: Comprehensive professional guide to installing and configuring Dock
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [docker, windows, installation, tutorial, containers, wsl2, virtualization, enterprise, development]
+tags:
+  [
+    docker,
+    windows,
+    installation,
+    tutorial,
+    containers,
+    wsl2,
+    virtualization,
+    enterprise,
+    development,
+  ]
 ---
 
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
@@ -16,6 +27,7 @@ Docker Desktop is a comprehensive development platform that enables you to build
 ### What is Docker Desktop?
 
 Docker Desktop is an integrated development environment that includes:
+
 - **Docker Engine**: Core containerization runtime
 - **Docker CLI**: Command-line interface for container management
 - **Docker Compose**: Multi-container application orchestration
@@ -38,12 +50,14 @@ Before beginning the installation, ensure your system meets all requirements:
 ### System Requirements
 
 #### Minimum Requirements
+
 - **Operating System**: Windows 10 64-bit (version 2004, build 19041) or Windows 11
 - **RAM**: 4GB system memory (8GB+ recommended)
 - **Storage**: 4GB available disk space
 - **Processor**: 64-bit processor with Second Level Address Translation (SLAT)
 
 #### Recommended Requirements
+
 - **Operating System**: Windows 11 or Windows 10 Pro/Enterprise (latest version)
 - **RAM**: 16GB+ system memory
 - **Storage**: SSD with 20GB+ available space
@@ -53,30 +67,33 @@ Before beginning the installation, ensure your system meets all requirements:
 ### Hardware Requirements
 
 #### Virtualization Support
+
 - **Intel**: VT-x (Intel Virtualization Technology)
 - **AMD**: AMD-V (AMD Virtualization)
 - **Nested Virtualization**: Required if running in a VM
 
 #### BIOS/UEFI Settings
+
 - **Virtualization**: Must be enabled in BIOS/UEFI
 - **Hyper-V**: Compatible hardware required
 - **Secure Boot**: May need configuration for some setups
 
 ### Windows Edition Requirements
 
-| Windows Edition | Docker Desktop Support | WSL2 Support | Hyper-V Support |
-|----------------|------------------------|--------------|-----------------|
-| Windows 11 Home | ✅ Yes | ✅ Yes | ❌ No |
-| Windows 11 Pro | ✅ Yes | ✅ Yes | ✅ Yes |
-| Windows 10 Home | ✅ Yes | ✅ Yes | ❌ No |
-| Windows 10 Pro | ✅ Yes | ✅ Yes | ✅ Yes |
-| Windows 10 Enterprise | ✅ Yes | ✅ Yes | ✅ Yes |
+| Windows Edition       | Docker Desktop Support | WSL2 Support | Hyper-V Support |
+| --------------------- | ---------------------- | ------------ | --------------- |
+| Windows 11 Home       | ✅ Yes                 | ✅ Yes       | ❌ No           |
+| Windows 11 Pro        | ✅ Yes                 | ✅ Yes       | ✅ Yes          |
+| Windows 10 Home       | ✅ Yes                 | ✅ Yes       | ❌ No           |
+| Windows 10 Pro        | ✅ Yes                 | ✅ Yes       | ✅ Yes          |
+| Windows 10 Enterprise | ✅ Yes                 | ✅ Yes       | ✅ Yes          |
 
 ## Pre-Installation System Preparation
 
 ### Step 1: Verify System Compatibility
 
 #### Check Windows Version
+
 ```powershell
 # Check Windows version and build
 winver
@@ -96,10 +113,11 @@ Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, WindowsBuil
    - Look for **Virtualization: Enabled**
 
 2. **Command Line Verification**:
+
    ```powershell
    # Check virtualization support
    systeminfo | findstr /C:"Hyper-V"
-   
+
    # Alternative method
    Get-ComputerInfo | Select-Object HyperV*
    ```
@@ -118,6 +136,7 @@ Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, WindowsBuil
 If virtualization is disabled, you'll need to enable it in BIOS/UEFI:
 
 #### Intel Systems
+
 1. **Restart computer** and enter BIOS/UEFI (usually F2, F12, or Delete during boot)
 2. **Navigate to**: Advanced → CPU Configuration
 3. **Enable**: Intel Virtualization Technology (VT-x)
@@ -125,6 +144,7 @@ If virtualization is disabled, you'll need to enable it in BIOS/UEFI:
 5. **Save and Exit**
 
 #### AMD Systems
+
 1. **Restart computer** and enter BIOS/UEFI
 2. **Navigate to**: Advanced → CPU Configuration
 3. **Enable**: AMD Virtualization (AMD-V)
@@ -132,15 +152,16 @@ If virtualization is disabled, you'll need to enable it in BIOS/UEFI:
 5. **Save and Exit**
 
 #### Common BIOS/UEFI Access Keys
-| Manufacturer | Key(s) |
-|-------------|--------|
-| ASUS | F2, Delete |
-| MSI | F2, Delete |
-| Gigabyte | F2, Delete |
-| ASRock | F2, Delete |
-| Dell | F2, F12 |
-| HP | F10, F2 |
-| Lenovo | F1, F2, Enter |
+
+| Manufacturer | Key(s)        |
+| ------------ | ------------- |
+| ASUS         | F2, Delete    |
+| MSI          | F2, Delete    |
+| Gigabyte     | F2, Delete    |
+| ASRock       | F2, Delete    |
+| Dell         | F2, F12       |
+| HP           | F10, F2       |
+| Lenovo       | F1, F2, Enter |
 
 ### Step 3: Enable Required Windows Features
 
@@ -211,6 +232,7 @@ WSL2 (Windows Subsystem for Linux 2) provides the Linux kernel required for Dock
    - [WSL2 Kernel Update (ARM64)](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_arm64.msi)
 
 2. **Run the installer** with administrator privileges:
+
    ```powershell
    # Download and install via PowerShell
    $url = "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"
@@ -243,12 +265,12 @@ wsl --status
 
 #### Recommended Distributions
 
-| Distribution | Best For | Size | Performance |
-|-------------|----------|------|-------------|
-| **Ubuntu 22.04 LTS** | General development | ~450MB | Excellent |
-| **Ubuntu 20.04 LTS** | Legacy compatibility | ~400MB | Excellent |
-| **Debian** | Minimal footprint | ~300MB | Excellent |
-| **Alpine Linux** | Containers/minimal | ~100MB | Good |
+| Distribution         | Best For             | Size   | Performance |
+| -------------------- | -------------------- | ------ | ----------- |
+| **Ubuntu 22.04 LTS** | General development  | ~450MB | Excellent   |
+| **Ubuntu 20.04 LTS** | Legacy compatibility | ~400MB | Excellent   |
+| **Debian**           | Minimal footprint    | ~300MB | Excellent   |
+| **Alpine Linux**     | Containers/minimal   | ~100MB | Good        |
 
 #### Installation Methods
 
@@ -289,16 +311,18 @@ Add-AppxPackage $output
 1. **Launch your Linux distribution** from Start Menu or Microsoft Store
 
 2. **Create user account**:
+
    ```bash
    # Username requirements:
    # - Must be lowercase
    # - No spaces or special characters
    # - 3-32 characters long
-   
+
    # Example: john, developer, admin
    ```
 
 3. **Set password**:
+
    ```bash
    # Password requirements:
    # - Minimum 8 characters recommended
@@ -307,13 +331,14 @@ Add-AppxPackage $output
    ```
 
 4. **Update system packages**:
+
    ```bash
    # Update package lists
    sudo apt update
-   
+
    # Upgrade installed packages
    sudo apt upgrade -y
-   
+
    # Install essential tools
    sudo apt install -y curl wget git vim nano htop
    ```
@@ -497,6 +522,7 @@ ssh-keygen -t ed25519 -C "your-email@example.com"
 1. **Visit the official Docker website**: [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/)
 
 2. **Download the installer**:
+
    ```powershell
    # Download via PowerShell (optional)
    $url = "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe"
@@ -512,16 +538,17 @@ ssh-keygen -t ed25519 -C "your-email@example.com"
 
 #### System Architecture Selection
 
-| Architecture | Download Link | Notes |
-|-------------|---------------|-------|
-| **x64 (Intel/AMD)** | Standard download | Most common |
-| **ARM64** | ARM64 version | For ARM-based Windows devices |
+| Architecture        | Download Link     | Notes                         |
+| ------------------- | ----------------- | ----------------------------- |
+| **x64 (Intel/AMD)** | Standard download | Most common                   |
+| **ARM64**           | ARM64 version     | For ARM-based Windows devices |
 
 ### Step 2: Install Docker Desktop
 
 #### Installation Process
 
 1. **Run the installer as Administrator**:
+
    ```powershell
    # Run installer with elevated privileges
    Start-Process -FilePath "$env:TEMP\DockerDesktopInstaller.exe" -Verb RunAs
@@ -590,11 +617,9 @@ docker system info
      - 4GB minimum for basic development
      - 8GB+ recommended for complex applications
      - Leave 25% of system RAM for Windows
-   
    - **CPUs**: Allocate processor cores
      - 2 cores minimum
      - Leave at least 1 core for Windows
-   
    - **Disk Image Size**: Set maximum disk usage
      - 64GB default (usually sufficient)
      - Increase for large projects or many images
@@ -658,6 +683,7 @@ Start-Sleep -Seconds 5
 1. **Docker Desktop Settings** → **Resources** → **File Sharing**
 
 2. **Add development directories**:
+
    ```bash
    C:\Users\YourUsername\Documents\Projects
    C:\Development
@@ -775,7 +801,7 @@ services:
   web:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - .:/app
       - /app/node_modules
@@ -793,7 +819,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
 
 volumes:
   postgres_data:
@@ -905,6 +931,7 @@ docker network inspect secure-network
 #### Issue 1: Docker Desktop Won't Start
 
 **Symptoms:**
+
 - Docker Desktop shows loading screen indefinitely
 - "Docker Desktop starting..." message persists
 - System tray icon shows error state
@@ -912,19 +939,21 @@ docker network inspect secure-network
 **Solutions:**
 
 1. **Check WSL2 Status**:
+
    ```powershell
    wsl --list --verbose
    wsl --status
    ```
 
 2. **Restart Docker Service**:
+
    ```powershell
    # Stop Docker Desktop
    Stop-Process -Name "Docker Desktop" -Force -ErrorAction SilentlyContinue
-   
+
    # Restart Docker service
    Restart-Service -Name com.docker.service -Force
-   
+
    # Start Docker Desktop
    Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
    ```
@@ -938,6 +967,7 @@ docker network inspect secure-network
 #### Issue 2: WSL2 Integration Problems
 
 **Diagnostic Commands:**
+
 ```powershell
 # Check WSL2 integration
 wsl --list --verbose
@@ -948,6 +978,7 @@ wsl -d Ubuntu-22.04 docker --version
 ```
 
 **Solutions:**
+
 ```powershell
 # Reset WSL2 integration
 wsl --shutdown
@@ -960,6 +991,7 @@ wsl --unregister docker-desktop-data
 #### Issue 3: Performance Issues
 
 **Diagnostic Steps:**
+
 ```powershell
 # Check resource usage
 Get-Process -Name "*docker*" | Select-Object Name, CPU, WorkingSet
@@ -971,6 +1003,7 @@ docker system events
 ```
 
 **Optimization Solutions:**
+
 ```powershell
 # Optimize .wslconfig
 # Reduce memory allocation
@@ -982,6 +1015,7 @@ docker system prune -a --volumes
 #### Issue 4: Container Persistence Problems
 
 **Symptoms:**
+
 - Containers disappear after restart
 - Data loss in containers
 - Volume mounting issues
@@ -989,25 +1023,28 @@ docker system prune -a --volumes
 **Solutions:**
 
 1. **Use Named Volumes**:
+
    ```powershell
    # Create persistent volume
    docker volume create myapp-data
-   
+
    # Use volume in container
    docker run -d -v myapp-data:/data nginx:alpine
    ```
 
 2. **Check Docker Data Location**:
+
    ```powershell
    # Verify Docker data directory
    docker system info | findstr "Docker Root Dir"
    ```
 
 3. **Backup and Restore**:
+
    ```powershell
    # Backup volumes
    docker run --rm -v myapp-data:/data -v ${PWD}:/backup alpine tar czf /backup/backup.tar.gz -C /data .
-   
+
    # Restore volumes
    docker run --rm -v myapp-data:/data -v ${PWD}:/backup alpine tar xzf /backup/backup.tar.gz -C /data
    ```
@@ -1058,11 +1095,13 @@ docker login
 #### IDE Integration
 
 **Visual Studio Code**:
+
 1. Install Docker extension
 2. Configure remote development
 3. Set up debugging
 
 **Visual Studio**:
+
 1. Enable Docker support in projects
 2. Configure container debugging
 3. Set up Docker Compose integration
@@ -1139,9 +1178,8 @@ You have successfully installed and configured Docker Desktop on Windows with:
 ✅ **Security hardening** with best practices and container security  
 ✅ **Comprehensive troubleshooting** knowledge for common issues  
 ✅ **Development workflow integration** with tools and best practices  
-✅ **Monitoring and maintenance** procedures for long-term success  
+✅ **Monitoring and maintenance** procedures for long-term success
 
 Your Docker Desktop environment is now ready for professional development and production workloads.
 
 <BuyMeACoffeeButton />
-

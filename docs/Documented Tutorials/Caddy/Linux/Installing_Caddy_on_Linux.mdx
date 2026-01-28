@@ -4,7 +4,18 @@ description: Complete guide to installing and configuring Caddy web server on Li
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [caddy, linux, installation, web-server, https, reverse-proxy, duckdns, systemd, tutorial]
+tags:
+  [
+    caddy,
+    linux,
+    installation,
+    web-server,
+    https,
+    reverse-proxy,
+    duckdns,
+    systemd,
+    tutorial,
+  ]
 ---
 
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
@@ -16,6 +27,7 @@ Caddy is a powerful, enterprise-ready web server with automatic HTTPS that makes
 ### What is Caddy?
 
 Caddy is a modern web server that provides:
+
 - **Automatic HTTPS**: SSL certificates managed automatically
 - **Reverse Proxy**: Route traffic to backend applications
 - **Static File Serving**: Serve websites and files efficiently
@@ -35,6 +47,7 @@ Caddy is a modern web server that provides:
 Before beginning the installation, ensure your system meets the following requirements:
 
 ### System Requirements
+
 - **Operating System**: Linux distribution (Ubuntu 18.04+, Debian 9+, CentOS 7+, RHEL 7+, or equivalent)
 - **Architecture**: x86_64 (amd64) or ARM64
 - **RAM**: Minimum 512MB (1GB+ recommended for production)
@@ -42,11 +55,13 @@ Before beginning the installation, ensure your system meets the following requir
 - **Network**: Internet connection for downloading packages and certificates
 
 ### Required Permissions
+
 - **Root or sudo access** for system-level installation
 - **Port access**: Ability to bind to ports 80 and 443
 - **Firewall configuration** permissions
 
 ### Network Requirements
+
 - **Ports 80 and 443** must be accessible from the internet
 - **Domain name** pointing to your server's public IP (for HTTPS)
 - **Router/firewall** configured to forward traffic
@@ -57,20 +72,26 @@ Before beginning the installation, ensure your system meets the following requir
 
 First, identify your system architecture and distribution:
 
- Check OS distribution and version
+Check OS distribution and version
+
 ```bash
 lsb_release -a
 ```
- Check system architecture
+
+Check system architecture
+
 ```bash
 uname -m
 ```
- Check available memory
+
+Check available memory
+
 ```bash
 free -h
 ```
 
 **Example output for Ubuntu 24.04:**
+
 ```
 Distributor ID: Ubuntu
 Description:    Ubuntu 24.04 LTS
@@ -84,10 +105,11 @@ Codename:       noble
 
 :::info
 **Plugin Selection**: Before downloading, select the plugins you need. Common plugins include:
+
 - **Cloudflare DNS**: For automatic DNS-01 challenge with Cloudflare
 - **DuckDNS**: For dynamic DNS with DuckDNS service
 - **Route53**: For AWS Route53 DNS management
-:::
+  :::
 
 1. **Visit the Caddy Download Page**: [Caddy Download Builder](https://caddyserver.com/download)
 
@@ -96,43 +118,48 @@ Codename:       noble
    - For DuckDNS: `github.com/caddy-dns/duckdns`
 
 3. **Download the Custom Build**:
-    Navigate to downloads directory
+   Navigate to downloads directory
    ```bash
    cd ~/Downloads
    ```
-    Download using wget (replace URL with your custom build URL)
+   Download using wget (replace URL with your custom build URL)
    ```bash
    wget "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fcloudflare&p=github.com%2Fcaddy-dns%2Fduckdns" -O caddy
    ```
 
 ### Step 3: Install the Binary
 
-1. **Make the binary executable**:
-   ```bash
-   chmod +x caddy
-   ```
+1.  **Make the binary executable**:
 
-2. **Verify the binary**:
-Check if the binary works
-   ```bash
-   ./caddy version
-   ```
-    Verify plugins are included
-   ```bash
-   ./caddy list-modules | grep dns
-   ```
+    ```bash
+    chmod +x caddy
+    ```
 
-3. **Install to system location**:
-   Copy to system binary directory
-   ```bash
-   sudo cp caddy /usr/bin/caddy
-   ```
-   Verify system installation
-   ```bash
-   caddy version
-   ```
+2.  **Verify the binary**:
+    Check if the binary works
+
+    ```bash
+    ./caddy version
+    ```
+
+        Verify plugins are included
+
+    ```bash
+    ./caddy list-modules | grep dns
+    ```
+
+3.  **Install to system location**:
+    Copy to system binary directory
+    ```bash
+    sudo cp caddy /usr/bin/caddy
+    ```
+    Verify system installation
+    ```bash
+    caddy version
+    ```
 
 **Expected output:**
+
 ```bash
 v2.7.6 h1:w0NymbG2m9PcvKWsrXO6EEkY9Ru4FJK8uQbYcev1p3A=
 ```
@@ -146,11 +173,13 @@ v2.7.6 h1:w0NymbG2m9PcvKWsrXO6EEkY9Ru4FJK8uQbYcev1p3A=
 For security best practices, Caddy should run as a dedicated system user with minimal privileges.
 
 1. **Create the caddy system group**:
+
    ```bash
    sudo groupadd --system caddy
    ```
 
 2. **Create the caddy system user**:
+
    ```bash
    sudo useradd --system \
        --gid caddy \
@@ -174,11 +203,13 @@ For security best practices, Caddy should run as a dedicated system user with mi
 Create a systemd service file for proper service management and automatic startup.
 
 1. **Create the service file**:
+
    ```bash
    sudo nano /etc/systemd/system/caddy.service
    ```
 
 2. **Add the following service configuration**:
+
    ```systemd
    [Unit]
    Description=Caddy HTTP/2 web server
@@ -216,11 +247,13 @@ Create a systemd service file for proper service management and automatic startu
 ### Step 6: Create Configuration Directory
 
 1. **Create the Caddy configuration directory**:
+
    ```bash
    sudo mkdir -p /etc/caddy
    ```
 
 2. **Set proper ownership and permissions**:
+
    ```bash
    sudo chown -R root:caddy /etc/caddy
    sudo chmod 755 /etc/caddy
@@ -238,17 +271,19 @@ Create a systemd service file for proper service management and automatic startu
 ### Step 7: Create Initial Caddyfile
 
 1. **Create the main configuration file**:
+
    ```bash
    sudo nano /etc/caddy/Caddyfile
    ```
 
 2. **Add a basic configuration** (replace with your domain):
+
    ```caddyfile
    # Basic example - replace with your domain
    example.com {
        respond "Hello, World!"
    }
-   
+
    # Reverse proxy example
    # app.example.com {
    #     reverse_proxy localhost:3000
@@ -270,23 +305,31 @@ Create a systemd service file for proper service management and automatic startu
 Before configuring domains and DNS, identify your network setup:
 
 Install network utilities
+
 ```bash
 sudo apt update && sudo apt install -y net-tools curl
 ```
- Find your internal IP address
+
+Find your internal IP address
+
 ```bash
 ip addr show | grep 'inet ' | grep -v '127.0.0.1'
 ```
+
 # Alternative method
+
 ```bash
 hostname -I
 ```
+
 Find your public IP address
+
 ```bash
 curl -4 ifconfig.me
 ```
 
 **Example output:**
+
 ```
 Internal IP: 192.168.1.100
 Public IP: 203.0.113.1
@@ -296,24 +339,30 @@ Public IP: 203.0.113.1
 
 Ensure the necessary ports are open:
 
+For Ubuntu/Debian with UFW
 
- For Ubuntu/Debian with UFW
 ```bash
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw reload
 ```
- For CentOS/RHEL with firewalld
+
+For CentOS/RHEL with firewalld
+
 ```bash
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
 ```
- Verify firewall status
+
+Verify firewall status
+
 ```bash
-sudo ufw status  
+sudo ufw status
 ```
+
 Ubuntu/Debian
+
 ```bash
 sudo firewall-cmd --list-all  # CentOS/RHEL
 ```
@@ -341,24 +390,33 @@ DuckDNS provides free dynamic DNS services, perfect for home servers with changi
 
 ### Step 11: Install DuckDNS Client
 
- Install required packages
+Install required packages
+
 ```bash
 sudo apt install -y curl cron
 ```
+
 # Create DuckDNS directory
+
 ```bash
 sudo mkdir -p /opt/duckdns
 cd /opt/duckdns
 ```
+
 # Download the update script
+
 ```bash
 sudo curl -o duck.sh "https://www.duckdns.org/update?domains=YOURSUBDOMAIN&token=YOURTOKEN&ip="
 ```
+
 # Make it executable
+
 ```bash
 sudo chmod +x duck.sh
 ```
+
 # Test the script
+
 ```bash
 sudo ./duck.sh
 ```
@@ -368,12 +426,14 @@ sudo ./duck.sh
 ![image](https://i.imgur.com/f2fdIbx.png)
 
 ### Step 12: Setup Automatic Updates
- Edit crontab for automatic updates
+
+Edit crontab for automatic updates
 
 ```bash
 sudo crontab -e
 ```
- Add this line to update every 5 minutes
+
+Add this line to update every 5 minutes
 
 ```bash
 */5 * * * * /opt/duckdns/duck.sh >/dev/null 2>&1
@@ -392,11 +452,13 @@ sudo crontab -e
 ### Step 13: Start and Enable Caddy
 
 1. **Reload systemd configuration**:
+
    ```bash
    sudo systemctl daemon-reload
    ```
 
 2. **Enable and start Caddy service**:
+
    ```bash
    sudo systemctl enable --now caddy
    ```
@@ -407,6 +469,7 @@ sudo crontab -e
    ```
 
 **Expected output:**
+
 ```systemd
 ● caddy.service - Caddy HTTP/2 web server
      Loaded: loaded (/etc/systemd/system/caddy.service; enabled; vendor preset: enabled)
@@ -416,11 +479,13 @@ sudo crontab -e
 ### Step 14: Verify Installation
 
 1. **Test configuration syntax**:
+
    ```bash
    sudo caddy validate --config /etc/caddy/Caddyfile
    ```
 
 2. **Check if Caddy is listening on ports**:
+
    ```bash
    sudo netstat -tlnp | grep caddy
    ```
@@ -432,7 +497,7 @@ sudo crontab -e
 
 ### Linux Service Commands
 
- Check service status
+Check service status
 
 ```bash
 sudo systemctl status caddy
@@ -491,18 +556,22 @@ sudo journalctl -u caddy -n 20
 ```
 
 # Common causes:
+
 # - Configuration syntax errors
+
 # - Permission issues
+
 # - Port conflicts
 
 **Solution:**
 
- Validate configuration
+Validate configuration
 
 ```bash
 sudo caddy validate --config /etc/caddy/Caddyfile
 ```
- Check file permissions
+
+Check file permissions
 
 ```bash
 ls -la /etc/caddy/Caddyfile
@@ -518,20 +587,22 @@ sudo chmod 644 /etc/caddy/Caddyfile
 
 #### Issue 2: Certificate Errors
 
- Check certificate status
+Check certificate status
 
 ```bash
 sudo caddy list-certificates
 ```
 
- View certificate-related logs
+View certificate-related logs
+
 ```bash
 sudo journalctl -u caddy | grep -i cert
 ```
 
 **Solution:**
- Ensure domain points to your server
+Ensure domain points to your server
 bash
+
 ```
 nslookup your-domain.com
 ```
@@ -548,16 +619,19 @@ sudo netstat -tlnp | grep :443
 
 #### Issue 3: Permission Denied Errors
 
- Check Caddy user permissions
+Check Caddy user permissions
+
 ```bash
 sudo -u caddy ls -la /var/lib/caddy
 ```
 
 **Solution:**
- Fix ownership and permissions
+Fix ownership and permissions
+
 ```bash
 sudo chown -R caddy:caddy /var/lib/caddy
 ```
+
 ```bash
 sudo chmod 755 /var/lib/caddy
 ```
@@ -567,11 +641,13 @@ sudo chmod 755 /var/lib/caddy
 For detailed troubleshooting, run Caddy in debug mode:
 
 Stop the service
+
 ```bash
 sudo systemctl stop caddy
 ```
 
 Run in debug mode
+
 ```bash
 sudo -u caddy /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfile --debug
 ```
@@ -581,9 +657,11 @@ sudo -u caddy /usr/bin/caddy run --config /etc/caddy/Caddyfile --adapter caddyfi
 ### File Permissions
 
 Secure configuration files
+
 ```bash
 sudo chmod 644 /etc/caddy/Caddyfile
 ```
+
 ```bash
 sudo chown root:caddy /etc/caddy/Caddyfile
 ```
@@ -593,20 +671,25 @@ Secure data directory
 ```bash
 sudo chmod 755 /var/lib/caddy
 ```
+
 ```bash
 sudo chown caddy:caddy /var/lib/caddy
 ```
+
 Secure binary
+
 ```bash
 sudo chmod 755 /usr/bin/caddy
 ```
+
 ```bash
 sudo chown root:root /usr/bin/caddy
 ```
 
 ### Firewall Configuration
 
- Enable UFW and configure rules
+Enable UFW and configure rules
+
 ```bash
 sudo ufw enable
 sudo ufw default deny incoming
@@ -618,12 +701,14 @@ sudo ufw allow 443/tcp
 
 ### Regular Updates
 
-
 Update system packages
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
+
 For manual installation, check for updates regularly
+
 ```bash
 caddy version
 ```
@@ -631,9 +716,11 @@ caddy version
 ## Performance Optimization
 
 ### System Limits
+
 ```
 Add to `/etc/security/limits.conf`:
 ```
+
 ```bash
 caddy soft nofile 65536
 caddy hard nofile 65536
@@ -642,6 +729,7 @@ caddy hard nofile 65536
 ### Systemd Service Optimization
 
 The service file already includes optimizations:
+
 - `LimitNOFILE=1048576`: Increased file descriptor limit
 - `LimitNPROC=1048576`: Increased process limit
 - `PrivateTmp=true`: Isolated temporary directory
@@ -652,14 +740,19 @@ The service file already includes optimizations:
 ### Configuration Backup
 
 Create backup directory
+
 ```bash
 sudo mkdir -p /opt/caddy-backup
 ```
+
 Backup configuration
+
 ```bash
 sudo cp /etc/caddy/Caddyfile /opt/caddy-backup/Caddyfile.$(date +%Y%m%d)
-````
+```
+
 Backup certificates (if needed)
+
 ```bash
 sudo tar -czf /opt/caddy-backup/caddy-data-$(date +%Y%m%d).tar.gz /var/lib/caddy
 ```
@@ -667,6 +760,7 @@ sudo tar -czf /opt/caddy-backup/caddy-data-$(date +%Y%m%d).tar.gz /var/lib/caddy
 ### Automated Backup Script
 
 Create `/opt/caddy-backup/backup.sh`:
+
 ```bash
 #!/bin/bash
 BACKUP_DIR="/opt/caddy-backup"
@@ -674,20 +768,26 @@ DATE=$(date +%Y%m%d_%H%M%S)
 ```
 
 Backup configuration
+
 ```bash
 cp /etc/caddy/Caddyfile "$BACKUP_DIR/Caddyfile.$DATE"
 ```
+
 Backup data directory
+
 ```bash
 tar -czf "$BACKUP_DIR/caddy-data-$DATE.tar.gz" /var/lib/caddy
 ```
+
 Keep only last 7 days of backups
+
 ```bash
 find "$BACKUP_DIR" -name "*.tar.gz" -mtime +7 -delete
 find "$BACKUP_DIR" -name "Caddyfile.*" -mtime +7 -delete
 ```
 
 Make it executable and add to cron:
+
 ```bash
 sudo chmod +x /opt/caddy-backup/backup.sh
 sudo crontab -e
@@ -727,7 +827,7 @@ You have successfully installed Caddy on Linux with:
 ✅ **Automatic HTTPS** capability with zero configuration  
 ✅ **DuckDNS integration** for dynamic DNS management  
 ✅ **Proper file permissions** and security hardening  
-✅ **Production-ready configuration** - Enterprise deployment ready  
+✅ **Production-ready configuration** - Enterprise deployment ready
 
 Your Caddy installation is now ready for production use with automatic HTTPS, robust security, and professional service management on Linux.
 

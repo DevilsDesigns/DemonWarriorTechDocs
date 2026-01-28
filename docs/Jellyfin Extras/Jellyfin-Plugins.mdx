@@ -4,7 +4,16 @@ description: Guide to installing and configuring Jellyfin plugins including repo
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 3
-tags: [jellyfin, plugins, extensions, media-server, customization, installation, repository]
+tags:
+  [
+    jellyfin,
+    plugins,
+    extensions,
+    media-server,
+    customization,
+    installation,
+    repository,
+  ]
 ---
 
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
@@ -43,10 +52,11 @@ For plugins not available in repositories or for development versions:
 
 :::tip[Plugin Data Directory]
 The Jellyfin data directory location varies by platform:
+
 - **Windows**: `%APPDATA%\Jellyfin\Server\plugins`
 - **Linux**: `/var/lib/jellyfin/plugins`
 - **Docker**: `/config/plugins`
-:::
+  :::
 
 ---
 
@@ -58,10 +68,10 @@ The Jellyfin data directory location varies by platform:
 
 **Description:** Automatically detect and skip intro sequences using audio fingerprinting technology. Enhances binge-watching experience with seamless episode transitions.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                            |
+| ------------------ | -------------------------------------------------- |
 | **Repository URL** | `https://manifest.intro-skipper.org/manifest.json` |
-| **Type** | Media Enhancement |
+| **Type**           | Media Enhancement                                  |
 
 ---
 
@@ -69,12 +79,12 @@ The Jellyfin data directory location varies by platform:
 
 **Description:** Automatically extract embedded subtitles from video files and make them available as separate subtitle tracks in Jellyfin.
 
-| Type | Details |
-|------|---------|
-| **Installation** | Manual Only |
-| **Downloads** | [GitHub Releases](https://github.com/jellyfin/jellyfin-plugin-subtitleextract/releases) |
-| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-plugin-subtitleextract) |
-| **Type** | Subtitle Management |
+| Type             | Details                                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------- |
+| **Installation** | Manual Only                                                                             |
+| **Downloads**    | [GitHub Releases](https://github.com/jellyfin/jellyfin-plugin-subtitleextract/releases) |
+| **Source Code**  | [GitHub Repository](https://github.com/jellyfin/jellyfin-plugin-subtitleextract)        |
+| **Type**         | Subtitle Management                                                                     |
 
 :::info[Manual Installation Required]
 This plugin is only available for manual installation. Follow the manual installation guide above by going to the source code.
@@ -86,10 +96,10 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Edit M3U playlists and Live TV channels directly within Jellyfin's interface. Streamlines IPTV management without external tools.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                 |
+| ------------------ | --------------------------------------- |
 | **Repository URL** | `https://simoni.dev/jellyfin/repo.json` |
-| **Type** | Live TV / IPTV |
+| **Type**           | Live TV / IPTV                          |
 
 ---
 
@@ -99,11 +109,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Download flashy movie intros from prerolls.video to play before your films. Add a cinema-quality experience to your home theater.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                 |
+| ------------------ | --------------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/dkanada/jellyfin-plugin-intros/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/dkanada/jellyfin-plugin-intros) |
-| **Type** | Media Enhancement |
+| **Source Code**    | [GitHub Repository](https://github.com/dkanada/jellyfin-plugin-intros)                  |
+| **Type**           | Media Enhancement                                                                       |
 
 ---
 
@@ -111,12 +121,12 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Comprehensive metadata provider for adult content. Automatically fetches information from original source sites to organize your adult video library.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                              |
+| ------------------ | ---------------------------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/DirtyRacer1337/Jellyfin.Plugin.PhoenixAdult/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/DirtyRacer1337/Jellyfin.Plugin.PhoenixAdult) |
-| **Compatibility** | Jellyfin only |
-| **Type** | Metadata Provider |
+| **Source Code**    | [GitHub Repository](https://github.com/DirtyRacer1337/Jellyfin.Plugin.PhoenixAdult)                  |
+| **Compatibility**  | Jellyfin only                                                                                        |
+| **Type**           | Metadata Provider                                                                                    |
 
 ---
 
@@ -124,12 +134,12 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Integrates with Stash server to pull metadata using filename queries. Perfect for users already maintaining a Stash database.
 
-| Type | Details |
-|------|---------|
-| **Installation** | Manual Only |
-| **Source Code** | [GitHub Repository](https://github.com/DirtyRacer1337/Jellyfin.Plugin.Stash) |
+| Type              | Details                                                                                      |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| **Installation**  | Manual Only                                                                                  |
+| **Source Code**   | [GitHub Repository](https://github.com/DirtyRacer1337/Jellyfin.Plugin.Stash)                 |
 | **Documentation** | [Installation Guide](https://jellyfin.org/docs/general/server/plugins/index.html#installing) |
-| **Type** | Metadata Provider |
+| **Type**          | Metadata Provider                                                                            |
 
 :::info[Manual Installation Required]
 This plugin is only available for manual installation. Follow the manual installation guide above by going to the source code.
@@ -141,11 +151,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Automatically groups duplicate movies (different versions, qualities, or cuts) into a single library entry. Keeps your library clean and organized.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------ |
 | **Repository URL** | `https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/danieladov/jellyfin-plugin-mergeversions) |
-| **Type** | Library Organization |
+| **Source Code**    | [GitHub Repository](https://github.com/danieladov/jellyfin-plugin-mergeversions)           |
+| **Type**           | Library Organization                                                                       |
 
 ---
 
@@ -159,11 +169,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Scrobble your music listening to Last.FM and fetch music metadata. Track your listening habits and discover new music based on your taste.
 
-| Type | Details |
-|------|---------|
-| **Repository URL** | `https://jellyfin-repo.jesseward.com/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/jesseward/jellyfin-plugin-lastfm) |
-| **Type** | Music Scrobbling / Metadata |
+| Type               | Details                                                                  |
+| ------------------ | ------------------------------------------------------------------------ |
+| **Repository URL** | `https://jellyfin-repo.jesseward.com/manifest.json`                      |
+| **Source Code**    | [GitHub Repository](https://github.com/jesseward/jellyfin-plugin-lastfm) |
+| **Type**           | Music Scrobbling / Metadata                                              |
 
 ---
 
@@ -175,11 +185,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Integrate Jellyfin with Shoko Server for advanced anime library management. Provides comprehensive anime metadata and organization.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                      |
+| ------------------ | ---------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/ShokoAnime/Shokofin/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/ShokoAnime/Shokofin) |
-| **Type** | Anime Library Management |
+| **Source Code**    | [GitHub Repository](https://github.com/ShokoAnime/Shokofin)                  |
+| **Type**           | Anime Library Management                                                     |
 
 ---
 
@@ -187,11 +197,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Synchronize anime watch status between Jellyfin and popular anime tracking sites (MyAnimeList, AniList, Kitsu). Never lose track of your progress.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                            |
+| ------------------ | ---------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/vosmiic/jellyfin-ani-sync/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/vosmiic/jellyfin-ani-sync) |
-| **Type** | Anime Tracking Integration |
+| **Source Code**    | [GitHub Repository](https://github.com/vosmiic/jellyfin-ani-sync)                  |
+| **Type**           | Anime Tracking Integration                                                         |
 
 ---
 
@@ -203,11 +213,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Manage and switch between custom skins/themes for Jellyfin. Personalize your interface with community-created designs.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------ |
 | **Repository URL** | `https://raw.githubusercontent.com/danieladov/JellyfinPluginManifest/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/danieladov/jellyfin-plugin-skin-manager) |
-| **Type** | Interface Customization |
+| **Source Code**    | [GitHub Repository](https://github.com/danieladov/jellyfin-plugin-skin-manager)            |
+| **Type**           | Interface Customization                                                                    |
 
 ---
 
@@ -215,11 +225,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Automatically add theme songs to movies using ThemerrDB. Enhance your browsing experience with iconic movie themes.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                         |
+| ------------------ | --------------------------------------------------------------- |
 | **Repository URL** | `https://app.lizardbyte.dev/jellyfin-plugin-repo/manifest.json` |
-| **Documentation** | [Official Docs](http://themerr-jellyfin.readthedocs.io/) |
-| **Type** | Media Enhancement |
+| **Documentation**  | [Official Docs](http://themerr-jellyfin.readthedocs.io/)        |
+| **Type**           | Media Enhancement                                               |
 
 ---
 
@@ -233,11 +243,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Metadata provider for TubeArchivist. Seamlessly integrate your archived YouTube content with Jellyfin.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                             |
+| ------------------ | ----------------------------------------------------------------------------------- |
 | **Repository URL** | `https://github.com/DarkFighterLuke/TubeArchivistMetadata/raw/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/DarkFighterLuke/TubeArchivistMetadata) |
-| **Type** | Metadata Provider |
+| **Source Code**    | [GitHub Repository](https://github.com/DarkFighterLuke/TubeArchivistMetadata)       |
+| **Type**           | Metadata Provider                                                                   |
 
 ---
 
@@ -245,11 +255,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Retrieve comprehensive metadata for YouTube content. Perfect for managing YouTube video libraries in Jellyfin.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/ankenyr/jellyfin-plugin-repo/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/ankenyr/jellyfin-youtube-metadata-plugin) |
-| **Type** | Metadata Provider |
+| **Source Code**    | [GitHub Repository](https://github.com/ankenyr/jellyfin-youtube-metadata-plugin)      |
+| **Type**           | Metadata Provider                                                                     |
 
 ---
 
@@ -261,12 +271,12 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Comprehensive metadata provider for adult content using ThePornDB. Automatically organize and enrich your adult video library.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
 | **Repository URL** | `https://raw.githubusercontent.com/ThePornDatabase/Jellyfin.Plugin.ThePornDB/main/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/ThePornDatabase/Jellyfin.Plugin.ThePornDB) |
-| **Website** | [ThePornDB.net](https://theporndb.net/) |
-| **Type** | Metadata Provider |
+| **Source Code**    | [GitHub Repository](https://github.com/ThePornDatabase/Jellyfin.Plugin.ThePornDB)                |
+| **Website**        | [ThePornDB.net](https://theporndb.net/)                                                          |
+| **Type**           | Metadata Provider                                                                                |
 
 ---
 
@@ -274,11 +284,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Add VGMdb support to music libraries. Provides images and metadata for video game music artists and albums.
 
-| Type | Details |
-|------|---------|
-| **Repository URL** | `https://repo.jellyfin.org/releases/plugin/manifest-stable.json` |
-| **Source Code** | [GitHub Repository](https://github.com/jellyfin/jellyfin-plugin-vgmdb) |
-| **Type** | Metadata Provider |
+| Type               | Details                                                                |
+| ------------------ | ---------------------------------------------------------------------- |
+| **Repository URL** | `https://repo.jellyfin.org/releases/plugin/manifest-stable.json`       |
+| **Source Code**    | [GitHub Repository](https://github.com/jellyfin/jellyfin-plugin-vgmdb) |
+| **Type**           | Metadata Provider                                                      |
 
 ---
 
@@ -290,11 +300,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Send SMS notifications for Jellyfin events. Stay informed about server activity, new content, and user actions.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/k-matti/jellyfin-plugin-repository/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/k-matti/jellyfin-plugin-sms) |
-| **Type** | Notifications |
+| **Source Code**    | [GitHub Repository](https://github.com/k-matti/jellyfin-plugin-sms)                         |
+| **Type**           | Notifications                                                                               |
 
 ---
 
@@ -308,11 +318,11 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Advanced trickplay support with smooth video scrubbing. Create BIF files for media to enable smooth mouse-over preview during video seeking.
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                   |
+| ------------------ | ------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/nicknsy/jellyscrub/main/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/nicknsy/jellyscrub) |
-| **Type** | Player Enhancement |
+| **Source Code**    | [GitHub Repository](https://github.com/nicknsy/jellyscrub)                |
+| **Type**           | Player Enhancement                                                        |
 
 ---
 
@@ -320,17 +330,18 @@ This plugin is only available for manual installation. Follow the manual install
 
 **Description:** Featured content bar to showcase your media collection. Add an eye-catching display of your best content on the home screen.
 
-| Type | Details |
-|------|---------|
-| **Repository URL** | `https://www.iamparadox.dev/jellyfin/plugins/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/IAmParadox27/jellyfin-plugin-media-bar) |
-| **Type** | Visual Enhancement |
+| Type               | Details                                                                        |
+| ------------------ | ------------------------------------------------------------------------------ |
+| **Repository URL** | `https://www.iamparadox.dev/jellyfin/plugins/manifest.json`                    |
+| **Source Code**    | [GitHub Repository](https://github.com/IAmParadox27/jellyfin-plugin-media-bar) |
+| **Type**           | Visual Enhancement                                                             |
 
 :::tip[Installation Steps]
+
 1. Install "File Transformation" plugin (minimum version 2.2.1.0)
 2. Install latest "Media Bar" plugin
 3. Restart Jellyfin server
-:::
+   :::
 
 ---
 
@@ -339,10 +350,12 @@ This plugin is only available for manual installation. Follow the manual install
 **Description:** View episode lists directly in the video player. Navigate through TV show episodes without leaving the player.
 
 **Supported Clients:**
+
 - Jellyfin Web Client
 - Jellyfin Media Player (JMP) Desktop Client
 
 **Features:**
+
 - List all episodes of a season
 - Switch between seasons seamlessly
 - Display episode title, description, thumbnail and playback progress
@@ -351,11 +364,11 @@ This plugin is only available for manual installation. Follow the manual install
 - Start new episodes instantly
 - Compatible with custom themes
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------- |
 | **Repository URL** | `https://raw.githubusercontent.com/Namo2/InPlayerEpisodePreview/master/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/Namo2/InPlayerEpisodePreview) |
-| **Type** | Player Enhancement |
+| **Source Code**    | [GitHub Repository](https://github.com/Namo2/InPlayerEpisodePreview)                  |
+| **Type**           | Player Enhancement                                                                    |
 
 ---
 
@@ -370,10 +383,12 @@ This plugin is only available for manual installation. Follow the manual install
 **Description:** Automatically create and manage collections with simple or advanced filtering. Build dynamic collections using boolean logic and complex criteria.
 
 **Collection Modes:**
+
 - **Simple Collections:** Quick setup with single-criterion filtering
 - **Advanced Collections:** Complex filtering with boolean logic expressions
 
 **Key Features:**
+
 - **Multiple Matching Methods:** Filter by Title, Studio, Genre, Actor, Director, Tags, and more
 - **Media Type Filtering:** Movies only, TV shows only, or both
 - **Advanced Expressions:** Boolean logic with AND, OR, NOT operators
@@ -382,19 +397,20 @@ This plugin is only available for manual installation. Follow the manual install
 - **Case Sensitivity Control:** Choose case-sensitive or case-insensitive matching
 - **Scheduled Synchronization:** Collections update automatically on schedule
 
-| Type | Details |
-|------|---------|
+| Type               | Details                                                                                                      |
+| ------------------ | ------------------------------------------------------------------------------------------------------------ |
 | **Repository URL** | `https://raw.githubusercontent.com/KeksBombe/jellyfin-plugin-auto-collections/refs/heads/main/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/KeksBombe/jellyfin-plugin-auto-collections) |
-| **Type** | Library Management |
+| **Source Code**    | [GitHub Repository](https://github.com/KeksBombe/jellyfin-plugin-auto-collections)                           |
+| **Type**           | Library Management                                                                                           |
 
 :::tip[Installation Steps]
+
 1. Navigate to **Dashboard → Plugins → Catalog → Gear Icon** (upper left)
 2. Add a new repository named `@KeksBombe (Auto Collections)`
 3. Set Repository URL to the URL above
 4. Click **Save** and restart Jellyfin
 5. Install from Catalog
-:::
+   :::
 
 ---
 
@@ -412,56 +428,60 @@ This plugin is only available for manual installation. Follow the manual install
 
 **⌨️ Keyboard Shortcuts:**
 
-| Key | Action | Context |
-| :--- | :--- | :--- |
-| **`?`** | Show/hide settings & hotkey panel | Global |
-| **`/`** | Focus search bar | Global |
-| **`Shift + H`** | Go to Jellyfin Home Page | Global |
-| **`D`** | Go to Dashboard | Global |
-| **`Q`** | Go to Quick Connect | Global |
-| **`R`** | Play random item from library | Global |
-| **Hold `Shift + B`** | Clear all bookmarks (3-second hold) | Global |
-| **`A`** | Cycle aspect ratios (Auto → Cover → Fill) | Player |
-| **`I`** | Show playback info (stats overlay) | Player |
-| **`S`** | Show subtitle selection menu | Player |
-| **`C`** | Cycle subtitle tracks | Player |
-| **`V`** | Cycle audio tracks | Player |
-| **`B`** | Bookmark current playback time | Player |
-| **`Shift + B`** | Go to saved bookmark | Player |
-| **`0`**-**`9`** | Jump to 0%-90% of video duration | Player |
-| **`+`** / **`=`** | Increase playback speed | Player |
-| **`-`** / **`_`** | Decrease playback speed | Player |
-| **`R`** | Reset playback speed (1.0x) | Player |
+| Key                  | Action                                    | Context |
+| :------------------- | :---------------------------------------- | :------ |
+| **`?`**              | Show/hide settings & hotkey panel         | Global  |
+| **`/`**              | Focus search bar                          | Global  |
+| **`Shift + H`**      | Go to Jellyfin Home Page                  | Global  |
+| **`D`**              | Go to Dashboard                           | Global  |
+| **`Q`**              | Go to Quick Connect                       | Global  |
+| **`R`**              | Play random item from library             | Global  |
+| **Hold `Shift + B`** | Clear all bookmarks (3-second hold)       | Global  |
+| **`A`**              | Cycle aspect ratios (Auto → Cover → Fill) | Player  |
+| **`I`**              | Show playback info (stats overlay)        | Player  |
+| **`S`**              | Show subtitle selection menu              | Player  |
+| **`C`**              | Cycle subtitle tracks                     | Player  |
+| **`V`**              | Cycle audio tracks                        | Player  |
+| **`B`**              | Bookmark current playback time            | Player  |
+| **`Shift + B`**      | Go to saved bookmark                      | Player  |
+| **`0`**-**`9`**      | Jump to 0%-90% of video duration          | Player  |
+| **`+`** / **`=`**    | Increase playback speed                   | Player  |
+| **`-`** / **`_`**    | Decrease playback speed                   | Player  |
+| **`R`**              | Reset playback speed (1.0x)               | Player  |
 
 **📝 Subtitle Settings:**
+
 - 6 style presets (Clean White, Classic Black Box, Netflix Style, Cinema Yellow, Soft Gray, High Contrast)
 - 5 font sizes (Tiny to Extra Large)
 - 5 font families (Default, Noto Sans, Sans Serif, Typewriter, Roboto)
 - Persistent settings automatically saved
 
 **⏯️ Smart Features:**
+
 - Configurable auto-pause when switching tabs
 - Optional auto-resume on tab return
 - Auto skip intro/outro (requires Skip Intro Plugin)
 - Remove items from continue watching row
 
 **🎲 Random Selection:**
+
 - Random button in header for instant access
 - Configurable item types (Movies, Shows, or both)
 - Hotkey support (press `R` outside player)
 - Option to show only unwatched items
 
 **🔍 Additional Features:**
+
 - Streaming provider information with multi-region search
 - Display file sizes for movies and episodes
 - Configure preferred default region and services
 
-| Type | Details |
-|------|---------|
-| **Repository URL** | `https://raw.githubusercontent.com/n00bcodr/jellyfin-enhanced/main/manifest.json` |
-| **Source Code** | [GitHub Repository](https://github.com/n00bcodr/Jellyfin-Enhanced/) |
+| Type                   | Details                                                                                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Repository URL**     | `https://raw.githubusercontent.com/n00bcodr/jellyfin-enhanced/main/manifest.json`                                                          |
+| **Source Code**        | [GitHub Repository](https://github.com/n00bcodr/Jellyfin-Enhanced/)                                                                        |
 | **Installation Guide** | [README Instructions](https://github.com/n00bcodr/Jellyfin-Enhanced/blob/7e4e61c47840747a3b73c4d21e3247f8cf1d909c/README.md#-installation) |
-| **Type** | Enhancement Suite |
+| **Type**               | Enhancement Suite                                                                                                                          |
 
 ---
 
@@ -472,16 +492,17 @@ This plugin is only available for manual installation. Follow the manual install
 **Description:** JavaScript library for selecting avatars from an image gallery. Provides a user-friendly modal interface for choosing profile images from an organized collection.
 
 **Features:**
+
 - Custom modal interface for avatar selection
 - Organized image gallery
 - Responsive design for desktop and mobile
 - Seamless profile integration
 
-| Type | Details |
-|------|---------|
-| **Source Code** | [GitHub Repository](https://github.com/kalibrado/jf-avatars) |
+| Type                   | Details                                                                                          |
+| ---------------------- | ------------------------------------------------------------------------------------------------ |
+| **Source Code**        | [GitHub Repository](https://github.com/kalibrado/jf-avatars)                                     |
 | **Installation Guide** | [README Instructions](https://github.com/kalibrado/jf-avatars/blob/main/README.md#-installation) |
-| **Type** | User Interface Enhancement |
+| **Type**               | User Interface Enhancement                                                                       |
 
 **Desktop View:**
 
@@ -500,16 +521,17 @@ This plugin is only available for manual installation. Follow the manual install
 **Description:** Dynamic homepage slideshow featuring trailers from your library. Rediscover your media collection with automatically fetched trailers creating a living, evolving spotlight presentation.
 
 **Features:**
+
 - Local and remote trailer playback
 - Metadata-driven content selection
 - Living homepage slideshow
 - Automatic library highlighting
 
-| Type | Details |
-|------|---------|
-| **Source Code** | [GitHub Repository](https://github.com/JSethCreates/jellyfin-script-spotlight) |
+| Type                   | Details                                                                                                          |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Source Code**        | [GitHub Repository](https://github.com/JSethCreates/jellyfin-script-spotlight)                                   |
 | **Installation Guide** | [Windows Installation](https://github.com/JSethCreates/jellyfin-script-spotlight#%EF%B8%8F-windows-installation) |
-| **Type** | Visual Enhancement |
+| **Type**               | Visual Enhancement                                                                                               |
 
 ![image](https://raw.githubusercontent.com/JSethCreates/jellyfin-script-spotlight/refs/heads/main/screenshots/spotlightdemo.gif)
 
@@ -520,16 +542,17 @@ This plugin is only available for manual installation. Follow the manual install
 **Description:** Comprehensive enhancement collection focused on filling functionality gaps based on community feature requests. Customizable tweaks designed to address the most desired improvements.
 
 **Key Highlights:**
+
 - Addresses community-requested features
 - No configuration required (optional customization available)
 - Continuous improvements and bug fixes
 - Complements MediaBar plugin for enhanced home screen experience
 
-| Type | Details |
-|------|---------|
-| **Source Code** | [GitHub Repository](https://github.com/ranaldsgift/KefinTweaks) |
+| Type                   | Details                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| **Source Code**        | [GitHub Repository](https://github.com/ranaldsgift/KefinTweaks)                      |
 | **Installation Guide** | [Installation Instructions](https://github.com/ranaldsgift/KefinTweaks#installation) |
-| **Type** | Enhancement Suite |
+| **Type**               | Enhancement Suite                                                                    |
 
 :::info[Development Status]
 Before the 1.0 release, you may encounter some issues or bugs. The developer actively addresses these as quickly as possible.

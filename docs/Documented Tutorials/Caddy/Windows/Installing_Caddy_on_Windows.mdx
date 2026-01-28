@@ -4,7 +4,18 @@ description: Complete guide to installing and configuring Caddy web server on Wi
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [caddy, windows, installation, web-server, https, reverse-proxy, cloudflare, service, tutorial]
+tags:
+  [
+    caddy,
+    windows,
+    installation,
+    web-server,
+    https,
+    reverse-proxy,
+    cloudflare,
+    service,
+    tutorial,
+  ]
 ---
 
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
@@ -16,6 +27,7 @@ Caddy is a powerful, enterprise-ready web server with automatic HTTPS that makes
 ### What is Caddy?
 
 Caddy is a modern web server that provides:
+
 - **Automatic HTTPS**: SSL certificates managed automatically
 - **Reverse Proxy**: Route traffic to backend applications
 - **Static File Serving**: Serve websites and files efficiently
@@ -35,6 +47,7 @@ Caddy is a modern web server that provides:
 Before beginning the installation, ensure your system meets the following requirements:
 
 ### System Requirements
+
 - **Operating System**: Windows 10/11 or Windows Server 2019/2022
 - **Architecture**: x86_64 (64-bit)
 - **RAM**: Minimum 512MB (1GB+ recommended)
@@ -42,6 +55,7 @@ Before beginning the installation, ensure your system meets the following requir
 - **Network**: Internet connection for downloading and certificates
 
 ### Required Permissions
+
 - **Administrator access** for installation and service setup
 - **Port access**: Ability to bind to ports 80 and 443
 - **Firewall configuration** permissions
@@ -65,15 +79,18 @@ Before beginning the installation, ensure your system meets the following requir
 
 1. **Create Tools Directory**:
    Create directory structure
+
    ```powershell
    New-Item -ItemType Directory -Path "C:\Tools\Caddy" -Force
    ```
 
 2. **Extract and Install**:
    Move downloaded caddy.exe to Tools directory
+
    ```powershell
    Move-Item "Downloads\caddy.exe" "C:\Tools\Caddy\caddy.exe"
-   ```   
+   ```
+
    Add to system PATH
 
    ```powershell
@@ -93,14 +110,16 @@ Before beginning the installation, ensure your system meets the following requir
 
 1. **Create Caddyfile**:
    Navigate to Caddy directory
-   
+
    ```powershell
    cd C:\Tools\Caddy
-   ```   
+   ```
+
    Create basic Caddyfile
-   ```   
+
+   ```
    New-Item -ItemType File -Path "Caddyfile"
-    ```
+   ```
 
 2. **Basic Caddyfile Example**:
    ```caddyfile
@@ -113,11 +132,15 @@ Before beginning the installation, ensure your system meets the following requir
 ### Step 4: Running Caddy
 
 #### Manual Execution
- Navigate to Caddy directory
+
+Navigate to Caddy directory
+
 ```powershell
 cd C:\Tools\Caddy
 ```
- Run Caddy with configuration
+
+Run Caddy with configuration
+
 ```
 ./caddy run --config Caddyfile
 ```
@@ -135,11 +158,14 @@ Install as Windows service
 ```bash
 caddy run --config C:\Tools\Caddy\Caddyfile --service install
 ```
- Start the service
+
+Start the service
+
 ```bash
 caddy start --service
 ```
- Check service status
+
+Check service status
 
 ```bash
 caddy status --service
@@ -194,10 +220,12 @@ If you're using Cloudflare for DNS management:
 ![image](https://user-images.githubusercontent.com/35183970/215296333-b790ded6-84fd-46c6-93f0-b4911fb58284.png)
 
 ### Step 7: Running Cloudflare DDNS
+
 :::danger
 If Using a VPN, following the steps below can break your DNS configuration
 and make your services unreachable, continue with caution.
 :::
+
 #### Download CloudFlare DDNS
 
 1. **Download Cloudflare DDNS**: [CloudFlare DDNS](https://github.com/wyattjoh/cloudflare-ddns/releases)
@@ -206,7 +234,6 @@ and make your services unreachable, continue with caution.
 ![Assets](/img/Cloudflare/DDNS_Assets.png)
 
 2. **Extract to directory**: `C:\Tools\CloudflareDDNS`
-
    - The Filepath after being unzipped should be as follows.
      ```
      └── C:/
@@ -230,6 +257,7 @@ and make your services unreachable, continue with caution.
 #### Configure the DDNS Script
 
 3. **Open `cloudflare-ddns-automated.bat`** in a text editor and change these lines:
+
    ```powershell title="cloudflare-ddns-automated.bat" showLineNumbers
    REM Configuration - Edit these values
    // highlight-start
@@ -259,17 +287,18 @@ and make your services unreachable, continue with caution.
    - Accept any Windows Firewall prompts
 
 6. **Check the log file** at `./logs/cloudflare-ddns.log` for entries like:
+
    ```log
-   ======================================== 
-   [2025-09-20 18:26:11] Starting CloudFlare DDNS update... 
-   [2025-09-20 18:26:11] Detecting current public IP... 
-   [2025-09-20 18:26:12] DEBUG: Primary IP service failed, trying fallback... 
-   [2025-09-20 18:26:12] DEBUG: curl services failed, trying PowerShell fallback... 
-   [2025-09-20 18:26:13] Current public IP: 203.0.113.42 
-   [2025-09-20 18:26:13] Getting CloudFlare Zone ID for demonwarriortech.com... 
-   [2025-09-20 18:26:15] DEBUG: Zone ID: a437cf***********497 
-   [2025-09-20 18:26:15] Discovering all A records in zone... 
-   [2025-09-20 18:26:17] Analyzing A records for updates... 
+   ========================================
+   [2025-09-20 18:26:11] Starting CloudFlare DDNS update...
+   [2025-09-20 18:26:11] Detecting current public IP...
+   [2025-09-20 18:26:12] DEBUG: Primary IP service failed, trying fallback...
+   [2025-09-20 18:26:12] DEBUG: curl services failed, trying PowerShell fallback...
+   [2025-09-20 18:26:13] Current public IP: 203.0.113.42
+   [2025-09-20 18:26:13] Getting CloudFlare Zone ID for demonwarriortech.com...
+   [2025-09-20 18:26:15] DEBUG: Zone ID: a437cf***********497
+   [2025-09-20 18:26:15] Discovering all A records in zone...
+   [2025-09-20 18:26:17] Analyzing A records for updates...
    [2025-09-20 18:26:18] DEBUG: Found A record: adguard.demonwarriortech.com -> 198.51.100.10 (Proxied: True)
    [2025-09-20 18:26:18] INFO: Record needs update: adguard.demonwarriortech.com (198.51.100.10 -> 203.0.113.42)
    [2025-09-20 18:26:18] DEBUG: Found A record: jellyfin.demonwarriortech.com -> 198.51.100.10 (Proxied: False)
@@ -297,65 +326,74 @@ and make your services unreachable, continue with caution.
 
 ![Create Task](/img/Cloudflare/DDNS_CreateTask.png)
 
-   ##### **Step 3: General Tab Settings**
-   - ✅ **Run whether user is logged on or not**
-   - ✅ **Run with highest privileges**
-   - **Configure for:** Windows 10/11
+##### **Step 3: General Tab Settings**
+
+- ✅ **Run whether user is logged on or not**
+- ✅ **Run with highest privileges**
+- **Configure for:** Windows 10/11
 
 ![Task General](/img/Cloudflare/DDNS_TaskGeneral.png)
 
-   ##### **Step 4: Triggers Tab**
-   Click **"New..."** twice to create 2 triggers:
+##### **Step 4: Triggers Tab**
 
-   **Trigger 1 - At Startup:**
-   - **Begin the task:** At startup
-   - **Delay task for:** 1 minute
-   - ✅ **Enabled**
+Click **"New..."** twice to create 2 triggers:
 
-   **Trigger 2 - Every 5 Minutes:**
-   - **Begin the task:** On a schedule
-   - **Settings:** One Time, start today at current time
-   - ✅ **Repeat task every:** 5 minutes
-   - **for a duration of:** Indefinitely
-   - ✅ **Enabled**
+**Trigger 1 - At Startup:**
+
+- **Begin the task:** At startup
+- **Delay task for:** 1 minute
+- ✅ **Enabled**
+
+**Trigger 2 - Every 5 Minutes:**
+
+- **Begin the task:** On a schedule
+- **Settings:** One Time, start today at current time
+- ✅ **Repeat task every:** 5 minutes
+- **for a duration of:** Indefinitely
+- ✅ **Enabled**
 
 ![Task Trigger 1](/img/Cloudflare/DDNS_TaskTrigger1.png)
 ![Task Trigger 2](/img/Cloudflare/DDNS_TaskTrigger2.png)
 
-   ##### **Step 5: Actions Tab**
-   Click **"New..."**:
-   - **Action:** Start a program
-   - **Program/script:** `C:\Tools\CloudFlareDDNS\cloudflare-ddns-automated.bat`
-   - **Start in:** `C:\Tools\CloudFlareDDNS`
+##### **Step 5: Actions Tab**
+
+Click **"New..."**:
+
+- **Action:** Start a program
+- **Program/script:** `C:\Tools\CloudFlareDDNS\cloudflare-ddns-automated.bat`
+- **Start in:** `C:\Tools\CloudFlareDDNS`
 
 ![Task Actions](/img/Cloudflare/DDNS_TaskActions.png)
 
-   ##### **Step 6: Conditions Tab**
-   - ✅ **Start only if a network connection is available**
-   - ❌ **Start the task only if the computer is on AC power** (uncheck this)
-   - ❌ **Stop if the computer switches to battery power** (uncheck this)
+##### **Step 6: Conditions Tab**
+
+- ✅ **Start only if a network connection is available**
+- ❌ **Start the task only if the computer is on AC power** (uncheck this)
+- ❌ **Stop if the computer switches to battery power** (uncheck this)
 
 ![Task Conditions](/img/Cloudflare/DDNS_TaskConditions.png)
 
-   ##### **Step 7: Settings Tab**
-   - ✅ **Allow task to be run on demand**
-   - ✅ **Run task as soon as possible after a scheduled start is missed**
-   - ✅ **If the running task does not end when requested, force it to stop**
-   - **If the task is already running:** Do not start a new instance
+##### **Step 7: Settings Tab**
+
+- ✅ **Allow task to be run on demand**
+- ✅ **Run task as soon as possible after a scheduled start is missed**
+- ✅ **If the running task does not end when requested, force it to stop**
+- **If the task is already running:** Do not start a new instance
 
 ![Task Settings](/img/Cloudflare/DDNS_TaskSettings.png)
 
-   ##### **Step 8: Finish**
-   1. Click **OK**
-   2. Enter your Windows password when prompted
-   3. Task is now created!
+##### **Step 8: Finish**
 
-   **Test the task:** Right-click the task → "Run"  
-   **Check logs:** `C:\Tools\CloudFlareDDNS\logs\cloudflare-ddns.log`
+1.  Click **OK**
+2.  Enter your Windows password when prompted
+3.  Task is now created!
+
+**Test the task:** Right-click the task → "Run"  
+ **Check logs:** `C:\Tools\CloudFlareDDNS\logs\cloudflare-ddns.log`
 
 ![Task Run](/img/Cloudflare/DDNS_TaskRun.png)
 
-   **Your DDNS will now update automatically every 5 minutes!** 🚀
+**Your DDNS will now update automatically every 5 minutes!** 🚀
 
 #### Maintenance
 
@@ -368,7 +406,6 @@ and make your services unreachable, continue with caution.
     - Verify DNS records are updating correctly in CloudFlare dashboard
     - Test your domain resolution periodically
 
-
 ## Service Management
 
 ### Windows Service Commands
@@ -379,16 +416,19 @@ and make your services unreachable, continue with caution.
 net start caddy
 ```
 
- Stop Caddy service
+Stop Caddy service
+
 ```powershell
 net stop caddy
 ```
+
 Restart Caddy service
 
 ```powershell
 net stop caddy && net start caddy
 ```
- Check service status
+
+Check service status
 
 ```powershell
 sc query caddy
@@ -397,19 +437,24 @@ sc query caddy
 ### Configuration Management
 
 Test configuration before applying
+
 ```bash
 caddy validate --config C:\Tools\Caddy\Caddyfile
 ```
- Format Caddyfile
+
+Format Caddyfile
+
 ```bash
 caddy fmt --overwrite C:\Tools\Caddy\Caddyfile
 ```
-  Reload configuration
+
+Reload configuration
+
 ```bash
 caddy reload --config C:\Tools\Caddy\Caddyfile
 ```
 
- View current configuration
+View current configuration
 
 ```bash
 caddy config --config C:\Tools\Caddy\Caddyfile
@@ -428,26 +473,32 @@ Get-EventLog -LogName Application -Source Caddy -Newest 10
 ```
 
 # Check service status
+
 ```powershell
 sc query caddy
 ```
 
 # Common causes:
- - Configuration syntax errors
- - Permission issues
- - Port conflicts
+
+- Configuration syntax errors
+- Permission issues
+- Port conflicts
 
 **Solution:**
 Validate configuration
+
 ```bash
 caddy validate --config C:\Tools\Caddy\Caddyfile
 ```
- Check file permissions
+
+Check file permissions
+
 ```powershell
 Get-Acl C:\Tools\Caddy\Caddyfile
 ```
 
 # Test manual execution
+
 Move to Caddy.exe Folder Directory
 
 ```bash
@@ -455,18 +506,20 @@ cd C:\Tools\Caddy
 ```
 
 Run Caddy command inside Caddy folder
+
 ```bash
 ./caddy run --config Caddyfile
 ```
 
 #### Issue 2: Firewall Blocking
- Check Windows Firewall rules
+
+Check Windows Firewall rules
 
 ```powershell
 Get-NetFirewallRule -DisplayName "*Caddy*"
 ```
 
- Add firewall rules if needed
+Add firewall rules if needed
 
 ```powershell
 New-NetFirewallRule -DisplayName "Caddy HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
@@ -474,12 +527,15 @@ New-NetFirewallRule -DisplayName "Caddy HTTPS" -Direction Inbound -Protocol TCP 
 ```
 
 #### Issue 3: Certificate Issues
- Check certificate status
+
+Check certificate status
+
 ```bash
 caddy list-certificates
 ```
 
- Clear certificate cache if needed
+Clear certificate cache if needed
+
 ```powershell
 Remove-Item -Recurse -Force "$env:APPDATA\Caddy\certificates"
 ```
@@ -487,7 +543,9 @@ Remove-Item -Recurse -Force "$env:APPDATA\Caddy\certificates"
 ## Security Best Practices
 
 ### File Permissions
- Secure Caddy directory
+
+Secure Caddy directory
+
 ```powershell
 $acl = Get-Acl "C:\Tools\Caddy"
 $acl.SetAccessRuleProtection($true, $false)
@@ -497,12 +555,14 @@ Set-Acl "C:\Tools\Caddy" $acl
 ```
 
 ### Firewall Configuration
- Enable Windows Firewall
+
+Enable Windows Firewall
 
 ```powershell
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
 ```
- Configure specific rules
+
+Configure specific rules
 
 ```powershell
 New-NetFirewallRule -DisplayName "Caddy HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
@@ -542,7 +602,7 @@ You have successfully installed Caddy on Windows with:
 ✅ **Automatic HTTPS** capability with zero configuration  
 ✅ **Cloudflare integration** for dynamic DNS management  
 ✅ **Security best practices** - Proper permissions and firewall rules  
-✅ **Production-ready configuration** - Enterprise deployment ready  
+✅ **Production-ready configuration** - Enterprise deployment ready
 
 Your Caddy installation is now ready for production use with automatic HTTPS, robust security, and professional service management on Windows.
 

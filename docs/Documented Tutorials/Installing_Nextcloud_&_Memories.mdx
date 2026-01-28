@@ -4,7 +4,19 @@ description: Comprehensive professional guide to installing and configuring Next
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [nextcloud, memories, docker, photo-management, self-hosting, cloud-storage, enterprise, production, security, hardware-acceleration]
+tags:
+  [
+    nextcloud,
+    memories,
+    docker,
+    photo-management,
+    self-hosting,
+    cloud-storage,
+    enterprise,
+    production,
+    security,
+    hardware-acceleration,
+  ]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -18,6 +30,7 @@ This comprehensive guide covers the complete installation and configuration of N
 ### What is Nextcloud?
 
 Nextcloud is a powerful, open-source cloud storage and collaboration platform that provides:
+
 - **File Storage & Sync**: Secure file storage with cross-platform synchronization
 - **Photo Management**: Advanced photo organization with AI-powered features
 - **Video Streaming**: Hardware-accelerated video transcoding and streaming
@@ -27,6 +40,7 @@ Nextcloud is a powerful, open-source cloud storage and collaboration platform th
 ### What is Memories?
 
 Memories is a powerful Nextcloud app that transforms your instance into a professional photo management system:
+
 - **AI-Powered Organization**: Automatic photo categorization and facial recognition
 - **Hardware Acceleration**: GPU-accelerated video transcoding for smooth playback
 - **Timeline View**: Beautiful chronological photo and video browsing
@@ -61,6 +75,7 @@ Before beginning the installation, ensure your system meets all requirements:
 ### System Requirements
 
 #### Minimum Requirements
+
 - **Operating System**: Windows 10/11, Linux, or macOS with Docker support
 - **RAM**: 8GB system memory (16GB+ recommended)
 - **Storage**: 50GB available disk space (SSD recommended)
@@ -68,6 +83,7 @@ Before beginning the installation, ensure your system meets all requirements:
 - **GPU**: Optional but recommended for hardware acceleration
 
 #### Recommended Requirements
+
 - **Operating System**: Linux (Ubuntu 22.04 LTS) or Windows 11 Pro
 - **RAM**: 32GB+ system memory for large photo libraries
 - **Storage**: NVMe SSD with 500GB+ available space
@@ -77,13 +93,13 @@ Before beginning the installation, ensure your system meets all requirements:
 
 ### Hardware Acceleration Support
 
-| GPU Type | Supported | Transcoding | Notes |
-|----------|-----------|-------------|-------|
-| **NVIDIA GTX 10xx+** | ✅ Yes | NVENC/NVDEC | Recommended |
-| **NVIDIA RTX Series** | ✅ Yes | NVENC/NVDEC | Best Performance |
-| **Intel Quick Sync** | ✅ Yes | VA-API | Good Performance |
-| **AMD GPU** | ⚠️ Limited | VA-API | Basic Support |
-| **CPU Only** | ✅ Yes | Software | Slower Performance |
+| GPU Type              | Supported  | Transcoding | Notes              |
+| --------------------- | ---------- | ----------- | ------------------ |
+| **NVIDIA GTX 10xx+**  | ✅ Yes     | NVENC/NVDEC | Recommended        |
+| **NVIDIA RTX Series** | ✅ Yes     | NVENC/NVDEC | Best Performance   |
+| **Intel Quick Sync**  | ✅ Yes     | VA-API      | Good Performance   |
+| **AMD GPU**           | ⚠️ Limited | VA-API      | Basic Support      |
+| **CPU Only**          | ✅ Yes     | Software    | Slower Performance |
 
 ### Software Prerequisites
 
@@ -116,6 +132,7 @@ mkdir -p C:\Tools\Nextcloud
 ```bash
 cd C:\Tools\Nextcloud
 ```
+
 Create required subdirectories
 
 ```bash
@@ -136,7 +153,9 @@ Test Docker functionality
 ```bash
 docker run hello-world
 ```
+
 Check available resources
+
 ```bash
 docker system info
 ```
@@ -181,7 +200,7 @@ services:
     container_name: nextcloud-app
     restart: always
     ports:
-      - "9111:80"
+      - '9111:80'
     depends_on:
       - db
       - redis
@@ -249,7 +268,7 @@ services:
     image: collabora/code:latest
     restart: always
     ports:
-      - "9980:9980"
+      - '9980:9980'
     cap_add:
       - MKNOD
     environment:
@@ -409,17 +428,18 @@ Build custom Nextcloud image
 docker build -t nextcloud-enhanced:latest .
 ```
 
- Update docker-compose.yml to use custom image
- Change: image: nextcloud:28-apache
- To: image: nextcloud-enhanced:latest
-
+Update docker-compose.yml to use custom image
+Change: image: nextcloud:28-apache
+To: image: nextcloud-enhanced:latest
 
 #### Deploy Nextcloud Stack
 
 Start the Nextcloud stack
+
 ```bash
 docker compose up -d
 ```
+
 Monitor deployment progress
 
 ```bash
@@ -482,6 +502,7 @@ Check Nextcloud status
 ```bash
 docker compose exec app php occ status
 ```
+
 Verify database tables
 
 ```bash
@@ -525,6 +546,7 @@ docker compose exec app php occ app:install preview_generator
 ```
 
 Enable the apps
+
 ```bash
 docker compose exec app php occ app:enable memories
 docker compose exec app php occ app:enable recognize
@@ -556,9 +578,9 @@ go-vod:
     resources:
       reservations:
         devices:
-        - driver: nvidia
-          count: 1
-          capabilities: [gpu]
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
   # For Intel/AMD GPU support (alternative)
   # devices:
   #   - /dev/dri:/dev/dri
@@ -808,13 +830,14 @@ Make backup script executable
 ```bash
 chmod +x backup-nextcloud.sh
 ```
+
 Add to crontab for daily backups at 2 AM
 
 ```bash
 crontab -e
 ```
 
-Add: 0 2 * * * /path/to/backup-nextcloud.sh
+Add: 0 2 \* \* \* /path/to/backup-nextcloud.sh
 
 ## Monitoring and Maintenance
 
@@ -947,6 +970,7 @@ docker compose exec app php occ app:update --all
 #### Issue 1: Go-VOD Not Working
 
 **Symptoms:**
+
 - Video transcoding fails
 - No hardware acceleration
 - Go-VOD container not starting
@@ -965,12 +989,15 @@ Verify Docker GPU support
 ```bash
 docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 ```
+
 Check Go-VOD logs
 
 ```bash
 docker compose logs go-vod
 ```
+
 Restart Go-VOD service
+
 ```bash
 docker compose restart go-vod
 ```
@@ -978,6 +1005,7 @@ docker compose restart go-vod
 #### Issue 2: Facial Recognition Not Working
 
 **Symptoms:**
+
 - No faces detected
 - Recognition app errors
 - Missing dependencies
@@ -1017,6 +1045,7 @@ Monitor database performance
 ```bash
 docker compose exec db mysql -u nextcloud -p -e "SHOW PROCESSLIST;"
 ```
+
 Check Redis performance
 
 ```bash
@@ -1024,6 +1053,7 @@ docker compose exec redis redis-cli info stats
 ```
 
 Analyze slow queries
+
 ```bash
 docker compose exec app php occ log:file --lines=100 | grep -i slow
 ```
@@ -1056,6 +1086,7 @@ docker compose exec app php occ maintenance:repair --include-expensive
 #### Domain and SSL Configuration
 
 1. **Configure domain in docker-compose.yml**:
+
    ```yaml
    environment:
      - NEXTCLOUD_TRUSTED_DOMAINS=yourdomain.com,www.yourdomain.com
@@ -1066,7 +1097,7 @@ docker compose exec app php occ maintenance:repair --include-expensive
    server {
        listen 443 ssl http2;
        server_name yourdomain.com;
-       
+
        location / {
            proxy_pass http://localhost:9111;
            proxy_set_header Host $host;
@@ -1112,12 +1143,8 @@ You have successfully installed and configured a complete Nextcloud & Memories s
 ✅ **Enterprise security** with proper authentication and access controls  
 ✅ **Performance optimization** with Redis caching and preview generation  
 ✅ **Monitoring and maintenance** procedures for production reliability  
-✅ **Backup strategies** with automated data protection  
+✅ **Backup strategies** with automated data protection
 
 Your Nextcloud & Memories installation is now ready for professional photo and video management with enterprise-level features and performance.
 
-
 <BuyMeACoffeeButton />
-
-
-

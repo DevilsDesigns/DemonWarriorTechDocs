@@ -4,7 +4,19 @@ description: Comprehensive professional guide to diagnosing and resolving Docker
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
-tags: [docker, troubleshooting, debugging, containers, networking, storage, performance, security, windows, linux]
+tags:
+  [
+    docker,
+    troubleshooting,
+    debugging,
+    containers,
+    networking,
+    storage,
+    performance,
+    security,
+    windows,
+    linux,
+  ]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -126,6 +138,7 @@ docker volume inspect <volume_name>
 ### Issue 1: Container Won't Start
 
 #### Symptoms
+
 - Container exits immediately after starting
 - "Container exited with code X" errors
 - Container stuck in "Restarting" state
@@ -171,6 +184,7 @@ docker run --user $(id -u):$(id -g) <image_name>
 ### Issue 2: Container Performance Problems
 
 #### Symptoms
+
 - Slow container response
 - High CPU or memory usage
 - Container becoming unresponsive
@@ -217,6 +231,7 @@ docker run --log-driver=json-file --log-opt max-size=10m --log-opt max-file=3 <i
 ### Issue 3: Container Networking Problems
 
 #### Symptoms
+
 - Cannot connect to container services
 - Port binding failures
 - DNS resolution issues
@@ -327,6 +342,7 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 ##### Port Checking
 
 **Checking Your Ports:**
+
 1. Go to https://portchecker.co/ and see if your port 443 and 80 are open.
 2. If they are not, you need to make sure your router connected to your modem has those ports port-forwarded for your computer hosting the services.
 
@@ -358,6 +374,7 @@ sudo iptables-save | sudo tee /etc/iptables/rules.v4
 ### Issue 5: Docker Network Connectivity
 
 #### Symptoms
+
 - Containers cannot communicate with each other
 - External network access issues
 - DNS resolution failures
@@ -415,6 +432,7 @@ sudo systemctl restart docker
 ### Issue 6: Volume Mount Problems
 
 #### Symptoms
+
 - Files not persisting between container restarts
 - Permission denied errors when accessing mounted volumes
 - Volume mount paths not found
@@ -464,6 +482,7 @@ docker volume create --driver local --opt type=nfs --opt o=addr=192.168.1.100,rw
 ### Issue 7: Disk Space Issues
 
 #### Symptoms
+
 - "No space left on device" errors
 - Docker operations failing due to disk space
 - Slow container performance
@@ -514,6 +533,7 @@ sudo systemctl start docker
 ### Issue 8: High Resource Usage
 
 #### Symptoms
+
 - High CPU usage by Docker containers
 - Memory leaks and out-of-memory errors
 - Slow I/O performance
@@ -590,6 +610,7 @@ sudo systemctl restart docker
 ### Issue 9: Permission and Access Problems
 
 #### Symptoms
+
 - Permission denied errors
 - Cannot access files in containers
 - User mapping issues
@@ -722,6 +743,7 @@ sudo reboot
 ### Issue 12: Docker Compose Problems
 
 #### Symptoms
+
 - Services not starting in correct order
 - Environment variable issues
 - Network connectivity between services
@@ -772,6 +794,7 @@ docker compose exec web nslookup db
 ### Issue 13: Registry and Image Issues
 
 #### Symptoms
+
 - Cannot pull images from registry
 - Authentication failures
 - Image corruption or verification errors
@@ -908,7 +931,7 @@ This comprehensive Docker troubleshooting guide provides:
 ✅ **Performance optimization** with resource management and monitoring  
 ✅ **Security troubleshooting** with permission and access control issues  
 ✅ **Platform-specific solutions** for Windows and Linux environments  
-✅ **Advanced troubleshooting** for Docker Compose and registry issues  
+✅ **Advanced troubleshooting** for Docker Compose and registry issues
 
 Your Docker troubleshooting skills are now equipped with professional diagnostic tools and systematic approaches to resolve complex containerization issues efficiently.
 

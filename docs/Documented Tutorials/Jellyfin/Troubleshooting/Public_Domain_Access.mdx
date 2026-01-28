@@ -4,7 +4,8 @@ description: Step-by-step troubleshooting guide for resolving Jellyfin access is
 sidebar_position: 1
 toc_min_heading_level: 2
 toc_max_heading_level: 4
-tags: [jellyfin, troubleshooting, domain, caddy, networking, dns, ports, redirects]
+tags:
+  [jellyfin, troubleshooting, domain, caddy, networking, dns, ports, redirects]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -26,6 +27,7 @@ This guide provides a systematic approach to troubleshooting Jellyfin access iss
 ### Prerequisites
 
 Before starting this troubleshooting guide, ensure you have:
+
 - A registered domain name
 - Jellyfin server running locally
 - Caddy reverse proxy configured
@@ -147,6 +149,7 @@ jellyfin.domain.com      A      300   Answer     86.48.9.113  # This should matc
 #### Test DNS Propagation
 
 Use [whatsmydns.net](https://www.whatsmydns.net/) to check DNS propagation globally:
+
 1. Enter your domain (`jellyfin.yourdomain.com`)
 2. Select "CNAME" record type
 3. Verify it shows your public IP in multiple locations
@@ -204,6 +207,7 @@ content-length: 12345
 If you see `server: Caddy`, traffic is reaching your reverse proxy correctly.
 
 **Alternative CLI Check**: You can also verify Caddy is responding using PowerShell:
+
 ```powershell
 (Invoke-WebRequest -Uri https://jellyfin.yourdomain.com -Method Head).Headers.Server
 # Should return "Caddy" if working correctly
@@ -212,22 +216,28 @@ If you see `server: Caddy`, traffic is reaching your reverse proxy correctly.
 ### Common Network Issues and Solutions
 
 #### Issue: Connection Timeout
+
 **Symptoms**: No response, request hangs
 **Solutions**:
+
 - Verify Caddy is running: Open Services.msc and check "Caddy" service status
 - Check Caddy configuration syntax: `caddy validate --adapter caddyfile --config C:\caddy\Caddyfile`
 - Restart Caddy: Restart the "Caddy" service in Services.msc or run `Restart-Service Caddy` in PowerShell
 
 #### Issue: SSL/TLS Certificate Errors
+
 **Symptoms**: "Your connection is not private" warnings
 **Solutions**:
+
 - Check Caddy logs: Open Event Viewer → Windows Logs → Application, filter by "Caddy"
 - Verify domain ownership for Let's Encrypt
 - Ensure port 80 is accessible (required for certificate validation)
 
 #### Issue: 502/503 Backend Errors
+
 **Symptoms**: "Bad Gateway" or "Service Unavailable"
 **Solutions**:
+
 - Verify Jellyfin is running: Open Services.msc and check "Jellyfin" service status
 - Verify local connection via **Powershell**: `Test-NetConnection -ComputerName 192.168.1.100 -Port 8096` (Change `192.168.1.100` to your Private IP)
 - Verify Caddy upstream configuration points to correct Jellyfin address
@@ -292,6 +302,7 @@ jellyfin.yourdomain.com {
 ```
 
 **Common Caddy Configuration Issues**:
+
 - Missing or incorrect upstream address
 - Conflicting site blocks
 - Incorrect header forwarding
@@ -338,26 +349,33 @@ Once all previous steps pass, perform final verification to ensure everything wo
 ### Common Advanced Issues
 
 #### Issue: Slow Loading or Timeouts
+
 **Possible Causes**:
+
 - Insufficient server resources
 - Network bandwidth limitations
 - Caddy configuration issues
 
 **Solutions**:
+
 - Monitor server resources: Task Manager → Performance tab
 - Check network speed: Use online speed test or `Test-NetConnection` in PowerShell
 - Optimize Caddy configuration with caching
 
 #### Issue: Mobile App Connection Problems
+
 **Symptoms**: Web works but mobile apps don't connect
 **Solutions**:
+
 - Ensure mobile apps use full domain URL
 - Check if apps support custom ports
 - Verify SSL certificate is valid for mobile clients
 
 #### Issue: Intermittent Connection Issues
+
 **Symptoms**: Sometimes works, sometimes doesn't
 **Solutions**:
+
 - Check for dynamic IP changes
 - Monitor DNS propagation
 - Verify router stability and port forwarding persistence
