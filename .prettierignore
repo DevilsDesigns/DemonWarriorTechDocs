@@ -1,21 +1,15 @@
-# Dependencies
-node_modules/
-
-# Build outputs
+# Ignore build artifacts
 build/
-.docusaurus/
-
-# Logs
-*.log
-
-# Package files
-package-lock.json
-yarn.lock
-
-# Generated files
+.docosaurus/
+node_modules/
 .cache/
-public/
 
-# Config files that should maintain specific formatting
-*.md
-*.mdx
+# Ignore certain files/folders
+*.min.js
+*.min.css
+
+# Keep MDX files from being heavily reformatted to preserve MDX syntax
+# Prettier can break MDX syntax, especially around JSX components like TabItem
+# To manually format a specific MDX file: npx prettier --write "path/to/file.mdx"
+docs/**/*.mdx
+blog/**/*.mdx
