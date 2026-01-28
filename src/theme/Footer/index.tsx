@@ -5,9 +5,7 @@ import BuyMeACoffeeFloatingWidget from '@site/src/components/BuyMeACoffeeFloatin
 import DiscordFloatingWidget from '@site/src/components/DiscordFloatingWidget';
 
 export default function FooterWrapper(props) {
-  const {
-    siteConfig: { customFields },
-  } = useDocusaurusContext();
+  useDocusaurusContext();
 
   return (
     <>
