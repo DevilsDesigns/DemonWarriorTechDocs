@@ -1,7 +1,8 @@
 .buyMeACoffeeButton {
   display: inline-flex;
   align-items: center;
-  padding: var(--bmc-button-padding-vertical) var(--bmc-button-padding-horizontal);
+  padding: var(--bmc-button-padding-vertical)
+    var(--bmc-button-padding-horizontal);
   background-color: var(--bmc-button-bg);
   color: var(--bmc-button-text);
   text-decoration: none;

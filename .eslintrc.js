@@ -5,8 +5,8 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-console': 'warn',
     'no-undef': 'error',
-    'semi': ['error', 'always'],
-    'quotes': ['error', 'single'],
+    semi: ['error', 'always'],
+    quotes: ['error', 'single'],
   },
   env: {
     browser: true,

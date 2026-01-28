@@ -8,34 +8,40 @@ STILL IN TESTING PHASE
 ## 🚀 Quick Start
 
 ### Download All Components
+
 **CMD:**
+
 ```cmd
 curl -s https://raw.githubusercontent.com/TrueBankai416/DemonWarriorTechDocs/main/scripts/download-all.cmd | cmd
 ```
 
 **PowerShell:**
+
 ```powershell
 iex (iwr "https://raw.githubusercontent.com/TrueBankai416/DemonWarriorTechDocs/main/scripts/download-all.ps1").Content
 ```
 
 ### Install Components
+
 **Install PHP:**
+
 ```cmd
 curl -s https://raw.githubusercontent.com/TrueBankai416/DemonWarriorTechDocs/main/scripts/install-php.cmd | cmd
 ```
 
 **Install MariaDB:**
+
 ```cmd
 curl -s https://raw.githubusercontent.com/TrueBankai416/DemonWarriorTechDocs/main/scripts/install-mariadb.cmd | cmd
 ```
 
 ## 📁 Available Scripts
 
-| Script | CMD Version | PowerShell Version | Description |
-|--------|-------------|-------------------|-------------|
-| Download All | `download-all.cmd` | `download-all.ps1` | Downloads all components with latest versions |
-| Install PHP | `install-php.cmd` | - | Installs and configures PHP |
-| Install MariaDB | `install-mariadb.cmd` | - | Installs MariaDB and creates WordPress database |
+| Script          | CMD Version           | PowerShell Version | Description                                     |
+| --------------- | --------------------- | ------------------ | ----------------------------------------------- |
+| Download All    | `download-all.cmd`    | `download-all.ps1` | Downloads all components with latest versions   |
+| Install PHP     | `install-php.cmd`     | -                  | Installs and configures PHP                     |
+| Install MariaDB | `install-mariadb.cmd` | -                  | Installs MariaDB and creates WordPress database |
 
 ## 🔧 Features
 
@@ -54,6 +60,7 @@ curl -s https://raw.githubusercontent.com/TrueBankai416/DemonWarriorTechDocs/mai
 ## 🛡️ Security
 
 These scripts are maintained in this repository and can be reviewed before execution. They:
+
 - Use official download sources only
 - Include version verification
 - Follow security best practices
