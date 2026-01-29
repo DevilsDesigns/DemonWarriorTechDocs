@@ -1,6 +1,6 @@
 ---
 title: How to Setup ImmichFrame on Frameo Devices
-description: This will take a digital picture frame such as my example device a Frameo 102K Model and turn it into a digtial picture frame using Immich albums
+description: This will take a digital picture frame such as my example device a Frameo 102K Model and turn it into a digital picture frame using Immich albums
 sidebar_position: 2
 toc_min_heading_level: 2
 toc_max_heading_level: 6
@@ -20,7 +20,7 @@ Example Hardware Used
 [FRAMEO Digital Photo Frame, 10.1 Inch WiFi](https://www.amazon.com/FRAMEO-Digital-Picture-Storage-Auto-Rotate/dp/B09QX7M71C)
 
 :::info[Source Documentation]
-Below is install from Immichframe docs [source](https://immichframe.dev/docs/getting-started/apps#frameo). A Big thanks to all the contributers and development staff on this great addition to immich. I added the instructions below for a more seamless setup instead of flipping through tabs on your browser.
+Below is install from Immichframe docs [source](https://immichframe.dev/docs/getting-started/apps#frameo). A Big thanks to all the contributors and development staff on this great addition to immich. I added the instructions below for a more seamless setup instead of flipping through tabs on your browser.
 :::
 
 ### Frameo Install
@@ -159,7 +159,7 @@ The way that I solved this was through a Magisk overlay.
 adb install discreet-launcher.apk
 ```
 
-1.1 If it didnt install or open automatically then you need to run an adb command
+1.1 If it didn't install or open automatically then you need to run an adb command
 
 1.2 Open the launcher manager. This will allow us to run an app directly using this any app on this system
 
@@ -170,7 +170,7 @@ adb shell am start -a android.intent.action.MAIN
 1.3. Select the discreet-launcher from the list
 
 :::warning[Magisk Re-Root After Reboot]
-Once you reboot you may need to renable magisk and re-root the device again. To do this open the launcher with adb shell am start -a android.intent.action.MAIN and select discrete-launcher. Then swipe up and select magisk from the apps screen. Re-run the rooting processs ---> direct install and reboot and you should be able to re-edit files again.
+Once you reboot you may need to renable magisk and re-root the device again. To do this open the launcher with adb shell am start -a android.intent.action.MAIN and select discrete-launcher. Then swipe up and select magisk from the apps screen. Re-run the rooting process ---> direct install and reboot and you should be able to re-edit files again.
 
 :::
 
@@ -215,7 +215,7 @@ https://www.whatismybrowser.com/
 ```
 
 :::warning[Verify WebView Version]
-**IF IT SAYS ANYTHING ELSE BESIDE WebView 106 on Andorid Marhsmellow then you may have to redo the steps above.**
+**IF IT SAYS ANYTHING ELSE BESIDE WebView 106 on Android Marshmallow then you may have to redo the steps above.**
 :::
 
 If its wrong it will show this
@@ -228,7 +228,7 @@ This is caused by outdated CA Certs to fix this you will need a micro sd card as
 :::
 
 1. We need to check that we do indeed have this error by installing chrome first.
-   Downlaod Chrome on the PC
+   Download Chrome on the PC
 
 [Chrome for Android 6.0.1](https://www.apkmirror.com/apk/google-inc/chrome/chrome-106-0-5249-126-release/google-chrome-fast-secure-106-0-5249-126-5-android-apk-download/)
 
@@ -254,7 +254,7 @@ adb shell am start -n com.android.chrome/com.google.android.apps.chrome.Main -d 
 
 ![CA Error](https://github.com/DevilsDesigns/DemonWarriorTechDocs/blob/main/static/img/immich/immichframe-ca-error.jpg?raw=true)
 
-5. Insert your micro sd card into your pc and format if it hasnt already been
+5. Insert your micro sd card into your pc and format if it hasn't already been
 6. We need to download the ISRG ROOT X1 PEM from [here](https://letsencrypt.org/certs/isrgrootx1.pem)
 7. rename this to isrgrootx1.pem if its not already name this
 8. Copy and paste the file to the micro sd card thats in your computer
