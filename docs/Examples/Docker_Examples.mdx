@@ -344,7 +344,7 @@ jellyfin:
   # Optional - alternative address used for autodiscovery
   environment:
     #   (REMOVE THE # BELOW TO ENABLE QUICKSYNC)
-    #  - UDOCKER_OPTS=--device /dev/dri:/dev/dri
+    #  - DOCKER_OPTS=--device /dev/dri:/dev/dri
     - JELLYFIN_PublishedServerUrl=https://sub.domain.com #(CHANGE THIS TO YOUR DOMAIN)
   # Optional - may be necessary for docker healthcheck to pass if running in host network mode
 #    extra_hosts:
