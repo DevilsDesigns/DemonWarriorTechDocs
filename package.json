@@ -15,7 +15,7 @@
     "lint": "eslint src/",
     "format": "prettier --write .",
     "check-links": "markdown-link-check docs/**/*.mdx",
-    "spell-check": "cspell 'docs/**/*.mdx'",
+    "spell-check": "cspell docs/**/*.mdx",
     "quality-check": "npm run lint && npm run spell-check && npm run check-links"
   },
   "dependencies": {
