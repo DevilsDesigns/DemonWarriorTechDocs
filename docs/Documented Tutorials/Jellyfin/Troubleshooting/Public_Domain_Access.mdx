@@ -159,6 +159,40 @@ Use [whatsmydns.net](https://www.whatsmydns.net/) to check DNS propagation globa
 
 ---
 
+## CGNAT Check (Carrier-Grade NAT)
+
+If ports are forwarded correctly and DNS looks right but external access still fails, you might be behind **CGNAT**. With CGNAT, your router does not have the true public IP, so inbound traffic can’t reach your network even with port forwarding.
+
+### How to Tell if You’re Behind CGNAT
+
+1. **Compare your WAN IP to your public IP**
+   - **WAN IP (router)**: Find it in your router’s status page or by resolving your domain.
+   - **Public IP (internet)**: Check a site like [whatismyipaddress.com](https://whatismyipaddress.com/).
+
+   **Example mismatch** (common CGNAT symptom):
+
+   ```powershell
+   Resolve-DnsName jellyfin.yourdomain.com -Server "1.1.1.1"
+   ```
+
+   - The DNS result matches your router’s **WAN IP**
+   - But **whatismyipaddress.com** shows a **different** public IP
+
+2. **Look for private WAN IP ranges**
+   If your router’s WAN IP is in any of these ranges, you are almost certainly behind CGNAT:
+   - 10.0.0.0/8
+   - 172.16.0.0/12
+   - 192.168.0.0/16
+   - 100.64.0.0/10 (CGNAT range)
+
+### What to Do if You’re Behind CGNAT
+
+- **Ask your ISP for a public IPv4 address** (sometimes called a “static IP” or “public IP add-on”).
+- **Use IPv6** if your ISP provides it and your router/firewall supports it.
+- **Use a tunnel** (Cloudflare Tunnel, Tailscale Funnel, or a VPS reverse proxy) to expose Jellyfin without direct inbound ports.
+
+---
+
 ## Step 3: Test Browser Connectivity and Analyze Network Traffic
 
 With ports open and DNS resolving correctly, test browser connectivity and analyze network traffic for issues.
