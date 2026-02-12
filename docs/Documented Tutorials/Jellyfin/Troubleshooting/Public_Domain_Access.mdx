@@ -60,6 +60,7 @@ If either port is closed, you need to resolve this before proceeding:
 3. **Create port forwarding rules**:
    - **Port 80**: Forward to your server's local IP (e.g., `192.168.1.100:80`)
    - **Port 443**: Forward to your server's local IP (e.g., `192.168.1.100:443`)
+   - **Source IP**: Leave **blank/empty** (no restriction) so inbound traffic from any public IP can reach your server; setting a Source IP would only allow that single address and will block everyone else.
 4. **Save settings and restart router**
 
 #### Windows Firewall Configuration
