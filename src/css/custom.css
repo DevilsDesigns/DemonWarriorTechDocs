@@ -10,15 +10,24 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #d00000;
-  --ifm-color-primary-dark: #af0000;
-  --ifm-color-primary-darker: #9c0000;
-  --ifm-color-primary-darkest: #680000;
-  --ifm-color-primary-light: #d00000;
-  --ifm-color-primary-lighter: #d31c1c;
-  --ifm-color-primary-lightest: #c41c1c;
+  --ifm-color-primary: #b01212;
+  --ifm-color-primary-dark: #9d1010;
+  --ifm-color-primary-darker: #920f0f;
+  --ifm-color-primary-darkest: #770c0c;
+  --ifm-color-primary-light: #bf1414;
+  --ifm-color-primary-lighter: #cb2020;
+  --ifm-color-primary-lightest: #dc3a3a;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-link-color: var(--ifm-color-primary-lightest);
+  --ifm-background-color: #f8f4f4;
+  --ifm-navbar-background-color: rgba(251, 246, 246, 0.92);
+  --ifm-footer-background-color: #170d10;
+  --ifm-font-color-base: #23171b;
+  --ifm-heading-color: #160d10;
+  --ifm-toc-border-color: rgba(179, 27, 27, 0.28);
+  --ifm-card-background-color: rgba(255, 255, 255, 0.9);
+  --floating-widget-clearance: 225px;
 
   /* Buy Me a Coffee Button variables */
   --bmc-button-bg: #9a0e0e;
@@ -36,19 +45,88 @@
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #d00000;
-  --ifm-color-primary-dark: #af0000;
-  --ifm-color-primary-darker: #9c0000;
-  --ifm-color-primary-darkest: #680000;
-  --ifm-color-primary-light: #d00000;
-  --ifm-color-primary-lighter: #d31c1c;
-  --ifm-color-primary-lightest: #c41c1c;
+  --ifm-color-primary: #e11d1d;
+  --ifm-color-primary-dark: #ca1a1a;
+  --ifm-color-primary-darker: #b71717;
+  --ifm-color-primary-darkest: #901212;
+  --ifm-color-primary-light: #ee3030;
+  --ifm-color-primary-lighter: #f34747;
+  --ifm-color-primary-lightest: #f86a6a;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-link-color: #ff8a8a;
+  --ifm-background-color: #110707;
+  --ifm-navbar-background-color: rgba(17, 7, 7, 0.9);
+  --ifm-footer-background-color: #080507;
+  --ifm-font-color-base: #f5e6e6;
+  --ifm-heading-color: #fff5f5;
+  --ifm-toc-border-color: rgba(225, 29, 29, 0.34);
+  --ifm-card-background-color: rgba(29, 12, 12, 0.82);
 
   /* Buy Me a Coffee Button variables for dark mode */
   --bmc-button-bg: #9a0e0e;
   --bmc-button-text: #ffffff;
   --bmc-button-border: #ffffff;
+}
+
+html {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(225, 29, 29, 0.12), transparent 28%),
+    radial-gradient(circle at 88% 16%, rgba(176, 18, 18, 0.14), transparent 25%),
+    var(--ifm-background-color);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: var(--ifm-background-color);
+}
+
+[data-theme='dark'] html {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(225, 29, 29, 0.14), transparent 30%),
+    radial-gradient(circle at 84% 15%, rgba(120, 16, 16, 0.24), transparent 30%),
+    linear-gradient(180deg, #110707 0%, #070303 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: var(--ifm-background-color);
+}
+
+.main-wrapper,
+.theme-layout-main,
+main,
+body {
+  background: transparent !important;
+}
+
+.main-wrapper {
+  background: transparent;
+}
+
+.navbar {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+@media (min-width: 997px) {
+  .navbar {
+    backdrop-filter: blur(8px);
+  }
+}
+
+.theme-doc-sidebar-container,
+.theme-doc-sidebar-menu {
+  background: color-mix(in srgb, var(--ifm-background-color) 94%, var(--ifm-color-primary) 6%);
+}
+
+.card,
+.pagination-nav__link,
+.table-of-contents {
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 12px;
+}
+
+.button.button--primary {
+  box-shadow: 0 0 0 1px rgba(225, 29, 29, 0.25), 0 8px 24px rgba(79, 12, 12, 0.34);
+}
+
+code {
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
 }
 
 /* Prevent TOC from overlapping with floating widgets at bottom right */
@@ -64,4 +142,23 @@
 /* Ensure TOC doesn't extend to bottom of viewport */
 .theme-doc-toc-desktop .table-of-contents {
   padding-bottom: 20px !important;
+}
+
+@media (max-width: 996px) {
+  .navbar-sidebar {
+    background: color-mix(in srgb, var(--ifm-background-color) 92%, var(--ifm-color-primary) 8%);
+    z-index: 1001;
+    visibility: visible;
+  }
+
+  .navbar-sidebar__backdrop {
+    z-index: 1000;
+  }
+
+  html.navbar-sidebar--show .navbar-sidebar,
+  body.navbar-sidebar--show .navbar-sidebar {
+    transform: translate3d(0, 0, 0) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
 }
