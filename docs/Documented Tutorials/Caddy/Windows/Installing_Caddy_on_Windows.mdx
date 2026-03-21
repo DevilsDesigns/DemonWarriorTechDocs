@@ -151,25 +151,13 @@ Run Caddy with configuration
 
 #### Service Installation (Recommended)
 
-For production use, install Caddy as a Windows service:
+For production use, install Caddy as a Windows service using NSSM (Non-Sucking Service Manager):
 
-Install as Windows service
-
-```bash
-caddy run --config C:\Tools\Caddy\Caddyfile --service install
-```
-
-Start the service
-
-```bash
-caddy start --service
-```
-
-Check service status
-
-```bash
-caddy status --service
-```
+**See: [Setting Up NSSM for Caddy on Windows](./How_to_Setup_NSSM)** for complete service installation instructions including:
+- Automatic startup on boot
+- Service monitoring and restart on failure
+- Proper logging configuration
+- Professional service management
 
 ## Cloudflare Integration
 
