@@ -90,7 +90,8 @@ Before beginning the installation, ensure your system meets the following requir
 
 Add both Caddy and NSSM to your system PATH for easy command-line access.
 
-#### Method 1: Using System Properties (GUI)
+<details>
+<summary>**Method 1: Using System Properties (GUI)**</summary>
 
 1. **Open System Properties**:
    - Press `Win + R`, type `sysdm.cpl`, press Enter
@@ -102,7 +103,10 @@ Add both Caddy and NSSM to your system PATH for easy command-line access.
    - Add your Caddy directory (e.g., `C:\Tools\Caddy`)
    - Add your NSSM directory (e.g., `C:\Tools\NSSM\win64`)
 
-#### Method 2: Using PowerShell (Command Line)
+</details>
+
+<details>
+<summary>**Method 2: Using PowerShell (Command Line)**</summary>
 
 Add Caddy to PATH (replace with your actual path)
 
@@ -121,6 +125,8 @@ Make changes permanent (requires admin)
 ```powershell
 [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [EnvironmentVariableTarget]::Machine)
 ```
+
+</details>
 
 #### Verify Installation
 
