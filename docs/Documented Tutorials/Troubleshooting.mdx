@@ -4,6 +4,8 @@ description: Common troubleshooting guides for Windows networking, including set
 keywords: [windows, static ip, smb, network discovery, troubleshooting, networking]
 ---
 
+import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
+
 # Troubleshooting
 
 This guide covers common Windows networking issues and their solutions.
@@ -56,7 +58,7 @@ This guide applies to **Windows 10** and **Windows 11**.
    :::
 
 8. Return to the IPv4 Properties window from step 6. Select **Use the following IP address** and enter the information from PowerShell:
-   - **IP address**: Your desired static IP (e.g., `192.168.1.100`)
+   - **IP address**: Your desired static IP (e.g., `192.168.1.111`)
    - **Subnet mask**: Usually `255.255.255.0`
    - **Default gateway**: Your router's IP address
 
@@ -107,3 +109,6 @@ If other PCs on your network cannot see your Windows server or shared folders, t
    :::note
    After enabling these settings, other devices on your network should be able to discover and access your shared folders.
    :::
+
+
+<BuyMeACoffeeButton />
