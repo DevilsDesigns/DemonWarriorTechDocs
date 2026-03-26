@@ -5,3 +5,71 @@ If on Windows 10/11
 
 1. Click the windows key or click the window icon on your taskbar and search control panel
 
+![Imgur Image](https://imgur.com/M2IXkCR.jpg)
+
+2. Click on Network and Internet
+
+![Imgur Image](https://imgur.com/ZwfwMxo.jpg)
+
+3. Click on Network and Sharing
+
+![Imgur Image](https://imgur.com/5MzWzBF.jpg)
+
+4. Click Change Adapter Settings on the left hand side
+
+![Imgur Image](https://imgur.com/CbqHfs9.jpg)
+
+5. Right click on your internet device whether its wifi or ethernet mine is ethernet so it looks like so and select propreties
+
+![Imgur Image](https://imgur.com/duQsOdv.jpg)
+
+6. Select IPV4 option then properties 
+
+![Imgur Image](https://imgur.com/4pURHll.jpg)
+
+7. Find your ipv4 settings in powershell. --> Open Powershell type ```ipconfig```
+
+Your looking for your adapter we used in step 5
+
+![Imgur Image](https://imgur.com/NE0QR8U.jpg)
+
+**note Most residentail ISP uses 192.168.0.1/192.168.1.1/10.0.0.1 for your router**
+Once you have the ipv4 were gonna set it to be static in control panel window now. go back to where we were on step 6
+8. Copy and paste the info from the powershell into the ipv4 properties
+
+ie
+![Imgur Image](https://imgur.com/3VKXZG8.jpg)
+
+9. Now click ok and close out of the control panel
+
+## Your other PCs cannot see your Windows Server/SMB
+
+1. Search on windows by either clicking window key on your keyboard or click the window key on Windows task bar and search settings
+
+![Imgur Image](https://imgur.com/4ObDRCS.jpg)
+
+2. Click on network and internet
+
+![Imgur Image](https://imgur.com/1WNDy8V.jpg)
+
+3. This needs to say private if it doesnt well show you how to change it 
+
+![Imgur Image](https://imgur.com/OVKvuBU.jpg)
+
+4. Click on the above screenshot on the redbox and it should bring you to a selection just select private
+
+![Imgur Image](https://imgur.com/BZ6VtdL.jpg)
+
+then save
+
+5. Next we need to select advanced sharing in the same windows we were at before
+
+![Imgur Image](https://imgur.com/yNAyxSe.jpg)
+
+6. Select Advanced Sharing
+
+![Imgur Image](https://imgur.com/wT04sJw.jpg)
+
+7. Enable these settings
+
+![Imgur Image](https://imgur.com/peKiRcu.jpg)
