@@ -1,75 +1,114 @@
+---
+title: Troubleshooting
+description: Common troubleshooting guides for Windows networking, including setting static IPs and resolving SMB/network discovery issues.
+keywords: [windows, static ip, smb, network discovery, troubleshooting, networking]
+---
+
+import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
+
 # Troubleshooting
-## How to set a Static IP on Windows
 
-If on Windows 10/11
+This guide covers common Windows networking issues and their solutions.
 
-1. Click the windows key or click the window icon on your taskbar and search control panel
+---
 
-![Imgur Image](https://imgur.com/M2IXkCR.jpg)
+## How to Set a Static IP on Windows
 
-2. Click on Network and Internet
+A static IP address ensures your computer always uses the same local IP, which is essential for hosting servers, port forwarding, or reliable network access.
 
-![Imgur Image](https://imgur.com/ZwfwMxo.jpg)
+:::info Compatibility
+This guide applies to **Windows 10** and **Windows 11**.
+:::
 
-3. Click on Network and Sharing
+### Steps
 
-![Imgur Image](https://imgur.com/5MzWzBF.jpg)
+1. Press the **Windows key** or click the Windows icon on your taskbar, then search for **Control Panel**.
 
-4. Click Change Adapter Settings on the left hand side
+   ![Windows search showing Control Panel](/img/troubleshooting/static-ip-01-search-control-panel.jpg)
 
-![Imgur Image](https://imgur.com/CbqHfs9.jpg)
+2. Click on **Network and Internet**.
 
-5. Right click on your internet device whether its wifi or ethernet mine is ethernet so it looks like so and select propreties
+   ![Control Panel showing Network and Internet option](/img/troubleshooting/static-ip-02-network-internet.jpg)
 
-![Imgur Image](https://imgur.com/duQsOdv.jpg)
+3. Click on **Network and Sharing Center**.
 
-6. Select IPV4 option then properties 
+   ![Network and Internet settings showing Network and Sharing Center](/img/troubleshooting/static-ip-03-network-sharing.jpg)
 
-![Imgur Image](https://imgur.com/4pURHll.jpg)
+4. Click **Change adapter settings** on the left-hand side.
 
-7. Find your ipv4 settings in powershell. --> Open Powershell type ```ipconfig```
+   ![Network and Sharing Center with Change adapter settings highlighted](/img/troubleshooting/static-ip-04-change-adapter.jpg)
 
-Your looking for your adapter we used in step 5
+5. Right-click on your network adapter (Wi-Fi or Ethernet) and select **Properties**.
 
-![Imgur Image](https://imgur.com/NE0QR8U.jpg)
+   ![Right-click menu on Ethernet adapter showing Properties option](/img/troubleshooting/static-ip-05-ethernet-properties.jpg)
 
-**note Most residentail ISP uses 192.168.0.1/192.168.1.1/10.0.0.1 for your router**
-Once you have the ipv4 were gonna set it to be static in control panel window now. go back to where we were on step 6
-8. Copy and paste the info from the powershell into the ipv4 properties
+6. Select **Internet Protocol Version 4 (TCP/IPv4)**, then click **Properties**.
 
-ie
-![Imgur Image](https://imgur.com/3VKXZG8.jpg)
+   ![Network adapter properties dialog with IPv4 selected](/img/troubleshooting/static-ip-06-ipv4-properties.jpg)
 
-9. Now click ok and close out of the control panel
+7. Open **PowerShell** and type `ipconfig` to find your current IPv4 settings. Look for the adapter you selected in step 5.
 
-## Your other PCs cannot see your Windows Server/SMB
+   ![PowerShell window showing ipconfig output with IPv4 address](/img/troubleshooting/static-ip-07-powershell-ipconfig.jpg)
 
-1. Search on windows by either clicking window key on your keyboard or click the window key on Windows task bar and search settings
+   :::tip Common Default Gateways
+   Most residential ISPs use one of these addresses for the router/default gateway:
+   - `192.168.0.1`
+   - `192.168.1.1`
+   - `10.0.0.1`
+   :::
 
-![Imgur Image](https://imgur.com/4ObDRCS.jpg)
+8. Return to the IPv4 Properties window from step 6. Select **Use the following IP address** and enter the information from PowerShell:
+   - **IP address**: Your desired static IP (e.g., `192.168.1.111`)
+   - **Subnet mask**: Usually `255.255.255.0`
+   - **Default gateway**: Your router's IP address
 
-2. Click on network and internet
+   ![IPv4 Properties dialog with static IP configuration entered](/img/troubleshooting/static-ip-08-set-static-ip.jpg)
 
-![Imgur Image](https://imgur.com/1WNDy8V.jpg)
+9. Click **OK** to save your settings, then close all Control Panel windows.
 
-3. This needs to say private if it doesnt well show you how to change it 
+---
 
-![Imgur Image](https://imgur.com/OVKvuBU.jpg)
+## Fixing Windows Server/SMB Network Discovery Issues
 
-4. Click on the above screenshot on the redbox and it should bring you to a selection just select private
+If other PCs on your network cannot see your Windows server or shared folders, the network profile or sharing settings may need adjustment.
 
-![Imgur Image](https://imgur.com/BZ6VtdL.jpg)
+### Steps
 
-then save
+1. Press the **Windows key** or click the Windows icon on your taskbar, then search for **Settings**.
 
-5. Next we need to select advanced sharing in the same windows we were at before
+   ![Windows search showing Settings app](/img/troubleshooting/smb-01-search-settings.jpg)
 
-![Imgur Image](https://imgur.com/yNAyxSe.jpg)
+2. Click on **Network & Internet**.
 
-6. Select Advanced Sharing
+   ![Windows Settings showing Network & Internet option](/img/troubleshooting/smb-02-network-internet.jpg)
 
-![Imgur Image](https://imgur.com/wT04sJw.jpg)
+3. Check your network profile type. It should say **Private**. If it shows **Public**, you need to change it.
 
-7. Enable these settings
+   ![Network status showing network profile type](/img/troubleshooting/smb-03-private-network.jpg)
 
-![Imgur Image](https://imgur.com/peKiRcu.jpg)
+4. Click on the network connection (highlighted in red in the screenshot above) and select **Private**.
+
+   ![Network profile selection showing Private option](/img/troubleshooting/smb-04-select-private.jpg)
+
+   Click **Save** to apply the change.
+
+5. Return to the Network & Internet settings and locate **Advanced sharing settings**.
+
+   ![Network settings showing Advanced sharing settings option](/img/troubleshooting/smb-05-advanced-sharing-menu.jpg)
+
+6. Click on **Advanced sharing settings**.
+
+   ![Advanced sharing settings panel](/img/troubleshooting/smb-06-select-advanced-sharing.jpg)
+
+7. Enable the following settings for your **Private** network profile:
+   - **Network discovery**: Turn on
+   - **File and printer sharing**: Turn on
+
+   ![Advanced sharing settings with network discovery and file sharing enabled](/img/troubleshooting/smb-07-enable-settings.jpg)
+
+   :::note
+   After enabling these settings, other devices on your network should be able to discover and access your shared folders.
+   :::
+
+
+<BuyMeACoffeeButton />
