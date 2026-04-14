@@ -57,8 +57,12 @@ Before beginning the installation, ensure your system meets the following requir
 ### Required Permissions
 
 - **Administrator access** for installation and service setup
+
+### Network Configuration
+
+- **Static IP address**: Your host machine should have a static IP configured for reliable server operation and port forwarding. See [How to Set a Static IP on Windows](../../Troubleshooting#how-to-set-a-static-ip-on-windows) for setup instructions.
 - **Port access**: Ability to bind to ports 80 and 443
-- **Firewall configuration** permissions
+- **Firewall configuration**: Permissions to modify Windows Firewall rules
 
 ## Installation
 
@@ -151,25 +155,13 @@ Run Caddy with configuration
 
 #### Service Installation (Recommended)
 
-For production use, install Caddy as a Windows service:
+For production use, install Caddy as a Windows service using NSSM (Non-Sucking Service Manager):
 
-Install as Windows service
-
-```bash
-caddy run --config C:\Tools\Caddy\Caddyfile --service install
-```
-
-Start the service
-
-```bash
-caddy start --service
-```
-
-Check service status
-
-```bash
-caddy status --service
-```
+**See: [Setting Up NSSM for Caddy on Windows](./How_to_Setup_NSSM)** for complete service installation instructions including:
+- Automatic startup on boot
+- Service monitoring and restart on failure
+- Proper logging configuration
+- Professional service management
 
 ## Cloudflare Integration
 
@@ -207,6 +199,10 @@ If you're using Cloudflare for DNS management:
 
 ![image](https://user-images.githubusercontent.com/35183970/215296175-26bfe947-0d46-442a-9861-13f24f63611b.png)
 
+:::warning
+You must create a **[User API Token](https://dash.cloudflare.com/profile/api-tokens)**, not an Account API Token. Cloudflare Account API Tokens will not work for this configuration.
+:::
+
 4. **Select Custom Token**:
 
 ![image](https://user-images.githubusercontent.com/35183970/215296224-f911035a-0f96-4426-8673-43cdd7bf0e53.png)
@@ -235,12 +231,16 @@ and make your services unreachable, continue with caution.
 
 2. **Extract to directory**: `C:\Tools\CloudflareDDNS`
    - The Filepath after being unzipped should be as follows.
-     ```
-     └── C:/
-         └── Tools/
-             └── CloudFlareDDNS/
-                 └── cloudflare-ddns.exe
-     ```
+
+<Trees title="C:\Tools\CloudflareDDNS">
+  <Folder label="C:" expanded>
+    <Folder label="Tools" expanded>
+      <Folder label="CloudFlareDDNS" expanded>
+        <File label="cloudflare-ddns.exe" />
+      </Folder>
+    </Folder>
+  </Folder>
+</Trees>
 
 #### Download and Setup DDNS Scripts
 

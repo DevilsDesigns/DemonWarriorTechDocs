@@ -90,7 +90,8 @@ Before beginning the installation, ensure your system meets the following requir
 
 Add both Caddy and NSSM to your system PATH for easy command-line access.
 
-#### Method 1: Using System Properties (GUI)
+<details>
+<summary>**Method 1: Using System Properties (GUI)**</summary>
 
 1. **Open System Properties**:
    - Press `Win + R`, type `sysdm.cpl`, press Enter
@@ -102,7 +103,10 @@ Add both Caddy and NSSM to your system PATH for easy command-line access.
    - Add your Caddy directory (e.g., `C:\Tools\Caddy`)
    - Add your NSSM directory (e.g., `C:\Tools\NSSM\win64`)
 
-#### Method 2: Using PowerShell (Command Line)
+</details>
+
+<details>
+<summary>**Method 2: Using PowerShell (Command Line)**</summary>
 
 Add Caddy to PATH (replace with your actual path)
 
@@ -121,6 +125,8 @@ Make changes permanent (requires admin)
 ```powershell
 [Environment]::SetEnvironmentVariable("PATH", $env:PATH, [EnvironmentVariableTarget]::Machine)
 ```
+
+</details>
 
 #### Verify Installation
 
@@ -162,12 +168,12 @@ Before creating the service, ensure your Caddy configuration is ready.
    ```
 
 2. **Ensure proper file structure**:
-   ```
-   C:\Tools\Caddy\
-   ├── caddy.exe
-   ├── Caddyfile
-   └── logs\ (optional, for custom logging)
-   ```
+
+<Trees title="C:\Tools\Caddy">
+  <File label="caddy.exe" badge="Caddy executable" />
+  <File label="Caddyfile" badge="Caddy configuration file" />
+  <Folder label="logs" badge="optional, for custom logging" />
+</Trees>
 
 ## Service Configuration
 
@@ -253,7 +259,7 @@ Configure logging for monitoring and troubleshooting:
 
 3. **Input (stdin)**: Leave empty
 
-:::note Logs Folder
+:::note[Logs Folder]
 The **logs** folder must exist or the log files will not be created
 :::
 
