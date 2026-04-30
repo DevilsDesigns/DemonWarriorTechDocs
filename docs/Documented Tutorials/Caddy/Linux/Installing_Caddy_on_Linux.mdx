@@ -122,7 +122,7 @@ Codename:       noble
    ```bash
    cd ~/Downloads
    ```
-   Download using curl
+   Download using curl (Replace with your Custom-build URL)
    ```bash
    curl -L -H "User-Agent: Mozilla/5.0" \
      -o caddy \
@@ -218,7 +218,7 @@ Create a systemd service file for proper service management and automatic startu
 
    ```systemd
    [Unit]
-   Description=Caddy HTTP/2 web server
+   Description=Caddy
    Documentation=https://caddyserver.com/docs/
    After=network.target network-online.target
    Requires=network-online.target
@@ -231,18 +231,27 @@ Create a systemd service file for proper service management and automatic startu
    ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force
    TimeoutStopSec=5s
    LimitNOFILE=1048576
-   LimitNPROC=1048576
    PrivateTmp=true
    ProtectSystem=full
    AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+   # --- Additions beyond the official Caddy service file ---
+   # Prevents the process from gaining new privileges via setuid/capabilities
    NoNewPrivileges=true
+   # Do not restart if Caddy exits with code 1 (e.g. config error)
    RestartPreventExitStatus=1
+   # Automatically restart Caddy if it crashes unexpectedly
    Restart=on-failure
    RestartSec=5s
+   # Raises the process limit beyond the default (official uses LimitNOFILE only)
+   LimitNPROC=1048576
 
    [Install]
    WantedBy=multi-user.target
    ```
+
+   :::tip
+   The lines marked **"Additions beyond the official Caddy service file"** are optional hardening extras not present in the [official caddy.service](https://github.com/caddyserver/dist/blob/master/init/caddy.service). They are safe to include but can be removed if you prefer to stay exactly on the official defaults. The official file recommends using `sudo systemctl edit caddy` to add overrides non-destructively.
+   :::
 
    **Key service features**:
    - **Security**: Runs as non-root user with minimal capabilities
