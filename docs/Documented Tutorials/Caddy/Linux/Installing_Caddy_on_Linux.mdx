@@ -259,6 +259,16 @@ Create a systemd service file for proper service management and automatic startu
    - **Resource limits**: Prevents resource exhaustion
    - **Network capabilities**: Can bind to privileged ports (80, 443)
 
+3. **Reload systemd to register the new service file**:
+
+   ```bash
+   sudo systemctl daemon-reload
+   ```
+
+   :::note
+   Do not start or enable the service yet — Caddy requires a valid Caddyfile before it can run. Complete Steps 6 and 7 first, then start the service in Step 13.
+   :::
+
 ### Step 6: Create Configuration Directory
 
 1. **Create the Caddy configuration directory**:
@@ -274,12 +284,34 @@ Create a systemd service file for proper service management and automatic startu
    sudo chmod 755 /etc/caddy
    ```
 
-3. **Create data directory for certificates and cache**:
+3. **Verify the data directory was created correctly**:
+
+   The `--create-home` flag in Step 4 already created `/var/lib/caddy` owned by the `caddy` user. Confirm it looks correct:
+
    ```bash
-   sudo mkdir -p /var/lib/caddy
-   sudo chown caddy:caddy /var/lib/caddy
-   sudo chmod 755 /var/lib/caddy
+   ls -la /var/lib/caddy
    ```
+
+   Expected output: the directory should be owned by `caddy:caddy`.
+
+   ```
+   total 20
+   drwxr-x---  2 caddy caddy 4096 Jan 15 10:00 .
+   drwxr-xr-x 30 root  root  4096 Jan 15 10:00 ..
+   -rw-r--r--  1 caddy caddy  220 Jan  7  2023 .bash_logout
+   -rw-r--r--  1 caddy caddy 3771 Jan  7  2023 .bashrc
+   -rw-r--r--  1 caddy caddy  807 Jan  7  2023 .profile
+   ```
+
+   The `.bash_logout`, `.bashrc`, and `.profile` files are skeleton files copied automatically by `useradd --create-home` and can be ignored — Caddy does not use them.
+
+   :::warning
+   If the ownership shows `root:root` instead, it means `/var/lib/caddy` was created before Step 4 ran. Fix it with:
+   ```bash
+   sudo chown -R caddy:caddy /var/lib/caddy
+   ```
+   Incorrect ownership here will cause a `failed storage check: failed to create temp file` error when Caddy starts.
+   :::
 
 ## Configuration
 
@@ -466,13 +498,7 @@ Add this line to update every 5 minutes
 
 ### Step 13: Start and Enable Caddy
 
-1. **Reload systemd configuration**:
-
-   ```bash
-   sudo systemctl daemon-reload
-   ```
-
-2. **Enable and start Caddy service**:
+1. **Enable and start Caddy service**:
 
    ```bash
    sudo systemctl enable --now caddy
@@ -486,7 +512,7 @@ Add this line to update every 5 minutes
 **Expected output:**
 
 ```systemd
-● caddy.service - Caddy HTTP/2 web server
+● caddy.service - Caddy
      Loaded: loaded (/etc/systemd/system/caddy.service; enabled; vendor preset: enabled)
      Active: active (running) since Mon 2024-01-15 10:30:00 UTC; 5s ago
 ```
