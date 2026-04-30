@@ -1,4 +1,3 @@
-import React from 'react';
 import MDXComponents from '@theme-original/MDXComponents';
 import Trees from '@site/src/components/Trees';
 import Folder from '@site/src/components/Trees/Folder';
