@@ -508,7 +508,7 @@ Add this line to update every 5 minutes
    sudo systemctl enable --now caddy
    ```
 
-3. **Verify service status**:
+2. **Verify service status**:
    ```bash
    sudo systemctl status caddy
    ```
@@ -632,10 +632,16 @@ sudo chmod 644 /etc/caddy/Caddyfile
 
 #### Issue 2: Certificate Errors
 
-Check certificate status
+Check stored certificates
 
 ```bash
-sudo caddy list-certificates
+ls /var/lib/caddy/.local/share/caddy/certificates/
+```
+
+Query certificate status via the admin API
+
+```bash
+curl -s localhost:2019/pki/ca/local
 ```
 
 View certificate-related logs
