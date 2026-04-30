@@ -804,23 +804,14 @@ Create `/opt/caddy-backup/backup.sh`:
 #!/bin/bash
 BACKUP_DIR="/opt/caddy-backup"
 DATE=$(date +%Y%m%d_%H%M%S)
-```
 
-Backup configuration
-
-```bash
+# Backup configuration
 cp /etc/caddy/Caddyfile "$BACKUP_DIR/Caddyfile.$DATE"
-```
 
-Backup data directory
-
-```bash
+# Backup data directory
 tar -czf "$BACKUP_DIR/caddy-data-$DATE.tar.gz" /var/lib/caddy
-```
 
-Keep only last 7 days of backups
-
-```bash
+# Keep only last 7 days of backups
 find "$BACKUP_DIR" -name "*.tar.gz" -mtime +7 -delete
 find "$BACKUP_DIR" -name "Caddyfile.*" -mtime +7 -delete
 ```
