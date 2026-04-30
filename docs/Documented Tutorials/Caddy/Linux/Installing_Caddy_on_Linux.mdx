@@ -741,21 +741,21 @@ sudo chown root:root /usr/bin/caddy
 
 Configure and enable UFW with a secure ruleset:
 
-```bash
-# Allow SSH before enabling the firewall so you don't lose remote access
-sudo ufw allow ssh comment 'SSH'
+| Command | What it does |
+|---|---|
+| `sudo ufw allow ssh comment 'SSH'` | Allows SSH access — **run this first** to avoid being locked out |
+| `sudo ufw default deny incoming` | Blocks all incoming connections by default |
+| `sudo ufw default allow outgoing` | Allows all outgoing connections by default |
+| `sudo ufw allow 80/tcp comment 'HTTP'` | Opens port 80 for HTTP traffic |
+| `sudo ufw allow 443/tcp comment 'HTTPS'` | Opens port 443 for HTTPS traffic |
+| `sudo ufw enable` | Activates the firewall and applies all rules |
 
-# Set default policies:
-# - Block all incoming connections unless a specific rule allows them
-# - Allow all outgoing connections (your server can reach the internet freely)
+```bash
+sudo ufw allow ssh comment 'SSH'
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-
-# Punch holes in the default-deny for the ports Caddy needs
 sudo ufw allow 80/tcp comment 'HTTP'
 sudo ufw allow 443/tcp comment 'HTTPS'
-
-# Enable the firewall (applies all rules above)
 sudo ufw enable
 ```
 
