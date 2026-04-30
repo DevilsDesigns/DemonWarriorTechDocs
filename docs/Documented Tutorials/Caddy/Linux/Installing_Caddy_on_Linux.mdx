@@ -122,10 +122,16 @@ Codename:       noble
    ```bash
    cd ~/Downloads
    ```
-   Download using wget (replace URL with your custom build URL)
+   Download using curl
    ```bash
-   wget "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fcloudflare&p=github.com%2Fcaddy-dns%2Fduckdns" -O caddy
+   curl -L -H "User-Agent: Mozilla/5.0" \
+     -o caddy \
+     "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fcloudflare&p=github.com%2Fcaddy-dns%2Fduckdns"
    ```
+
+   :::note
+   `wget` may not download the binary correctly from the Caddy API. Use `curl` with the `-L` flag to follow redirects and a browser `User-Agent` header to ensure the binary is downloaded properly.
+   :::
 
 ### Step 3: Install the Binary
 
