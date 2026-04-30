@@ -523,7 +523,8 @@
     "buildx",
     "CGNAT",
     "Metronet",
-    "myimage"
+    "myimage",
+    "drwxr"
   ],
   "dictionaries": [
     "typescript",
