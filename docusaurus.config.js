@@ -86,12 +86,12 @@ const config = {
         respectPrefersColorScheme: false,
       },
       // Replace with your project's social card
-      image: 'img/docusaurus.png',
+      image: 'img/DWT-Logo.png',
       navbar: {
         title: 'Demon Warrior Tech Docs',
         logo: {
           alt: 'DWT logo',
-          src: 'img/docusaurus.png',
+          src: 'img/DWT-Logo.png',
         },
         items: [
           {
