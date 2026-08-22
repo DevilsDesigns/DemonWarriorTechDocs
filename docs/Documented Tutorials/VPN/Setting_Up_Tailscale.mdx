@@ -145,7 +145,7 @@ Before beginning the installation, ensure your system meets all requirements:
 
 ### Step 2: Platform Installation
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 #### Download and Install
@@ -166,7 +166,7 @@ Start-Process -FilePath $output -ArgumentList "/S" -Wait -Verb RunAs
 
 Verify installation
 
-```bash
+```powershell
 tailscale version
 ```
 
@@ -194,7 +194,7 @@ Set-Service Tailscale -StartupType Automatic
 
 Start Tailscale and authenticate
 
-```bash
+```powershell
 tailscale up
 ```
 
@@ -206,19 +206,19 @@ Device will appear in Tailscale admin console
 
 Check Tailscale status
 
-```bash
+```powershell
 tailscale status
 ```
 
 List connected devices
 
-```bash
+```powershell
 tailscale status --peers
 ```
 
 Test connectivity to another device
 
-```bash
+```powershell
 ping [device-tailscale-ip]
 ```
 
@@ -226,13 +226,13 @@ ping [device-tailscale-ip]
 
 Set a custom device name
 
-```bash
+```powershell
 tailscale up --hostname=my-windows-pc
 ```
 
 Update device tags (for ACL organization)
 
-```bash
+```powershell
 tailscale up --advertise-tags=tag:windows,tag:client
 ```
 
@@ -244,13 +244,13 @@ Settings → DNS → Enable MagicDNS
 
 Set custom DNS servers (optional)
 
-```bash
+```powershell
 tailscale up --accept-dns=false
 ```
 
 Or use specific DNS servers
 
-```bash
+```powershell
 tailscale up --accept-dns --dns=1.1.1.1,8.8.8.8
 ```
 
@@ -285,14 +285,13 @@ tailscale version
 
 Add Tailscale repository
 
-````bash
-sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/rhel/8/tailscale.repo
 ```bash
-
+sudo dnf config-manager --add-repo https://pkgs.tailscale.com/stable/rhel/8/tailscale.repo
+```
 Install Tailscale
 ```bash
 sudo dnf install tailscale
-````
+```
 
 Enable and start the service
 
@@ -407,6 +406,783 @@ sudo tailscale up --accept-dns --dns=1.1.1.1,8.8.8.8
   </TabItem>
 </Tabs>
 
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+## Advanced Configuration
+
+### Step 3: Exit Node Configuration
+
+#### Setup Exit Node
+
+An exit node routes internet traffic through a specific Tailscale device:
+
+Enable IP forwarding on the exit node
+
+```powershell
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "IPEnableRouter" -Value 1
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" -Name "IPEnableRouter" -Value 1
+Restart-Computer -Force
+```
+
+Advertise as exit node
+
+```powershell
+tailscale up --advertise-exit-node
+```
+
+Verify exit node status
+
+```powershell
+tailscale status
+```
+
+#### Configure Firewall for Exit Node
+
+Allow Tailscale traffic through Windows Firewall
+
+```powershell
+New-NetFirewallRule -DisplayName "Tailscale Inbound" -Direction Inbound -InterfaceAlias "Tailscale" -Action Allow
+New-NetFirewallRule -DisplayName "Tailscale Outbound" -Direction Outbound -InterfaceAlias "Tailscale" -Action Allow
+```
+
+Enable NAT masquerading via Routing and Remote Access (Windows Server)
+
+```powershell
+# Install RRAS role (Windows Server only)
+Install-WindowsFeature Routing -IncludeManagementTools
+# Enable NAT on the internet-facing interface
+netsh routing ip nat install
+netsh routing ip nat add interface "Ethernet" full
+```
+
+#### Use Exit Node from Client
+
+List available exit nodes
+
+```powershell
+tailscale exit-node list
+```
+
+Use specific exit node
+
+```powershell
+tailscale up --exit-node=[exit-node-ip]
+```
+
+Stop using exit node
+
+```powershell
+tailscale up --exit-node=
+```
+
+### Step 4: Subnet Routing Configuration
+
+#### Setup Subnet Router
+
+Subnet routing allows access to entire networks through a gateway device:
+
+Enable IP forwarding
+
+```powershell
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "IPEnableRouter" -Value 1
+Restart-Computer -Force
+```
+
+Advertise subnet routes
+
+```powershell
+tailscale up --advertise-routes=192.168.1.0/24,10.0.0.0/8
+```
+
+For multiple subnets
+
+```powershell
+tailscale up --advertise-routes=192.168.1.0/24,192.168.2.0/24,10.0.0.0/16
+```
+
+Accept routes from other subnet routers
+
+```powershell
+tailscale up --accept-routes
+```
+
+#### Configure Subnet Router Firewall
+
+Allow forwarding through Windows Firewall
+
+```powershell
+New-NetFirewallRule -DisplayName "Tailscale Forward In" -Direction Inbound -InterfaceAlias "Tailscale" -Action Allow
+New-NetFirewallRule -DisplayName "Tailscale Forward Out" -Direction Outbound -InterfaceAlias "Tailscale" -Action Allow
+```
+
+Enable forwarding between Tailscale and local network interfaces
+
+```powershell
+Set-NetIPInterface -InterfaceAlias "Tailscale" -Forwarding Enabled
+Set-NetIPInterface -InterfaceAlias "Ethernet" -Forwarding Enabled
+```
+
+#### Enable Subnet Routes in Admin Console
+
+1. **Navigate to Tailscale admin console**
+2. **Go to Machines tab**
+3. **Find your subnet router device**
+4. **Click the three dots menu**
+5. **Select "Edit route settings"**
+6. **Enable the advertised routes**
+
+### Step 5: Access Control Lists (ACLs)
+
+#### Basic ACL Configuration
+
+```javascript
+{
+  "tagOwners": {
+    "tag:server": ["user@example.com"],
+    "tag:client": ["user@example.com"],
+    "tag:admin": ["admin@example.com"]
+  },
+  "acls": [
+    // Allow all traffic within the network
+    {
+      "action": "accept",
+      "src": ["*"],
+      "dst": ["*:*"]
+    }
+  ]
+}
+```
+
+#### Advanced ACL Examples
+
+```javascript
+{
+  "tagOwners": {
+    "tag:server": ["admin@example.com"],
+    "tag:database": ["admin@example.com"],
+    "tag:web": ["admin@example.com"],
+    "tag:client": ["user@example.com"]
+  },
+  "acls": [
+    // Allow clients to access web servers on HTTP/HTTPS
+    {
+      "action": "accept",
+      "src": ["tag:client"],
+      "dst": ["tag:web:80,443"]
+    },
+    // Allow web servers to access databases
+    {
+      "action": "accept",
+      "src": ["tag:web"],
+      "dst": ["tag:database:3306,5432"]
+    },
+    // Allow admins full access
+    {
+      "action": "accept",
+      "src": ["tag:admin"],
+      "dst": ["*:*"]
+    },
+    // Allow SSH access to servers
+    {
+      "action": "accept",
+      "src": ["tag:admin", "tag:client"],
+      "dst": ["tag:server:22"]
+    }
+  ]
+}
+```
+
+#### Time-Based Access Control
+
+```javascript
+{
+  "acls": [
+    // Allow access only during business hours
+    {
+      "action": "accept",
+      "src": ["tag:client"],
+      "dst": ["tag:server:*"],
+      "time": {
+        "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+        "hours": ["09:00-17:00"]
+      }
+    }
+  ]
+}
+```
+
+## Security Hardening
+
+### Step 6: Security Best Practices
+
+#### Device Authentication
+
+Enable device authorization requirement
+Configure in admin console: Settings → General → Device authorization
+
+Set key expiry policies
+Configure in admin console: Settings → Keys → Key expiry
+
+Require reauth for sensitive operations
+
+```powershell
+tailscale up --force-reauth
+```
+
+#### Network Segmentation
+
+Use tags for network segmentation
+
+```powershell
+tailscale up --advertise-tags=tag:production,tag:database
+```
+
+Apply strict ACLs based on tags
+Configure in admin console: Access Controls
+
+#### Audit and Monitoring
+
+Enable audit logging
+Configure in admin console: Settings → Audit logs
+
+Monitor device connections
+
+```powershell
+(tailscale status --json | ConvertFrom-Json).Peer.Values | Select-Object HostName, LastSeen, Online
+```
+
+Check for unauthorized devices
+
+```powershell
+tailscale status --peers
+```
+
+### Step 7: Enterprise Features
+
+#### SSO Integration
+
+```powershell
+# Configure SAML/OIDC SSO
+# Admin console: Settings → SSO
+# Supported providers:
+# - Active Directory
+# - Okta
+# - Azure AD
+# - Google Workspace
+# - Custom OIDC
+```
+
+#### Device Management
+
+```powershell
+# Bulk device management
+# Admin console: Machines → Bulk actions
+
+# Device compliance policies
+# Configure device requirements:
+# - OS version requirements
+# - Security patch levels
+# - Endpoint protection status
+```
+
+#### Network Policies
+
+```json
+{
+  "nodeAttrs": [
+    {
+      "target": ["tag:server"],
+      "attr": ["funnel:on"]
+    }
+  ],
+  "ssh": [
+    {
+      "action": "accept",
+      "src": ["tag:admin"],
+      "dst": ["tag:server"],
+      "users": ["root", "admin"]
+    }
+  ]
+}
+```
+
+## Monitoring and Maintenance
+
+### Step 8: Monitoring Setup
+
+#### Health Monitoring
+
+Create health check script
+
+```powershell
+$scriptContent = @'
+# Check Tailscale service status
+$service = Get-Service Tailscale -ErrorAction SilentlyContinue
+if ($service.Status -ne 'Running') {
+    Write-Error "ERROR: Tailscale service is not running"
+    exit 1
+}
+
+# Check connectivity to coordination server
+tailscale ping --timeout=5s 100.64.0.1 | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning "WARNING: Cannot reach Tailscale coordination server"
+}
+
+# Check peer connectivity
+$peers = (tailscale status --json | ConvertFrom-Json).Peer.Values |
+    Where-Object { $_.Online -eq $true } |
+    ForEach-Object { $_.TailscaleIPs[0] }
+foreach ($peer in $peers) {
+    if (-not (Test-Connection -ComputerName $peer -Count 1 -Quiet)) {
+        Write-Warning "WARNING: Cannot reach peer $peer"
+    }
+}
+Write-Host "Tailscale health check passed"
+'@
+$scriptContent | Out-File -FilePath "C:\Scripts\tailscale-health.ps1" -Encoding UTF8
+```
+
+#### Performance Monitoring
+
+Monitor Tailscale interface statistics
+
+```powershell
+while ($true) { Get-NetAdapterStatistics -Name "Tailscale"; Start-Sleep 5; Clear-Host }
+```
+
+Monitor connection quality
+
+```powershell
+tailscale ping [peer-ip] --verbose
+```
+
+Check DERP server latency
+
+```powershell
+tailscale netcheck
+```
+
+#### Log Analysis
+
+View Tailscale logs
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Tailscale'} | Format-List
+```
+
+Filter for connection events
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Tailscale'} |
+    Where-Object { $_.Message -match 'connected|disconnected|auth' }
+```
+
+Monitor ACL violations
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Tailscale'} |
+    Where-Object { $_.Message -match 'denied' }
+```
+
+### Step 13: Maintenance Tasks
+
+#### Regular Updates
+
+Update Tailscale using winget
+
+```powershell
+winget upgrade tailscale.tailscale
+```
+
+Or download and run the latest installer
+
+```powershell
+$url = "https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe"
+$output = "$env:TEMP\tailscale-setup.exe"
+Invoke-WebRequest -Uri $url -OutFile $output
+Start-Process -FilePath $output -ArgumentList "/S" -Wait -Verb RunAs
+```
+
+Restart service after update
+
+```powershell
+Restart-Service Tailscale
+```
+
+#### Key Management
+
+Check key expiry
+
+```powershell
+(tailscale status --json | ConvertFrom-Json).Self.KeyExpiry
+```
+
+Renew authentication key
+
+```powershell
+tailscale up --force-reauth
+```
+
+Generate new auth keys in admin console
+Settings → Keys → Generate auth key
+
+#### Backup Configuration
+
+Backup Tailscale configuration
+
+```powershell
+Copy-Item -Recurse "C:\ProgramData\Tailscale" "C:\backup\tailscale-$(Get-Date -Format 'yyyyMMdd')"
+```
+
+Export ACL configuration
+Admin console: Access Controls → Export
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Issue 1: Cannot Connect to Peers
+
+**Symptoms:**
+
+- Devices appear offline in `tailscale status`
+- Cannot ping other Tailscale devices
+- Connection timeouts
+
+**Diagnostic Steps:**
+
+Check Tailscale service status
+
+```powershell
+Get-Service Tailscale
+```
+
+Verify authentication
+
+```powershell
+tailscale status
+```
+
+Test network connectivity
+
+```powershell
+tailscale netcheck
+```
+
+Check firewall rules
+
+```powershell
+Get-NetFirewallRule | Where-Object { $_.DisplayName -match 'Tailscale' }
+```
+
+**Solutions:**
+
+Restart Tailscale service
+
+```powershell
+Restart-Service Tailscale
+```
+
+Re-authenticate device
+
+```powershell
+tailscale up --force-reauth
+```
+
+Check and fix firewall rules
+
+```powershell
+New-NetFirewallRule -DisplayName "Tailscale Inbound" -Direction Inbound -InterfaceAlias "Tailscale" -Action Allow
+New-NetFirewallRule -DisplayName "Tailscale Outbound" -Direction Outbound -InterfaceAlias "Tailscale" -Action Allow
+```
+
+Reset network configuration
+
+```powershell
+tailscale down
+tailscale up
+```
+
+#### Issue 2: Subnet Routing Not Working
+
+**Symptoms:**
+
+- Cannot access devices on remote subnets
+- Routes not appearing in routing table
+- Subnet routes not enabled in admin console
+
+**Diagnostic Steps:**
+
+Check advertised routes
+
+```powershell
+(tailscale status --json | ConvertFrom-Json).Self.PrimaryRoutes
+```
+
+Verify IP forwarding
+
+```powershell
+Get-ItemPropertyValue -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "IPEnableRouter"
+```
+
+Check routing table
+
+```powershell
+Get-NetRoute | Where-Object { $_.InterfaceAlias -match 'Tailscale' }
+```
+
+**Solutions:**
+
+Enable IP forwarding
+
+```powershell
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "IPEnableRouter" -Value 1
+Restart-Computer -Force
+```
+
+Re-advertise routes
+
+```powershell
+tailscale up --advertise-routes=192.168.1.0/24 --accept-routes
+```
+
+Enable routes in admin console
+Navigate to Machines → [Device] → Edit route settings
+
+#### Issue 3: Exit Node Performance Issues
+
+**Symptoms:**
+
+- Slow internet speeds through exit node
+- High latency
+- Connection drops
+
+**Diagnostic Steps:**
+
+Test direct connection speed
+
+```powershell
+# Install Speedtest CLI first: winget install Ookla.Speedtest.CLI
+speedtest
+```
+
+Test through exit node
+
+```powershell
+tailscale up --exit-node=[exit-node-ip]
+speedtest
+```
+
+Check exit node resources
+
+```powershell
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 20
+Get-Counter '\Network Interface(*)\Bytes Total/sec'
+```
+
+**Solutions:**
+
+Optimize exit node performance
+Increase network buffer sizes
+
+```powershell
+netsh int tcp set global autotuninglevel=normal
+netsh int tcp set global rss=enabled
+```
+
+Use different exit node
+
+```powershell
+tailscale exit-node list
+tailscale up --exit-node=[better-exit-node-ip]
+```
+
+Disable exit node if not needed
+
+```powershell
+tailscale up --exit-node=
+```
+
+### Advanced Troubleshooting
+
+#### Network Diagnostics
+
+Comprehensive network check
+
+```powershell
+tailscale netcheck --verbose
+```
+
+Test specific peer connectivity
+
+```powershell
+tailscale ping [peer-ip] --verbose --timeout=10s
+```
+
+Check DERP server connectivity
+
+```powershell
+Invoke-WebRequest -Uri "https://derp.tailscale.com/" -Verbose
+```
+
+Analyze packet flow
+
+```powershell
+# Requires elevation; stop capture with: netsh trace stop
+netsh trace start capture=yes IPv4.Address=[tailscale-ip] traceFile="$env:TEMP\tailscale.etl"
+```
+
+#### Log Analysis
+
+Enable debug logging
+
+```powershell
+tailscale up --debug
+```
+
+Analyze connection logs
+
+```powershell
+$since = (Get-Date).AddHours(-1)
+Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Tailscale'; StartTime=$since} |
+    Where-Object { $_.Message -match 'DERP|peer|conn' }
+```
+
+Check for authentication issues
+
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Application'; ProviderName='Tailscale'} |
+    Where-Object { $_.Message -match 'auth' }
+```
+
+## Production Deployment
+
+### Step 9: Enterprise Deployment
+
+#### Infrastructure as Code
+
+Ansible playbook for Tailscale deployment
+
+```yaml
+---
+- name: Deploy Tailscale
+  hosts: all
+  become: yes
+  vars:
+    tailscale_auth_key: '{{ vault_tailscale_auth_key }}'
+    tailscale_tags: 'tag:{{ environment }},tag:{{ role }}'
+
+  tasks:
+    - name: Install Tailscale
+      package:
+        name: tailscale
+        state: present
+
+    - name: Configure Tailscale
+      command: >
+        tailscale up
+        --auth-key={{ tailscale_auth_key }}
+        --advertise-tags={{ tailscale_tags }}
+        --accept-routes
+      register: tailscale_result
+      changed_when: "'Success' in tailscale_result.stdout"
+```
+
+#### Monitoring Integration
+
+Prometheus monitoring configuration
+
+```yaml
+- job_name: 'tailscale'
+  static_configs:
+    - targets: ['localhost:9090']
+  metrics_path: /metrics
+  scrape_interval: 30s
+```
+
+#### Backup and Disaster Recovery
+
+Automated backup script
+
+```powershell
+$BACKUP_DIR = "C:\backup\tailscale"
+$DATE = Get-Date -Format "yyyyMMdd_HHmmss"
+```
+
+Backup Tailscale state
+
+```powershell
+Copy-Item -Recurse "C:\ProgramData\Tailscale" "$BACKUP_DIR\state_$DATE"
+```
+
+Export ACL configuration
+
+```powershell
+$headers = @{ Authorization = "Bearer $env:TAILSCALE_API_KEY" }
+Invoke-RestMethod -Uri "https://api.tailscale.com/api/v2/tailnet/$env:TAILNET/acl" `
+    -Headers $headers | ConvertTo-Json | Out-File "$BACKUP_DIR\acl_$DATE.json"
+```
+
+Cleanup old backups
+
+```powershell
+Get-ChildItem "$BACKUP_DIR\state_*" | Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Remove-Item -Recurse
+Get-ChildItem "$BACKUP_DIR\acl_*"   | Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Remove-Item
+```
+
+### Step 10: Security Compliance
+
+#### Compliance Checklist
+
+- ✅ **Strong Authentication**: MFA enabled for all admin accounts
+- ✅ **Access Controls**: Principle of least privilege implemented
+- ✅ **Network Segmentation**: ACLs properly configured
+- ✅ **Audit Logging**: All access and changes logged
+- ✅ **Key Management**: Regular key rotation implemented
+- ✅ **Device Management**: Unauthorized devices blocked
+- ✅ **Monitoring**: Real-time monitoring and alerting
+- ✅ **Backup**: Regular configuration backups
+
+## Additional Tools and Recommendations
+
+### Windows Terminal Recommendation
+
+For Windows users managing multiple systems and VMs, I recommend installing Windows Terminal. It's an excellent way to have all your VMs, PowerShell, and CMD sessions all in one place, making it easier to manage your Tailscale network across different systems.
+
+![image](https://user-images.githubusercontent.com/35183970/214385251-1a36a732-f99c-465d-9929-b5802892a7d4.png)
+
+**Install Windows Terminal:**
+[Windows Terminal Install](https://www.microsoft.com/store/productId/9N0DX20HK701)
+
+#### Compliance Reporting
+
+```powershell
+# Generate compliance report
+Write-Host "Tailscale Compliance Report - $(Get-Date)"
+Write-Host "=================================="
+
+$headers = @{ Authorization = "Bearer $env:API_KEY" }
+
+# Check MFA status
+$org = Invoke-RestMethod -Uri "https://api.tailscale.com/api/v2/tailnet/$env:TAILNET" -Headers $headers
+Write-Host "MFA Status: $($org.mfa_required)"
+
+# List devices and last seen
+Write-Host "Device Status:"
+(tailscale status --json | ConvertFrom-Json).Peer.Values | ForEach-Object {
+    Write-Host "$($_.HostName): $($_.LastSeen)"
+}
+
+# Check ACL compliance
+$acl = Invoke-RestMethod -Uri "https://api.tailscale.com/api/v2/tailnet/$env:TAILNET/acl" -Headers $headers
+Write-Host "ACL Rules: $($acl.acls.Count) rules configured"
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
 ## Advanced Configuration
 
 ### Step 3: Exit Node Configuration
@@ -443,14 +1219,6 @@ Ubuntu/Debian - Configure UFW
 sudo ufw allow in on tailscale0
 sudo ufw allow out on tailscale0
 sudo ufw enable
-```
-
-CentOS/RHEL - Configure firewalld
-
-```bash
-sudo firewall-cmd --permanent --add-interface=tailscale0 --zone=trusted
-sudo firewall-cmd --permanent --add-masquerade
-sudo firewall-cmd --reload
 ```
 
 Enable NAT masquerading
@@ -561,7 +1329,6 @@ sudo iptables-save | sudo tee /etc/iptables/rules.v4
     "tag:admin": ["admin@example.com"]
   },
   "acls": [
-    // Allow all traffic within the network
     {
       "action": "accept",
       "src": ["*"],
@@ -582,25 +1349,21 @@ sudo iptables-save | sudo tee /etc/iptables/rules.v4
     "tag:client": ["user@example.com"]
   },
   "acls": [
-    // Allow clients to access web servers on HTTP/HTTPS
     {
       "action": "accept",
       "src": ["tag:client"],
       "dst": ["tag:web:80,443"]
     },
-    // Allow web servers to access databases
     {
       "action": "accept",
       "src": ["tag:web"],
       "dst": ["tag:database:3306,5432"]
     },
-    // Allow admins full access
     {
       "action": "accept",
       "src": ["tag:admin"],
       "dst": ["*:*"]
     },
-    // Allow SSH access to servers
     {
       "action": "accept",
       "src": ["tag:admin", "tag:client"],
@@ -615,7 +1378,6 @@ sudo iptables-save | sudo tee /etc/iptables/rules.v4
 ```json
 {
   "acls": [
-    // Allow access only during business hours
     {
       "action": "accept",
       "src": ["tag:client"],
@@ -669,7 +1431,7 @@ Monitor device connections
 tailscale status --json | jq '.Peer[] | {Name: .HostName, LastSeen: .LastSeen, Online: .Online}'
 ```
 
-# Check for unauthorized devices
+Check for unauthorized devices
 
 ```bash
 tailscale status --peers
@@ -735,28 +1497,16 @@ Create health check script
 ```bash
 cat > /usr/local/bin/tailscale-health.sh << 'EOF'
 #!/bin/bash
-```
 
-Check Tailscale service status
-
-```bash
 if ! systemctl is-active --quiet tailscaled; then
     echo "ERROR: Tailscale service is not running"
     exit 1
 fi
-```
 
-Check connectivity to coordination server
-
-```bash
 if ! tailscale ping --timeout=5s 100.64.0.1 >/dev/null 2>&1; then
     echo "WARNING: Cannot reach Tailscale coordination server"
 fi
-```
 
-Check peer connectivity
-
-````bash
 PEERS=$(tailscale status --json | jq -r '.Peer[] | select(.Online == true) | .TailscaleIPs[0]')
 for peer in $PEERS; do
     if ! ping -c 1 -W 5 "$peer" >/dev/null 2>&1; then
@@ -765,10 +1515,8 @@ for peer in $PEERS; do
 done
 echo "Tailscale health check passed"
 EOF
-
-```bash
 chmod +x /usr/local/bin/tailscale-health.sh
-````
+```
 
 #### Performance Monitoring
 
@@ -1124,7 +1872,6 @@ Prometheus monitoring configuration
 Automated backup script
 
 ```bash
-#!/bin/bash
 BACKUP_DIR="/backup/tailscale"
 DATE=$(date +%Y%m%d_%H%M%S)
 ```
@@ -1162,28 +1909,15 @@ find "$BACKUP_DIR" -name "acl_*" -mtime +30 -delete
 - ✅ **Monitoring**: Real-time monitoring and alerting
 - ✅ **Backup**: Regular configuration backups
 
-## Additional Tools and Recommendations
-
-### Windows Terminal Recommendation
-
-For Windows users managing multiple systems and VMs, I recommend installing Windows Terminal. It's an excellent way to have all your VMs, PowerShell, and CMD sessions all in one place, making it easier to manage your Tailscale network across different systems.
-
-![image](https://user-images.githubusercontent.com/35183970/214385251-1a36a732-f99c-465d-9929-b5802892a7d4.png)
-
-**Install Windows Terminal:**
-[Windows Terminal Install](https://www.microsoft.com/store/productId/9N0DX20HK701)
-
 #### Compliance Reporting
 
 ```bash
 # Generate compliance report
-cat > compliance-report.sh << 'EOF'
-#!/bin/bash
 echo "Tailscale Compliance Report - $(date)"
 echo "=================================="
 
 # Check MFA status
-echo "MFA Status: $(curl -s -H "Authorization: Bearer $API_KEY" \
+echo "MFA Status: $(curl -s -H 'Authorization: Bearer $API_KEY' \
   https://api.tailscale.com/api/v2/tailnet/$TAILNET | jq -r '.mfa_required')"
 
 # List devices and last seen
@@ -1191,10 +1925,12 @@ echo "Device Status:"
 tailscale status --json | jq -r '.Peer[] | "\(.HostName): \(.LastSeen)"'
 
 # Check ACL compliance
-echo "ACL Rules: $(curl -s -H "Authorization: Bearer $API_KEY" \
+echo "ACL Rules: $(curl -s -H 'Authorization: Bearer $API_KEY' \
   https://api.tailscale.com/api/v2/tailnet/$TAILNET/acl | jq '.acls | length') rules configured"
-EOF
 ```
+
+  </TabItem>
+</Tabs>
 
 ---
 
