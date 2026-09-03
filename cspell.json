@@ -260,6 +260,7 @@
     "firewalld",
     "tlnp",
     "journalctl",
+    "noout",
     "nslookup",
     "nofile",
     "HSTS",

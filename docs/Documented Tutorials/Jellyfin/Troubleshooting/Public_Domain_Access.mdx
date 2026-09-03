@@ -223,8 +223,8 @@ Look for the following in the Network tab:
 
 #### ✅ **PASS Indicators**
 
-- **Status 200**: Successful response from Jellyfin
-- **Response Headers** show `server: Caddy` (confirms traffic reaching Caddy)
+- **Status 200** (or a single **302** to `web/`): Successful response from Jellyfin
+- **Response Headers** show `Via: 1.1 Caddy` (confirms traffic passed through Caddy) and `Server: Kestrel` (confirms Jellyfin answered)
 - **No redirect loops** (no excessive 301/302 responses)
 - **Jellyfin loads correctly**
 
@@ -238,22 +238,81 @@ Look for the following in the Network tab:
 
 ### Check Response Headers
 
-Click on the main request in the Network tab and look at **Response Headers**:
-
-```
-server: Caddy
-content-type: text/html
-content-length: 12345
-```
-
-If you see `server: Caddy`, traffic is reaching your reverse proxy correctly.
-
-**Alternative CLI Check**: You can also verify Caddy is responding using PowerShell:
+The fastest check is a headers-only request from PowerShell:
 
 ```powershell
-(Invoke-WebRequest -Uri https://jellyfin.yourdomain.com -Method Head).Headers.Server
-# Should return "Caddy" if working correctly
+curl.exe -I https://jellyfin.yourdomain.com
 ```
+
+**Example of a healthy response**:
+
+```text
+HTTP/1.1 302 Found
+Alt-Svc: h3=":443"; ma=2592000
+Date: Fri, 21 Aug 2026 13:27:59 GMT
+Location: web/
+Server: Kestrel
+Via: 1.1 Caddy
+```
+
+What each line tells you:
+
+- **`Via: 1.1 Caddy`** - the request reached Caddy and was proxied
+- **`Server: Kestrel`** - Jellyfin's web server answered, so the upstream is healthy
+- **`302` with `Location: web/`** - Jellyfin's normal redirect to its web UI (expected, not a loop)
+- **`Alt-Svc: h3`** - HTTP/3 is advertised by Caddy; harmless
+
+:::note
+The `Server` header comes from Jellyfin (Kestrel), not Caddy - Caddy identifies itself with the `Via` header instead. Seeing `Server: Kestrel` is a good sign.
+:::
+
+You can see the same headers in the browser by clicking the main request in the Network tab and looking at **Response Headers**.
+
+### Use the Headers to Split Caddy Problems from Jellyfin Problems
+
+This single test tells you **which service is at fault**, so you stop guessing:
+
+| What you get back | What it means | Where to look next |
+| --- | --- | --- |
+| `Via: 1.1 Caddy` **and** `Server: Kestrel` | Caddy and Jellyfin are both responding | The problem is inside Jellyfin's own configuration |
+| `Via: 1.1 Caddy` **but** `502`/`503` and no `Server: Kestrel` | Caddy is fine, it cannot reach Jellyfin | Jellyfin service, or Caddy's upstream address/port |
+| No response / timeout, no headers at all | Traffic never reached Caddy | Ports, DNS, CGNAT (Steps 1-2) |
+| Certificate error before any headers | Caddy cannot complete TLS | Caddy logs, port 80 reachability |
+
+:::tip
+For the same checks applied to any app behind Caddy - not just Jellyfin - see the [Caddy Troubleshooting Guide](../../Caddy/Troubleshooting.mdx).
+:::
+
+### Issue: Jellyfin's Port Was Changed Inside Jellyfin
+
+A very common cause of a broken domain while **Caddy looks perfectly healthy**: someone changed Jellyfin's HTTP port in **Dashboard → Networking**, so Caddy is still proxying to `:8096` while Jellyfin now listens somewhere else.
+
+**Symptoms**:
+
+- `curl.exe -I` returns `Via: 1.1 Caddy` (Caddy is up) but a `502` and no `Server: Kestrel`
+- Jellyfin still works when you browse to it directly on the LAN using its new port
+
+**How to confirm and fix**:
+
+1. **Find the port Jellyfin is actually listening on**:
+
+   ```powershell
+   Get-NetTCPConnection -State Listen |
+     Where-Object { $_.OwningProcess -eq (Get-Process jellyfin).Id } |
+     Select-Object LocalAddress, LocalPort
+   ```
+
+2. **Check Jellyfin's setting**: Dashboard → Networking → **HTTP port number** (default `8096`).
+3. **Make the two match** - either set Jellyfin back to `8096`, or update your Caddyfile upstream to the new port:
+
+   ```caddyfile
+   jellyfin.yourdomain.com {
+       reverse_proxy localhost:8096
+   }
+   ```
+
+4. **Restart whichever you changed**: `Restart-Service Jellyfin` or `Restart-Service Caddy`.
+5. **Re-run** `curl.exe -I https://jellyfin.yourdomain.com` - you should now see `Server: Kestrel`.
 
 ### Common Network Issues and Solutions
 
@@ -283,6 +342,7 @@ If you see `server: Caddy`, traffic is reaching your reverse proxy correctly.
 - Verify Jellyfin is running: Open Services.msc and check "Jellyfin" service status
 - Verify local connection via **Powershell**: `Test-NetConnection -ComputerName 192.168.1.100 -Port 8096` (Change `192.168.1.100` to your Private IP)
 - Verify Caddy upstream configuration points to correct Jellyfin address
+- Confirm Jellyfin's HTTP port hasn't been changed in Dashboard → Networking (see above)
 
 ---
 
