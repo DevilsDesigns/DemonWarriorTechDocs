@@ -40,7 +40,7 @@
     "@docusaurus/module-type-aliases": "^3.10.2",
     "@docusaurus/types": "^3.10.2",
     "@eslint/js": "^10.0.1",
-    "cspell": "^10.0.1",
+    "cspell": "^10.2.2",
     "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
     "markdown-link-check": "^3.15.0",
