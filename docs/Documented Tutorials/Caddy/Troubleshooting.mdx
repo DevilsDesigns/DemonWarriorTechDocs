@@ -45,7 +45,7 @@ The same method applies to any app you put behind Caddy - Jellyfin, Nextcloud, I
 
 This is the single most valuable test. It takes one command and tells you where to look next.
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -103,7 +103,7 @@ Caddy does **not** set a `Server` header when it proxies - it identifies itself 
 
 ## Step 2: Confirm Caddy Is Running
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -130,7 +130,7 @@ sudo systemctl restart caddy
 
 Confirm Caddy is actually holding ports 80 and 443:
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -156,7 +156,7 @@ If another program owns those ports (IIS, Apache, nginx, another proxy, or a Doc
 
 Always validate before restarting - a bad config means Caddy refuses to start and you lose a working site.
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -197,7 +197,7 @@ app.yourdomain.com {
 
 Caddy's error messages are unusually clear - read them before changing anything else.
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -253,7 +253,7 @@ app.yourdomain.com {
 
 Inspect the certificate a client actually receives:
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -278,7 +278,7 @@ openssl s_client -connect app.yourdomain.com:443 -servername app.yourdomain.com 
 
 ### Confirm the App Is Listening
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -328,7 +328,7 @@ app.yourdomain.com {
 
 ### Diagnose the Redirect Chain
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -373,7 +373,7 @@ If you got no response at all in Step 1, the problem is before Caddy.
 
 Ports **80** and **443** must be forwarded from your router to the Caddy host and allowed by the host firewall. Verify externally with [portchecker.io](https://portchecker.io/).
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
@@ -395,7 +395,7 @@ sudo ufw status
 
 ### DNS
 
-<Tabs>
+<Tabs groupId="operating-systems">
   <TabItem value="windows" label="Windows" default>
 
 ```powershell
