@@ -1,0 +1,457 @@
+---
+title: Caddy Troubleshooting Guide
+description: Systematic troubleshooting guide for Caddy reverse proxy issues including response header diagnosis, service status, config validation, TLS certificates, upstream failures, and redirect loops on Windows and Linux
+sidebar_position: 10
+toc_min_heading_level: 2
+toc_max_heading_level: 4
+tags:
+  [
+    caddy,
+    troubleshooting,
+    reverse-proxy,
+    https,
+    dns,
+    networking,
+    debugging,
+    windows,
+    linux,
+  ]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
+
+## Overview
+
+When a service behind Caddy stops working, the hardest part is usually figuring out **which layer is broken**: your network, Caddy itself, or the application Caddy proxies to. This guide gives you a repeatable order of checks that answers that question quickly, then fixes for each layer.
+
+The same method applies to any app you put behind Caddy - Jellyfin, Nextcloud, Immich, WordPress, an \*Arr stack, and so on.
+
+### Troubleshooting Order
+
+1. **Read the response headers** - identifies the broken layer in one command
+2. **Confirm Caddy is running** - service status and process health
+3. **Validate the Caddyfile** - syntax and site block conflicts
+4. **Read Caddy's logs** - the actual error text
+5. **Check TLS/certificate issuance** - almost always a port 80 or DNS problem
+6. **Check the upstream app** - 502/503 means Caddy can't reach your service
+7. **Check redirects** - loops usually come from app-side base URL settings
+8. **Check the network edge** - ports, DNS, CGNAT
+
+---
+
+## Step 1: Read the Response Headers
+
+This is the single most valuable test. It takes one command and tells you where to look next.
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+curl.exe -I https://app.yourdomain.com
+```
+
+:::warning
+Use `curl.exe`, not `curl`. In PowerShell, `curl` is an alias for `Invoke-WebRequest`, which does not accept `-I`.
+:::
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+curl -I https://app.yourdomain.com
+```
+
+  </TabItem>
+</Tabs>
+
+### Example of a Healthy Response
+
+```text
+HTTP/1.1 302 Found
+Alt-Svc: h3=":443"; ma=2592000
+Date: Fri, 21 Aug 2026 13:27:59 GMT
+Location: web/
+Server: Kestrel
+Via: 1.1 Caddy
+```
+
+### How to Read It
+
+| Header | Meaning |
+| --- | --- |
+| `Via: 1.1 Caddy` | The request reached Caddy and was proxied. Caddy is alive and terminating TLS. |
+| `Server: <something>` | The **upstream app** answered. The value comes from your app (for example `Kestrel` for Jellyfin, `nginx` for many PHP stacks), not from Caddy. |
+| `Alt-Svc: h3=":443"` | Caddy is advertising HTTP/3. Harmless. |
+| `Location:` | A redirect target. A single redirect is normal; a chain that returns to itself is a loop. |
+
+:::note
+Caddy does **not** set a `Server` header when it proxies - it identifies itself with `Via`. Seeing `Server: Kestrel` (or another app's name) alongside `Via: 1.1 Caddy` means both layers are working.
+:::
+
+### Diagnosis Table
+
+| What you get back | What it means | Go to |
+| --- | --- | --- |
+| `Via: 1.1 Caddy` **and** a `Server` header from your app | Both layers respond | Step 7 (redirects) or the app's own configuration |
+| `Via: 1.1 Caddy` with `502`/`503` and no app `Server` header | Caddy is fine, it cannot reach the upstream | Step 6 |
+| Certificate/TLS error before any headers | Caddy cannot complete TLS | Step 5 |
+| Nothing at all - timeout or "could not resolve host" | Traffic never reached Caddy | Steps 2 and 8 |
+
+---
+
+## Step 2: Confirm Caddy Is Running
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+Get-Service Caddy
+Restart-Service Caddy
+```
+
+If you installed Caddy as a service with NSSM, also confirm the service points at the right binary and Caddyfile:
+
+```powershell
+nssm dump Caddy
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+sudo systemctl status caddy
+sudo systemctl restart caddy
+```
+
+  </TabItem>
+</Tabs>
+
+Confirm Caddy is actually holding ports 80 and 443:
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+Get-NetTCPConnection -State Listen -LocalPort 80,443 |
+  Select-Object LocalAddress, LocalPort, OwningProcess
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+sudo ss -tlnp | grep -E ':(80|443)\s'
+```
+
+  </TabItem>
+</Tabs>
+
+If another program owns those ports (IIS, Apache, nginx, another proxy, or a Docker port publish), Caddy cannot bind and will fail to start. Stop the conflicting service before restarting Caddy.
+
+---
+
+## Step 3: Validate the Caddyfile
+
+Always validate before restarting - a bad config means Caddy refuses to start and you lose a working site.
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+caddy validate --adapter caddyfile --config C:\caddy\Caddyfile
+caddy fmt --overwrite C:\caddy\Caddyfile
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+caddy validate --adapter caddyfile --config /etc/caddy/Caddyfile
+sudo caddy fmt --overwrite /etc/caddy/Caddyfile
+```
+
+  </TabItem>
+</Tabs>
+
+### Common Caddyfile Mistakes
+
+- **Duplicate site blocks** for the same hostname - the second one is ignored or errors out
+- **Missing scheme/port on the upstream**: use `reverse_proxy localhost:8096`, not `reverse_proxy localhost`
+- **Proxying to `https://` when the app only serves HTTP** (or the reverse)
+- **Global options block not at the very top** of the file
+- **Editing a file Caddy isn't reading** - confirm the config path the service actually loads
+
+A minimal, correct block:
+
+```caddyfile
+app.yourdomain.com {
+    reverse_proxy localhost:8096
+}
+```
+
+---
+
+## Step 4: Read Caddy's Logs
+
+Caddy's error messages are unusually clear - read them before changing anything else.
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+# NSSM-managed installs typically write to a log file you configured
+Get-Content C:\caddy\caddy.log -Tail 50 -Wait
+```
+
+Also check **Event Viewer** → **Windows Logs** → **Application** and filter by `Caddy`.
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+sudo journalctl -u caddy -n 100 --no-pager
+sudo journalctl -u caddy -f
+```
+
+  </TabItem>
+</Tabs>
+
+To capture per-site access logs for a specific domain, add a log directive:
+
+```caddyfile
+app.yourdomain.com {
+    log {
+        output file /var/log/caddy/app.log
+    }
+    reverse_proxy localhost:8096
+}
+```
+
+---
+
+## Step 5: TLS and Certificate Issues
+
+**Symptoms**: "Your connection is not private", `ERR_CERT_AUTHORITY_INVALID`, or Caddy logs showing ACME challenge failures.
+
+### Checks
+
+- **Port 80 must be reachable from the internet.** Let's Encrypt uses it for the HTTP-01 challenge. Closing port 80 is the most common cause of failed issuance.
+- **DNS must already point at your server** before Caddy requests a certificate.
+- **Rate limits**: repeated failed attempts can get you temporarily blocked by Let's Encrypt. Use the staging CA while debugging:
+
+  ```caddyfile
+  {
+      acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+  }
+  ```
+
+  Remove this block once issuance succeeds, then restart Caddy to get a real certificate.
+
+- **Behind CGNAT or with port 80 blocked by your ISP?** Use the DNS-01 challenge with a Caddy DNS plugin instead of HTTP-01.
+
+Inspect the certificate a client actually receives:
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+curl.exe -vI https://app.yourdomain.com 2>&1 | Select-String "subject|issuer|expire"
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+openssl s_client -connect app.yourdomain.com:443 -servername app.yourdomain.com </dev/null 2>/dev/null | openssl x509 -noout -subject -issuer -dates
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Step 6: Upstream Failures (502 / 503)
+
+`Via: 1.1 Caddy` plus a `502` means Caddy is healthy but the app behind it is not answering on the address Caddy was told to use.
+
+### Confirm the App Is Listening
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+Test-NetConnection -ComputerName 127.0.0.1 -Port 8096
+
+# List every port the app process is listening on
+Get-NetTCPConnection -State Listen |
+  Where-Object { $_.OwningProcess -eq (Get-Process jellyfin).Id } |
+  Select-Object LocalAddress, LocalPort
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+curl -I http://127.0.0.1:8096
+sudo ss -tlnp | grep 8096
+```
+
+  </TabItem>
+</Tabs>
+
+### Common Causes
+
+- **The app's port was changed inside the app itself.** This is a frequent trap: someone edits the HTTP port in the application's own settings (for example Jellyfin's **Dashboard → Networking → HTTP port number**), and Caddy keeps proxying to the old port. Make the Caddyfile upstream and the app's configured port match, then restart whichever one you changed.
+- **The app only binds to `127.0.0.1`** while Caddy proxies to a LAN IP (or vice versa).
+- **Docker networking**: from a containerized Caddy, `localhost` is the Caddy container, not the host. Use the container's service name on a shared Docker network, or the host gateway address.
+- **A local firewall** blocking the loopback or LAN port.
+- **The app is still starting** - some services take a while and return 502 until ready.
+
+### Health Check the Upstream
+
+```caddyfile
+app.yourdomain.com {
+    reverse_proxy localhost:8096 {
+        health_uri /health
+        health_interval 30s
+    }
+}
+```
+
+---
+
+## Step 7: Redirect Loops and Wrong Redirects
+
+**Symptoms**: `ERR_TOO_MANY_REDIRECTS`, or a URL that grows like `app.yourdomain.com/app.yourdomain.com/web`.
+
+### Diagnose the Redirect Chain
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+curl.exe -IL https://app.yourdomain.com
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+curl -IL https://app.yourdomain.com
+```
+
+  </TabItem>
+</Tabs>
+
+`-L` follows redirects so you can see the whole chain and where it turns circular.
+
+### Usual Causes
+
+- **The app has a base URL or "external URL" set to the full domain** when it should be empty (or just a subpath). Clear it and restart the app.
+- **A subpath mismatch**: the app is configured for `/app` but Caddy strips or doesn't strip the prefix. If you serve under a subpath, use `handle_path` to strip it:
+
+  ```caddyfile
+  yourdomain.com {
+      handle_path /app/* {
+          reverse_proxy localhost:8096
+      }
+  }
+  ```
+
+- **The app forces HTTPS but sees an HTTP request.** Caddy sets `X-Forwarded-Proto` automatically; make sure the app is configured to trust proxy headers.
+- **Cloudflare SSL mode set to "Flexible"** while Caddy also redirects to HTTPS - set Cloudflare to **Full (strict)**.
+
+---
+
+## Step 8: Network Edge - Ports, DNS, and CGNAT
+
+If you got no response at all in Step 1, the problem is before Caddy.
+
+### Ports
+
+Ports **80** and **443** must be forwarded from your router to the Caddy host and allowed by the host firewall. Verify externally with [portchecker.io](https://portchecker.io/).
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+New-NetFirewallRule -DisplayName "Caddy HTTP" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow
+New-NetFirewallRule -DisplayName "Caddy HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw status
+```
+
+  </TabItem>
+</Tabs>
+
+### DNS
+
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
+
+```powershell
+Resolve-DnsName app.yourdomain.com -Server 1.1.1.1
+```
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+```bash
+dig +short app.yourdomain.com @1.1.1.1
+```
+
+  </TabItem>
+</Tabs>
+
+The result must match your **public** IP. Check global propagation at [whatsmydns.net](https://www.whatsmydns.net/).
+
+### CGNAT
+
+If your router's WAN IP differs from your public IP - or falls inside `100.64.0.0/10`, `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16` - you are behind Carrier-Grade NAT and port forwarding cannot work. Options:
+
+- Request a public IPv4 address from your ISP
+- Use IPv6 if your ISP and router support it
+- Use a tunnel: Cloudflare Tunnel, Tailscale Funnel, or a VPS running Caddy as a public entry point
+
+---
+
+## Quick Reference
+
+| Symptom | Most Likely Cause | Fix |
+| --- | --- | --- |
+| Timeout, no headers | Ports closed, DNS wrong, or CGNAT | Step 8 |
+| Certificate warning | Port 80 blocked or DNS not pointing at you | Step 5 |
+| `502 Bad Gateway` | App down or wrong upstream port | Step 6 |
+| `503 Service Unavailable` | Upstream failed health checks | Step 6 |
+| `ERR_TOO_MANY_REDIRECTS` | App base URL or Cloudflare SSL mode | Step 7 |
+| Caddy won't start | Caddyfile error or port 80/443 already in use | Steps 2 and 3 |
+| Site loads but assets 404 | Subpath handling mismatch | Step 7 |
+
+## Related Guides
+
+- [Jellyfin Public Domain Access Troubleshooting](../Jellyfin/Troubleshooting/Public_Domain_Access.mdx) - the same method applied end to end to a real Jellyfin setup
+- [Introduction to Caddy](./Introduction.mdx)
+
+## Getting Help
+
+If you are still stuck, gather the following before asking:
+
+- The full output of `curl.exe -IL https://app.yourdomain.com`
+- Your Caddyfile (redact any secrets)
+- The last 50 lines of Caddy's logs
+- Your app's version, host OS, and whether anything runs in Docker
+
+Then reach out on [Discord](https://discord.gg/P49AxjpHez).
+
+---
+
+<BuyMeACoffeeButton />
