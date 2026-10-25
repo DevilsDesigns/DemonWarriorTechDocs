@@ -491,6 +491,16 @@ echo url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=$REAL_I
 EOF
 ```
 
+:::tip
+If your ISP assigns you a **static** public IP, you can skip the lookup entirely and hardcode it instead of using the `curl --interface` line highlighted above:
+
+```bash
+REAL_IP="203.0.113.10"
+```
+
+Only do this if your IP never changes. If your ISP gives you a dynamic IP (the common case for residential connections), keep the `curl --interface` lookup above so the script catches IP changes automatically.
+:::
+
 :::warning
 Never run the update URL directly as `curl "https://www.duckdns.org/update?domains=...&token=...&ip="` in your shell or save its output to `duck.sh` - the raw `&` characters in an unquoted URL are treated by bash as the background operator, which silently drops your `token` and `ip` parameters and returns `KO`. The `echo url=... | curl -K -` pattern above keeps the whole query string inside a quoted argument so this can't happen.
 :::
@@ -510,9 +520,14 @@ cat /opt/duckdns/duck.log
 
 A successful update writes `OK` to `/opt/duckdns/duck.log`.
 
-**DuckDNS Installation Page:**
+:::note
+If this first run errors saying the log file doesn't exist, create it manually and re-run the script:
 
-![image](https://i.imgur.com/f2fdIbx.png)
+```bash
+sudo touch /opt/duckdns/duck.log
+sudo ./duck.sh
+```
+:::
 
 # Schedule it with cron
 

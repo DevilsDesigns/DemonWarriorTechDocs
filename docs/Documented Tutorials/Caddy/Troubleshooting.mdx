@@ -479,7 +479,7 @@ ip -brief address
 Only use the interface **name** (`eth0`), not the whole line. In LXC/Docker environments it often shows as `eth0@if10412` - the `@ifN` part just means `eth0` is one end of a veth pair linked to interface index `N` on the host, which is normal and not something to copy into the script.
 :::
 
-[Step 11 of the Linux install guide](./Linux/Installing_Caddy_on_Linux.mdx) now sets up `duck.sh` this way by default, so a fresh install already handles this. If your `duck.sh` predates that (it has no `INTERFACE` variable and leaves `ip=` blank), replace it with a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly:
+[Step 11 of the Linux install guide](./Linux/Installing_Caddy_on_Linux.mdx#step-11-set-up-automatic-duckdns-updates) now sets up `duck.sh` this way by default, so a fresh install already handles this. If your `duck.sh` predates that (it has no `INTERFACE` variable and leaves `ip=` blank), replace it with a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly:
 
 ```bash {8}
 sudo tee /opt/duckdns/duckdns.sh > /dev/null <<'EOF'
