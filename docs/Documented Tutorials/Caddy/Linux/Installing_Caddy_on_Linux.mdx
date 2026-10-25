@@ -18,6 +18,8 @@ tags:
   ]
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import BuyMeACoffeeButton from '@site/src/components/BuyMeACoffeeButton';
 
 ## Overview
@@ -270,7 +272,7 @@ Create a systemd service file for proper service management and automatic startu
    ```
 
    :::note
-   Do not start or enable the service yet — Caddy requires a valid Caddyfile before it can run. Complete Steps 6 and 7 first, then start the service in Step 13.
+   Do not start or enable the service yet — Caddy requires a valid Caddyfile before it can run. Complete Steps 6 and 7 first, then start the service in Step 12.
    :::
 
 ### Step 6: Create Configuration Directory
@@ -439,7 +441,12 @@ DuckDNS provides free dynamic DNS services, perfect for home servers with changi
 
 ![image](https://i.imgur.com/GINDccu.png)
 
-### Step 11: Install DuckDNS Client
+### Step 11: Set Up Automatic DuckDNS Updates
+
+DuckDNS needs something to periodically tell it your current IP. [duckdns.org/install.jsp](https://www.duckdns.org/install.jsp) offers two official Linux methods - a cron-driven shell script (recommended, runs unattended as root) or an interactive `zenity` GUI installer (runs as your user, no script editing required). Pick one.
+
+<Tabs groupId="duckdns-install-method">
+  <TabItem value="cli" label="CLI / Cron" default>
 
 Install required packages
 
@@ -507,9 +514,7 @@ A successful update writes `OK` to `/opt/duckdns/duck.log`.
 
 ![image](https://i.imgur.com/f2fdIbx.png)
 
-### Step 12: Setup Automatic Updates
-
-Edit crontab for automatic updates
+# Schedule it with cron
 
 ```bash
 sudo crontab -e
@@ -521,17 +526,47 @@ Add this line to update every 5 minutes
 */5 * * * * /opt/duckdns/duck.sh >/dev/null 2>&1
 ```
 
-**DuckDNS GUI Setup Process:**
+  </TabItem>
+  <TabItem value="gui" label="GUI">
+
+:::warning
+The official GUI installer always leaves `ip=` blank for DuckDNS to auto-detect and has no interface-binding option. If this server runs a VPN client, use the **CLI / Cron** tab instead so updates bypass the VPN tunnel - otherwise DuckDNS will record your VPN's exit IP.
+:::
+
+Install `zenity` for the GUI dialogs, plus `curl` and `cron`:
+
+```bash
+sudo apt-get install -y zenity cron curl
+```
+
+Download the official installer script to your home folder and run it:
+
+```bash
+curl -LO https://www.duckdns.org/scripts/duck-setup-gui.sh
+chmod +x duck-setup-gui.sh
+./duck-setup-gui.sh
+```
+
+Enter your DuckDNS sub-domain when prompted:
 
 ![image](https://www.duckdns.org/img/linux-gui-01.png)
 
-**DuckDNS GUI with Token Configuration:**
+Then enter your token:
 
 ![image](https://www.duckdns.org/img/linux-gui-02.png)
 
+The installer creates `~/duckdns/duck.sh` and `~/duckdns/duck.log`, runs the script once to confirm it works, and adds a cron job to your **user** crontab (not root's) that runs every 5 minutes. Confirm it with:
+
+```bash
+crontab -l
+```
+
+  </TabItem>
+</Tabs>
+
 ## Service Management
 
-### Step 13: Start and Enable Caddy
+### Step 12: Start and Enable Caddy
 
 1. **Enable and start Caddy service**:
 
@@ -552,7 +587,7 @@ Add this line to update every 5 minutes
      Active: active (running) since Mon 2024-01-15 10:30:00 UTC; 5s ago
 ```
 
-### Step 14: Verify Installation
+### Step 13: Verify Installation
 
 1. **Test configuration syntax**:
 
