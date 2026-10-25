@@ -15,6 +15,8 @@ tags:
     debugging,
     windows,
     linux,
+    vpn,
+    duckdns,
   ]
 ---
 
@@ -37,7 +39,7 @@ The same method applies to any app you put behind Caddy - Jellyfin, Nextcloud, I
 5. **Check TLS/certificate issuance** - almost always a port 80 or DNS problem
 6. **Check the upstream app** - 502/503 means Caddy can't reach your service
 7. **Check redirects** - loops usually come from app-side base URL settings
-8. **Check the network edge** - ports, DNS, CGNAT
+8. **Check the network edge** - ports, DNS, VPN, CGNAT
 
 ---
 
@@ -414,6 +416,55 @@ dig +short app.yourdomain.com @1.1.1.1
 
 The result must match your **public** IP. Check global propagation at [whatsmydns.net](https://www.whatsmydns.net/).
 
+### DuckDNS Updating to the Wrong IP (VPN Split Tunneling)
+
+:::note
+This issue is specific to **Windows** and the Java-based [DuckDNS Update Client](https://www.etx.ca/products/windows-applications/duckdns-update-client/) ([source](https://raw.githubusercontent.com/JozefJarosciak/DuckDNSClient/refs/heads/master/DuckDNSClient/src/duckdns.java)). That client is Windows-only, so this has not been tested on Linux.
+:::
+
+If you run a VPN client (with split tunneling enabled) on the same machine as your DuckDNS updater, your DuckDNS domain can end up pointing at your **VPN's exit IP** instead of your real public IP. Caddy is still listening on your actual connection, so certificate issuance and routing break even though everything "looks" fine locally.
+
+This happens because the updater determines your external IP by making an HTTP request to `checkip.amazonaws.com`:
+
+```java
+// Add listener to whatsmyipaddress.
+whatsmyipaddress.addActionListener(new ActionListener() {
+  public void actionPerformed(ActionEvent e) {
+
+    String ip = getip();
+
+    // for copying style
+    JLabel label = new JLabel();
+    Font font = label.getFont();
+
+    // create some css from the label's font
+    StringBuffer style = new StringBuffer("font-family:" + font.getFamily() + ";");
+    style.append("font-weight:" + (font.isBold() ? "bold" : "normal") + ";");
+    style.append("font-size:" + font.getSize() + "pt;");
+
+    // html content
+    JEditorPane ep = new JEditorPane("text/html", "Your External IP Address: \n<html><a href=\"http://checkip.amazonaws.com\">" + ip + "</a></html>");
+```
+
+If the VPN client doesn't exclude the updater's Java process from the tunnel, that request to `checkip.amazonaws.com` also goes through the VPN, so the updater reports (and publishes to DuckDNS) your VPN provider's IP instead of your home/public IP.
+
+**Fix:** add the Java executable the updater runs under to your VPN client's **split tunneling** exclusion list so its traffic bypasses the tunnel entirely.
+
+1. Open your VPN client's settings and find the **split tunneling** section.
+2. Add the Java binary the updater uses - look for an entry like **Java(TM) Platform SE binary**, or browse to it manually. A typical path is:
+
+   ```text
+   C:\Program Files\Java\jre1.8.0_461\bin\javaw.exe
+   ```
+
+   The exact path depends on which JRE is installed - check via `where javaw` in Command Prompt, or by right-clicking the running updater process in Task Manager and choosing **Open file location**.
+3. Enable/check the box so that executable's traffic is excluded from (routed outside) the VPN tunnel.
+
+   ![Java(TM) Platform SE binary excluded from the VPN tunnel via split tunneling](/img/troubleshooting/duckdns-vpn-split-tunnel.png)
+
+4. Restart the DuckDNS Update Client (or the scheduled task running it) so it picks up the new routing.
+5. Click **What's My IP** in the client to confirm it now reports your real public IP instead of the VPN's.
+
 ### CGNAT
 
 If your router's WAN IP differs from your public IP - or falls inside `100.64.0.0/10`, `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16` - you are behind Carrier-Grade NAT and port forwarding cannot work. Options:
@@ -435,6 +486,7 @@ If your router's WAN IP differs from your public IP - or falls inside `100.64.0.
 | `ERR_TOO_MANY_REDIRECTS` | App base URL or Cloudflare SSL mode | Step 7 |
 | Caddy won't start | Caddyfile error or port 80/443 already in use | Steps 2 and 3 |
 | Site loads but assets 404 | Subpath handling mismatch | Step 7 |
+| DuckDNS record points at your VPN's IP | VPN tunneling the updater's traffic (Windows) | Step 8 |
 
 ## Related Guides
 
