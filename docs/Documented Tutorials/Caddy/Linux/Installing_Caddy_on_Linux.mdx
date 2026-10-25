@@ -454,23 +454,34 @@ sudo mkdir -p /opt/duckdns
 cd /opt/duckdns
 ```
 
-# Download the update script
+# Create the update script
+
+Replace `YOURSUBDOMAIN` and `YOURTOKEN` with your own values. This writes an actual script file, it does not call the update URL yet.
 
 ```bash
-sudo curl -o duck.sh "https://www.duckdns.org/update?domains=YOURSUBDOMAIN&token=YOURTOKEN&ip="
+sudo tee duck.sh > /dev/null <<'EOF'
+echo url="https://www.duckdns.org/update?domains=YOURSUBDOMAIN&token=YOURTOKEN&ip=" | curl -k -o /opt/duckdns/duck.log -K -
+EOF
 ```
+
+:::warning
+Never run the update URL directly as `curl "https://www.duckdns.org/update?domains=...&token=...&ip="` in your shell or save its output to `duck.sh` - the raw `&` characters in an unquoted URL are treated by bash as the background operator, which silently drops your `token` and `ip` parameters and returns `KO`. The `echo url=... | curl -K -` pattern above keeps the whole query string inside a quoted argument so this can't happen.
+:::
 
 # Make it executable
 
 ```bash
-sudo chmod +x duck.sh
+sudo chmod 700 duck.sh
 ```
 
 # Test the script
 
 ```bash
 sudo ./duck.sh
+cat /opt/duckdns/duck.log
 ```
+
+A successful update writes `OK` to `/opt/duckdns/duck.log`.
 
 **DuckDNS Installation Page:**
 
