@@ -416,15 +416,14 @@ dig +short app.yourdomain.com @1.1.1.1
 
 The result must match your **public** IP. Check global propagation at [whatsmydns.net](https://www.whatsmydns.net/).
 
-### DuckDNS Updating to the Wrong IP (VPN Split Tunneling)
+### DuckDNS Updating to the Wrong IP (VPN)
 
-:::note
-This issue is specific to **Windows** and the Java-based [DuckDNS Update Client](https://www.etx.ca/products/windows-applications/duckdns-update-client/) ([source](https://raw.githubusercontent.com/JozefJarosciak/DuckDNSClient/refs/heads/master/DuckDNSClient/src/duckdns.java)). That client is Windows-only, so this has not been tested on Linux.
-:::
+If you run a VPN client on the same machine as your DuckDNS updater, your DuckDNS domain can end up pointing at your **VPN's exit IP** instead of your real public IP - because the updater's "what's my IP" check gets routed through the VPN tunnel along with everything else. Caddy is still listening on your actual connection, so certificate issuance and routing break even though everything "looks" fine locally. The fix differs by platform.
 
-If you run a VPN client (with split tunneling enabled) on the same machine as your DuckDNS updater, your DuckDNS domain can end up pointing at your **VPN's exit IP** instead of your real public IP. Caddy is still listening on your actual connection, so certificate issuance and routing break even though everything "looks" fine locally.
+<Tabs groupId="operating-systems">
+  <TabItem value="windows" label="Windows" default>
 
-This happens because the updater determines your external IP by making an HTTP request to `checkip.amazonaws.com`:
+This applies to the Java-based [DuckDNS Update Client](https://www.etx.ca/products/windows-applications/duckdns-update-client/) ([source](https://raw.githubusercontent.com/JozefJarosciak/DuckDNSClient/refs/heads/master/DuckDNSClient/src/duckdns.java)), which determines your external IP by making an HTTP request to `checkip.amazonaws.com`:
 
 ```java
 // Add listener to whatsmyipaddress.
@@ -446,7 +445,7 @@ whatsmyipaddress.addActionListener(new ActionListener() {
     JEditorPane ep = new JEditorPane("text/html", "Your External IP Address: \n<html><a href=\"http://checkip.amazonaws.com\">" + ip + "</a></html>");
 ```
 
-If the VPN client doesn't exclude the updater's Java process from the tunnel, that request to `checkip.amazonaws.com` also goes through the VPN, so the updater reports (and publishes to DuckDNS) your VPN provider's IP instead of your home/public IP.
+If your VPN client doesn't exclude the updater's Java process from the tunnel, that request to `checkip.amazonaws.com` also goes through the VPN, so the updater reports (and publishes to DuckDNS) your VPN provider's IP instead of your home/public IP.
 
 **Fix:** add the Java executable the updater runs under to your VPN client's **split tunneling** exclusion list so its traffic bypasses the tunnel entirely.
 
@@ -464,6 +463,50 @@ If the VPN client doesn't exclude the updater's Java process from the tunnel, th
 
 4. Restart the DuckDNS Update Client (or the scheduled task running it) so it picks up the new routing.
 5. Click **What's My IP** in the client to confirm it now reports your real public IP instead of the VPN's.
+
+  </TabItem>
+  <TabItem value="linux" label="Linux">
+
+Most Linux VPN clients (OpenVPN, WireGuard, the ProtonVPN CLI, etc.) route all traffic through the tunnel interface and rarely offer the simple per-app split tunneling that Windows VPN clients do. Instead of excluding a process, bind the IP lookup itself to your real physical network interface (e.g. `eth0`) and pass that IP to DuckDNS explicitly rather than leaving `ip=` blank for DuckDNS to auto-detect, since auto-detection would see the VPN's exit IP, not yours.
+
+Find your physical interface name (while the VPN is disconnected) with:
+
+```bash
+ip -brief address
+```
+
+Then use a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly:
+
+```bash
+#!/bin/bash
+DOMAIN="yourdomain.duckdns.org"
+TOKEN="your-token"
+INTERFACE="eth0" # Change this to your physical interface name
+
+# Fetch the real public IP using your local IP as the source bind
+REAL_IP=$(curl --interface "$INTERFACE" -s https://icanhazip.com)
+
+# Update DuckDNS
+echo url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=$REAL_IP" | curl -k -o ~/duckdns/duck.log -K -
+```
+
+Save this as `~/duckdns/duckdns.sh`, make it executable, and add it to cron in place of the plain `duck.sh` from the install guide:
+
+```bash
+chmod 700 ~/duckdns/duckdns.sh
+crontab -e
+```
+
+```bash
+*/5 * * * * ~/duckdns/duckdns.sh >/dev/null 2>&1
+```
+
+:::tip
+See [Installing Caddy on Linux](./Linux/Installing_Caddy_on_Linux.mdx) for the base DuckDNS cron setup (Step 11) that this script replaces.
+:::
+
+  </TabItem>
+</Tabs>
 
 ### CGNAT
 
@@ -486,7 +529,7 @@ If your router's WAN IP differs from your public IP - or falls inside `100.64.0.
 | `ERR_TOO_MANY_REDIRECTS` | App base URL or Cloudflare SSL mode | Step 7 |
 | Caddy won't start | Caddyfile error or port 80/443 already in use | Steps 2 and 3 |
 | Site loads but assets 404 | Subpath handling mismatch | Step 7 |
-| DuckDNS record points at your VPN's IP | VPN tunneling the updater's traffic (Windows) | Step 8 |
+| DuckDNS record points at your VPN's IP | VPN tunneling the updater's traffic | Step 8 |
 
 ## Related Guides
 
