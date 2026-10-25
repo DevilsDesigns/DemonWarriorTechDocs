@@ -475,9 +475,10 @@ Find your physical interface name (while the VPN is disconnected) with:
 ip -brief address
 ```
 
-Then use a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly:
+Then use a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly. This replaces `duck.sh` from [Step 11 of the Linux install guide](./Linux/Installing_Caddy_on_Linux.mdx), so it keeps the same `/opt/duckdns` location:
 
-```bash
+```bash {8}
+sudo tee /opt/duckdns/duckdns.sh > /dev/null <<'EOF'
 #!/bin/bash
 DOMAIN="yourdomain.duckdns.org"
 TOKEN="your-token"
@@ -487,23 +488,30 @@ INTERFACE="eth0" # Change this to your physical interface name
 REAL_IP=$(curl --interface "$INTERFACE" -s https://icanhazip.com)
 
 # Update DuckDNS
-echo url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=$REAL_IP" | curl -k -o ~/duckdns/duck.log -K -
-```
-
-Save this as `~/duckdns/duckdns.sh`, make it executable, and add it to cron in place of the plain `duck.sh` from the install guide:
-
-```bash
-chmod 700 ~/duckdns/duckdns.sh
-crontab -e
-```
-
-```bash
-*/5 * * * * ~/duckdns/duckdns.sh >/dev/null 2>&1
+echo url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=$REAL_IP" | curl -k -o /opt/duckdns/duck.log -K -
+EOF
 ```
 
 :::tip
-See [Installing Caddy on Linux](./Linux/Installing_Caddy_on_Linux.mdx) for the base DuckDNS cron setup (Step 11) that this script replaces.
+If your ISP assigns you a **static** public IP, you can skip the lookup entirely and hardcode it instead of using the `curl --interface` line highlighted above:
+
+```bash
+REAL_IP="203.0.113.10"
+```
+
+Only do this if your IP never changes. If your ISP gives you a dynamic IP (the common case for residential connections), keep the `curl --interface` lookup above so the script catches IP changes automatically.
 :::
+
+Make it executable and add it to cron:
+
+```bash
+sudo chmod 700 /opt/duckdns/duckdns.sh
+sudo crontab -e
+```
+
+```bash
+*/5 * * * * /opt/duckdns/duckdns.sh >/dev/null 2>&1
+```
 
   </TabItem>
 </Tabs>
