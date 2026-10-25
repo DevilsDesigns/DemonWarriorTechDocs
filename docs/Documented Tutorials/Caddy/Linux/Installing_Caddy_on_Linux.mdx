@@ -454,13 +454,33 @@ sudo mkdir -p /opt/duckdns
 cd /opt/duckdns
 ```
 
-# Create the update script
+# Find your network interface
 
-Replace `YOURSUBDOMAIN` and `YOURTOKEN` with your own values. This writes an actual script file, it does not call the update URL yet.
+If this server runs a VPN client, update requests need to bypass the VPN tunnel - otherwise DuckDNS records your VPN's exit IP instead of your real public IP. Find your physical interface name (if you don't run a VPN, this is still worth knowing - it's usually `eth0` or similar):
 
 ```bash
+ip -brief address
+```
+
+:::note
+Use just the interface **name** (`eth0`), not the whole line. In LXC/Docker environments it often shows as `eth0@if10412` - the `@ifN` part just means `eth0` is one end of a veth pair linked to interface index `N` on the host, which is normal and not something to include.
+:::
+
+# Create the update script
+
+Edit the `DOMAIN`, `TOKEN`, and `INTERFACE` variables at the top for your setup, then write the script. This writes an actual script file, it does not call the update URL yet.
+
+```bash {8}
 sudo tee duck.sh > /dev/null <<'EOF'
-echo url="https://www.duckdns.org/update?domains=YOURSUBDOMAIN&token=YOURTOKEN&ip=" | curl -k -o /opt/duckdns/duck.log -K -
+#!/bin/bash
+DOMAIN="YOURSUBDOMAIN"
+TOKEN="YOURTOKEN"
+INTERFACE="eth0" # Change this to your physical interface name
+
+# Fetch the real public IP via the physical interface, bypassing any VPN tunnel
+REAL_IP=$(curl --interface "$INTERFACE" -s https://icanhazip.com)
+
+echo url="https://www.duckdns.org/update?domains=$DOMAIN&token=$TOKEN&ip=$REAL_IP" | curl -k -o /opt/duckdns/duck.log -K -
 EOF
 ```
 
