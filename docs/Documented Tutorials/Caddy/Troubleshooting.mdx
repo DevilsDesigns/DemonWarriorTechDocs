@@ -475,6 +475,10 @@ Find your physical interface name (while the VPN is disconnected) with:
 ip -brief address
 ```
 
+:::note
+Only use the interface **name** (`eth0`), not the whole line. In LXC/Docker environments it often shows as `eth0@if10412` - the `@ifN` part just means `eth0` is one end of a veth pair linked to interface index `N` on the host, which is normal and not something to copy into the script.
+:::
+
 Then use a script like this one - it fetches your public IP bound to the physical interface specifically, bypassing the VPN tunnel for that one request, and updates DuckDNS with the result directly. This replaces `duck.sh` from [Step 11 of the Linux install guide](./Linux/Installing_Caddy_on_Linux.mdx), so it keeps the same `/opt/duckdns` location:
 
 ```bash {8}
